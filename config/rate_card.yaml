@@ -1,0 +1,12 @@
+label: UOC TINH (ESTIMATE)
+basis_vi: Mức ước tính theo mặt bằng booking KOC tại Việt Nam; cần xác nhận trực tiếp với creator hoặc MCN trước khi chốt.
+tiers:
+  - min_followers: 10000
+    max_followers: 49999
+    vnd_per_video: 1000000
+  - min_followers: 50000
+    max_followers: 99999
+    vnd_per_video: 2500000
+  - min_followers: 100000
+    max_followers: 300000
+    vnd_per_video: 5000000

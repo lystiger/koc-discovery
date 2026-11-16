@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Đợt chạy · KOC Discovery{% endblock %}
+{% block content %}
+<header>
+  <h1>Các đợt chạy</h1>
+  <p class="lede">Mở đề xuất KOC hoặc xem chi phí xử lý của từng lần chạy.</p>
+</header>
+<div class="table-wrap runs-table-wrap">
+  <p class="table-scroll-hint muted">Vuốt ngang để xem bảng</p>
+  <table>
+    <thead><tr><th>Mã đợt</th><th>Bắt đầu</th><th>Trạng thái</th><th>Dữ liệu</th><th>Chiến dịch</th><th></th></tr></thead>
+    <tbody>
+    {% for r in runs %}
+      <tr>
+        <td data-label="Mã đợt"><a class="data" href="/runs/{{ r.run_id }}">{{ r.run_id }}</a></td>
+        <td data-label="Bắt đầu" class="data">{{ r.started_at }}</td>
+        <td data-label="Trạng thái">{{ r.status }}</td>
+        <td data-label="Dữ liệu">{% if r.is_mock %}<span class="risk">Giả lập</span>{% else %}Thật{% endif %}</td>
+        <td data-label="Chiến dịch">{{ r.brief.product_vi or 'Kem chống nắng' }}<br><span class="muted">{{ r.brief.audience_vi or 'Nữ, 18 đến 30 tuổi' }}</span></td>
+        <td data-label="Xem"><a href="/runs/{{ r.run_id }}/dashboard">Vận hành</a></td>
+      </tr>
+    {% else %}<tr><td colspan="6">Chưa có đợt chạy.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

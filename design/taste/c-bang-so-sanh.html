@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C. Bảng so sánh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#F3F5F9; --surface:#FFFFFF; --shell:#1C2550; --shell-2:#2A3570; --shell-ink:#DCE2F7;
+  --ink:#141A33; --ink-2:#56607E; --line:#E1E5EF; --head:#F7F8FB;
+  --blue:#3651C9; --blue-soft:#E4E9FB; --teal:#127A6E; --amber:#8A5A00; --amber-soft:#FBEFD6;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--ground);color:var(--ink);font:400 14px/1.5 "IBM Plex Sans",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+::selection{background:var(--blue-soft)}
+a{color:var(--blue);text-underline-offset:3px}
+header{background:var(--shell);color:var(--shell-ink);padding:12px 28px;display:flex;align-items:center;gap:28px}
+.logo{font-weight:700;color:#fff;font-size:16px}
+.cmd{flex:1;max-width:560px;display:flex;align-items:center;gap:10px;background:var(--shell-2);border:1px solid #3B4790;border-radius:8px;padding:9px 14px;color:#AEB8E4}
+.cmd kbd{margin-left:auto;font:500 12px/1 "IBM Plex Sans";border:1px solid #4A57A3;border-radius:4px;padding:3px 6px;color:#DCE2F7}
+header nav{display:flex;gap:18px;margin-left:auto}
+header nav a{color:var(--shell-ink);text-decoration:none;font-weight:500}
+main{max-width:1320px;margin:0 auto;padding:28px}
+.title{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+h1{font-size:24px;font-weight:700;letter-spacing:-.01em}
+.sub{color:var(--ink-2);margin-top:2px}
+.btn{font:600 14px/1 "IBM Plex Sans";padding:10px 14px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.filters{display:flex;gap:8px;margin:20px 0 12px;flex-wrap:wrap}
+.chip{font:500 13px/1 "IBM Plex Sans";padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.chip[aria-pressed=true]{background:var(--blue-soft);border-color:#C4CEF5;color:var(--blue)}
+.table{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{background:var(--head);text-align:left;font-weight:600;font-size:12.5px;color:var(--ink-2);padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th button{all:unset;cursor:pointer}
+th[aria-sort] button::after{content:" ↓";color:var(--blue)}
+td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#FAFBFE}
+.num{text-align:right}
+.koc b{display:block;font-weight:600}
+.koc small{color:var(--ink-2)}
+.fit{font-size:20px;font-weight:700}
+.na{color:var(--amber);font-size:12.5px;background:var(--amber-soft);padding:3px 7px;border-radius:5px;white-space:nowrap}
+.why{color:var(--ink-2);max-width:40ch}
+/* signature: running total against the budget line */
+.run{min-width:170px}
+.run-bar{position:relative;height:8px;background:var(--line);border-radius:4px;margin-top:6px}
+.run-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--teal);border-radius:4px}
+.run-bar::after{content:"";position:absolute;right:0;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.run small{color:var(--ink-2)}
+tfoot td{background:var(--head);font-weight:600}
+.alt{margin-top:22px;color:var(--ink-2)}
+footer{max-width:1320px;margin:0 auto;padding:0 28px 32px;font-size:13px;color:var(--ink-2)}
+@media (max-width:900px){
+  header{padding:10px 16px;gap:12px}
+  header nav,.logo{display:none}
+  main{padding:20px 16px}
+  thead,.hide-sm{display:none}
+  table,tbody,tr,td,tfoot{display:block;width:100%}
+  tr{display:grid !important;grid-template-columns:1fr auto;padding:14px 16px;border-bottom:1px solid var(--line)}
+  td{border:0;padding:2px 0}
+  td.fit{grid-row:1;grid-column:2;text-align:right}
+  td.run{grid-column:1 / -1;margin-top:8px}
+  td.why{grid-column:1 / -1;margin-top:6px;max-width:none}
+  td.cost{text-align:left}
+  footer{padding:0 16px 24px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">KOC Discovery</div>
+  <div class="cmd" role="button" tabindex="0">Tìm KOC, chiến dịch, hoặc gõ lệnh <kbd>Ctrl K</kbd></div>
+  <nav><a href="#">Chiến dịch</a><a href="#">KOC</a></nav>
+</header>
+<main>
+  <div class="title">
+    <div><h1>Mây Daily SPF50+ · 5 KOC đề xuất</h1><p class="sub">Chống nắng cho da dầu · nữ 18 đến 34 tuổi · ngân sách 30.000.000 ₫</p></div>
+    <div style="display:flex;gap:8px"><button class="btn">Sửa yêu cầu</button><button class="btn primary">Tạo bản đề xuất</button></div>
+  </div>
+  <div class="filters"><button class="chip" aria-pressed="true">Đã chọn (5)</button><button class="chip">Dự phòng (5)</button><button class="chip">Đủ dữ liệu</button><button class="chip">10.000 đến 300.000 người theo dõi</button></div>
+  <div class="table">
+    <table>
+      <thead><tr><th>KOC</th><th aria-sort="descending" class="num"><button>Phù hợp</button></th><th class="num"><button>Bán hàng</button></th><th class="num"><button>Khán giả</button></th><th class="num"><button>Nội dung</button></th><th class="num"><button>Chi phí</button></th><th>Ngân sách lũy kế</th><th>Lý do chính</th></tr></thead>
+      <tbody>
+        <tr><td class="koc"><b>Linh Skin Daily</b><small>@linh.skindaily · 185.000</small></td><td class="num fit">88</td><td class="num hide-sm">89</td><td class="num hide-sm">86</td><td class="num hide-sm">86</td><td class="num cost">6.500.000 ₫</td><td class="run"><small>6,5 / 30 tr</small><div class="run-bar"><i style="width:21.7%"></i></div></td><td class="why">82,5% người xem là nữ; video thử kem cho thấy kết cấu ráo. <a href="#">Bằng chứng</a></td></tr>
+        <tr><td class="koc"><b>Chou Chou Skincare</b><small>@chouchou.beauty · 128.000</small></td><td class="num fit">86</td><td class="num hide-sm">84</td><td class="num hide-sm">88</td><td class="num hide-sm">85</td><td class="num cost">5.500.000 ₫</td><td class="run"><small>12 / 30 tr</small><div class="run-bar"><i style="width:40%"></i></div></td><td class="why">Dược sĩ, giải thích thành phần màng lọc dễ hiểu. <a href="#">Bằng chứng</a></td></tr>
+        <tr><td class="koc"><b>Trịnh Mỹ Phẩm</b><small>@trinh.review · 245.000</small></td><td class="num fit">84</td><td class="num hide-sm">79</td><td class="num hide-sm">74</td><td class="num hide-sm">91</td><td class="num cost">7.000.000 ₫</td><td class="run"><small>19 / 30 tr</small><div class="run-bar"><i style="width:63.3%"></i></div></td><td class="why">Thử độ che phủ bằng camera UV ngay trong video. <a href="#">Bằng chứng</a></td></tr>
+        <tr><td class="koc"><b>Bác sĩ Mai Da Liễu</b><small>@mai.dermacare · 92.000</small></td><td class="num fit">81</td><td class="num hide-sm">76</td><td class="num hide-sm"><span class="na">Chưa phân tích</span></td><td class="num hide-sm">88</td><td class="num cost">5.000.000 ₫</td><td class="run"><small>24 / 30 tr</small><div class="run-bar"><i style="width:80%"></i></div></td><td class="why">Bác sĩ da liễu, giải thích cơ chế bảo vệ da có căn cứ. <a href="#">Bằng chứng</a></td></tr>
+        <tr><td class="koc"><b>An Nghiện Chống Nắng</b><small>@an.glowskin · 64.000</small></td><td class="num fit">79</td><td class="num hide-sm">81</td><td class="num hide-sm">77</td><td class="num hide-sm">78</td><td class="num cost">4.500.000 ₫</td><td class="run"><small>28,5 / 30 tr</small><div class="run-bar"><i style="width:95%"></i></div></td><td class="why">Hướng dẫn bôi đủ lượng và thoa lại trong ngày. <a href="#">Bằng chứng</a></td></tr>
+      </tbody>
+      <tfoot><tr><td>Tổng 5 KOC</td><td class="hide-sm"></td><td class="hide-sm"></td><td class="hide-sm"></td><td class="hide-sm"></td><td class="num cost">28.500.000 ₫</td><td class="run"><small>Còn lại 1.500.000 ₫</small></td><td class="hide-sm"></td></tr></tfoot>
+    </table>
+  </div>
+  <p class="alt">Chi phí là ước tính theo mức booking phổ biến, cần xác nhận với KOC hoặc MCN trước khi chốt.</p>
+</main>
+<footer>Dữ liệu từ Kalodata, cập nhật 15/11/2026 · <a href="#">Vận hành</a></footer>
+</body>
+</html>

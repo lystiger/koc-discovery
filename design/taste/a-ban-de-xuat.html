@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A. Bản đề xuất</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#F6F3EE; --paper:#FFFDF9; --ink:#1F2A24; --ink-2:#55605A; --line:#E3DDD3;
+  --green:#2F5D50; --green-soft:#DCE8E2; --clay:#B5643C; --clay-soft:#F3E3D8; --amber:#8A5A00; --amber-soft:#FBEFD6;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--ground);color:var(--ink);font:400 15px/1.55 "Be Vietnam Pro",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+::selection{background:var(--green-soft)}
+a{color:var(--green);text-underline-offset:3px}
+.serif{font-family:"Newsreader",serif}
+header{display:flex;align-items:center;gap:24px;padding:14px 32px;border-bottom:1px solid var(--line);background:var(--paper)}
+.logo{font:600 20px/1 "Newsreader",serif;letter-spacing:-.01em}
+nav{display:flex;gap:20px;font-weight:500;color:var(--ink-2)}
+nav a{color:inherit;text-decoration:none}
+nav a[aria-current]{color:var(--ink)}
+.search{margin-left:auto;display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:7px 12px;color:var(--ink-2);min-width:260px;background:var(--ground)}
+kbd{white-space:nowrap;font:500 12px/1 "Be Vietnam Pro";border:1px solid var(--line);border-radius:4px;padding:3px 5px;margin-left:auto;background:var(--paper)}
+main{max-width:1080px;margin:0 auto;padding:40px 32px 64px}
+h1{font:600 40px/1.1 "Newsreader",serif;letter-spacing:-.02em}
+.brief{margin-top:10px;color:var(--ink-2);max-width:70ch}
+.actions{display:flex;gap:10px;margin-top:20px}
+.btn{font:500 14px/1 "Be Vietnam Pro";padding:11px 16px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--green);border-color:var(--green);color:#fff}
+.btn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+/* signature: budget allocation strip */
+.budget{margin-top:36px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.budget-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.budget-top b{font:600 28px/1 "Newsreader",serif}
+.strip{display:flex;height:40px;margin-top:16px;border-radius:6px;overflow:hidden;gap:2px}
+.seg{background:var(--green);color:#fff;font-size:12px;font-weight:500;display:flex;align-items:center;padding:0 8px;white-space:nowrap;overflow:hidden}
+.seg:nth-child(even){background:#3F7464}
+.seg.left{background:repeating-linear-gradient(135deg,var(--clay-soft) 0 6px,#fff 6px 12px);color:var(--clay)}
+.note{font-size:13px;color:var(--ink-2);margin-top:10px}
+h2{font:600 24px/1.2 "Newsreader",serif;margin:44px 0 6px}
+.list{border-top:1px solid var(--ink)}
+.row{display:grid;grid-template-columns:44px 1.4fr 90px 1.3fr 120px;gap:20px;align-items:start;padding:20px 0;border-bottom:1px solid var(--line)}
+.rank{font:500 28px/1 "Newsreader",serif;color:var(--ink-2)}
+.name{font-weight:600;font-size:16px}
+.handle{color:var(--ink-2);font-size:13px}
+.reason{margin-top:8px;max-width:52ch}
+.fit{font:600 34px/1 "Newsreader",serif}
+.fit small{display:block;font:500 12px/1.4 "Be Vietnam Pro";color:var(--ink-2);margin-top:6px}
+.badge{display:inline-block;font-size:12px;font-weight:500;padding:3px 8px;border-radius:999px;background:var(--green-soft);color:var(--green);margin-top:6px}
+.badge.part{background:var(--amber-soft);color:var(--amber)}
+.bars{display:grid;gap:8px;font-size:13px}
+.bar{display:grid;grid-template-columns:82px 1fr 34px;gap:8px;align-items:center}
+.track{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--green)}
+.bar .na{grid-column:2 / 4;color:var(--amber);font-size:12px}
+.cost{text-align:right;font-weight:600}
+.cost small{display:block;font-weight:400;color:var(--ink-2);font-size:12px}
+footer{max-width:1080px;margin:0 auto;padding:0 32px 40px;font-size:13px;color:var(--ink-2)}
+@media (max-width:760px){
+  header{padding:12px 16px;gap:12px;flex-wrap:wrap}
+  nav{display:none}
+  .search{min-width:0;flex:1}
+  main{padding:24px 16px 48px}
+  h1{font-size:30px}
+  .row{grid-template-columns:32px 1fr auto;gap:10px 14px}
+  .rank{font-size:22px}
+  .row .bars{grid-column:2 / 4}
+  .row .cost{grid-column:2 / 4;text-align:left}
+  .fit{font-size:28px;text-align:right}
+  .seg span{display:none}
+  footer{padding:0 16px 32px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">KOC Discovery</div>
+  <nav><a href="#" aria-current="page">Chiến dịch</a><a href="#">KOC</a></nav>
+  <div class="search" role="button" tabindex="0">Tìm KOC hoặc chiến dịch <kbd>Ctrl K</kbd></div>
+</header>
+<main>
+  <h1>Mây Daily SPF50+</h1>
+  <p class="brief">Kem chống nắng cho da dầu, nữ 18 đến 34 tuổi. Ngân sách 30.000.000 ₫ cho 5 KOC có 10.000 đến 300.000 người theo dõi.</p>
+  <div class="actions"><button class="btn primary">Xem bản đề xuất</button><button class="btn">Sửa yêu cầu</button></div>
+
+  <section class="budget" aria-label="Phân bổ ngân sách">
+    <div class="budget-top"><span>Đã phân bổ <b>28.500.000 ₫</b> trên 30.000.000 ₫</span><span>Còn lại 1.500.000 ₫</span></div>
+    <div class="strip">
+      <div class="seg" style="flex:6.5"><span>Linh Skin Daily</span></div>
+      <div class="seg" style="flex:5.5"><span>Chou Chou</span></div>
+      <div class="seg" style="flex:7"><span>Trịnh Mỹ Phẩm</span></div>
+      <div class="seg" style="flex:5"><span>BS. Mai</span></div>
+      <div class="seg" style="flex:4.5"><span>An</span></div>
+      <div class="seg left" style="flex:1.5"></div>
+    </div>
+    <p class="note">Chi phí là ước tính theo mức booking phổ biến. Cần xác nhận với KOC hoặc MCN trước khi chốt.</p>
+  </section>
+
+  <h2>5 KOC phù hợp nhất</h2>
+  <div class="list">
+    <article class="row">
+      <div class="rank">1</div>
+      <div><div class="name">Linh Skin Daily</div><div class="handle">@linh.skindaily · 185.000 người theo dõi</div><p class="reason">82,5% người xem là nữ, phần lớn 18 đến 34 tuổi. Video thử kem cho thấy kết cấu ráo, không vón. <a href="#">Xem bằng chứng</a></p></div>
+      <div class="fit">88<small>Phù hợp</small><span class="badge">Đủ dữ liệu</span></div>
+      <div class="bars"><div class="bar">Bán hàng<span class="track"><i style="width:88%"></i></span>89</div><div class="bar">Khán giả<span class="track"><i style="width:86%"></i></span>86</div><div class="bar">Nội dung<span class="track"><i style="width:86%"></i></span>86</div></div>
+      <div class="cost">6.500.000 ₫<small>ước tính / video</small></div>
+    </article>
+    <article class="row">
+      <div class="rank">2</div>
+      <div><div class="name">Chou Chou Skincare</div><div class="handle">@chouchou.beauty · 128.000 người theo dõi</div><p class="reason">Dược sĩ, giải thích thành phần màng lọc dễ hiểu. 85% người xem là nữ. <a href="#">Xem bằng chứng</a></p></div>
+      <div class="fit">86<small>Phù hợp</small><span class="badge">Đủ dữ liệu</span></div>
+      <div class="bars"><div class="bar">Bán hàng<span class="track"><i style="width:84%"></i></span>84</div><div class="bar">Khán giả<span class="track"><i style="width:88%"></i></span>88</div><div class="bar">Nội dung<span class="track"><i style="width:85%"></i></span>85</div></div>
+      <div class="cost">5.500.000 ₫<small>ước tính / video</small></div>
+    </article>
+    <article class="row">
+      <div class="rank">3</div>
+      <div><div class="name">Trịnh Mỹ Phẩm</div><div class="handle">@trinh.review · 245.000 người theo dõi</div><p class="reason">Kiểm tra độ che phủ bằng camera UV ngay trong video. Nội dung được chấm cao nhất nhóm. <a href="#">Xem bằng chứng</a></p></div>
+      <div class="fit">84<small>Phù hợp</small><span class="badge">Đủ dữ liệu</span></div>
+      <div class="bars"><div class="bar">Bán hàng<span class="track"><i style="width:79%"></i></span>79</div><div class="bar">Khán giả<span class="track"><i style="width:74%"></i></span>74</div><div class="bar">Nội dung<span class="track"><i style="width:91%"></i></span>91</div></div>
+      <div class="cost">7.000.000 ₫<small>ước tính / video</small></div>
+    </article>
+    <article class="row">
+      <div class="rank">4</div>
+      <div><div class="name">Bác sĩ Mai Da Liễu</div><div class="handle">@mai.dermacare · 92.000 người theo dõi</div><p class="reason">Bác sĩ da liễu, giải thích cơ chế bảo vệ da rõ ràng và có căn cứ. <a href="#">Xem bằng chứng</a></p></div>
+      <div class="fit">81<small>Phù hợp</small><span class="badge part">Thiếu khán giả</span></div>
+      <div class="bars"><div class="bar">Bán hàng<span class="track"><i style="width:76%"></i></span>76</div><div class="bar">Khán giả<span class="na">Chưa phân tích</span></div><div class="bar">Nội dung<span class="track"><i style="width:88%"></i></span>88</div></div>
+      <div class="cost">5.000.000 ₫<small>ước tính / video</small></div>
+    </article>
+    <article class="row">
+      <div class="rank">5</div>
+      <div><div class="name">An Nghiện Chống Nắng</div><div class="handle">@an.glowskin · 64.000 người theo dõi</div><p class="reason">Hướng dẫn bôi đủ lượng và thoa lại trong ngày. 62% người xem 18 đến 24 tuổi. <a href="#">Xem bằng chứng</a></p></div>
+      <div class="fit">79<small>Phù hợp</small><span class="badge">Đủ dữ liệu</span></div>
+      <div class="bars"><div class="bar">Bán hàng<span class="track"><i style="width:81%"></i></span>81</div><div class="bar">Khán giả<span class="track"><i style="width:77%"></i></span>77</div><div class="bar">Nội dung<span class="track"><i style="width:78%"></i></span>78</div></div>
+      <div class="cost">4.500.000 ₫<small>ước tính / video</small></div>
+    </article>
+  </div>
+</main>
+<footer>Dữ liệu từ Kalodata, cập nhật 15/11/2026 · <a href="#">Vận hành</a></footer>
+</body>
+</html>

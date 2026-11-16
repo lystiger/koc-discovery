@@ -1,0 +1,222 @@
+{
+ "$defs": {
+  "CallToAction": {
+   "additionalProperties": false,
+   "properties": {
+    "text": {
+     "title": "Text",
+     "type": "string"
+    },
+    "start_s": {
+     "title": "Start S",
+     "type": "number"
+    }
+   },
+   "required": [
+    "text",
+    "start_s"
+   ],
+   "title": "CallToAction",
+   "type": "object"
+  },
+  "Claim": {
+   "additionalProperties": false,
+   "properties": {
+    "text": {
+     "title": "Text",
+     "type": "string"
+    },
+    "modality": {
+     "enum": [
+      "spoken",
+      "on_screen"
+     ],
+     "title": "Modality",
+     "type": "string"
+    },
+    "start_s": {
+     "title": "Start S",
+     "type": "number"
+    }
+   },
+   "required": [
+    "text",
+    "modality",
+    "start_s"
+   ],
+   "title": "Claim",
+   "type": "object"
+  },
+  "OpeningHook": {
+   "additionalProperties": false,
+   "properties": {
+    "text": {
+     "title": "Text",
+     "type": "string"
+    },
+    "start_s": {
+     "title": "Start S",
+     "type": "number"
+    },
+    "end_s": {
+     "title": "End S",
+     "type": "number"
+    }
+   },
+   "required": [
+    "text",
+    "start_s",
+    "end_s"
+   ],
+   "title": "OpeningHook",
+   "type": "object"
+  },
+  "ProductAppearance": {
+   "additionalProperties": false,
+   "properties": {
+    "start_s": {
+     "title": "Start S",
+     "type": "number"
+    },
+    "end_s": {
+     "title": "End S",
+     "type": "number"
+    },
+    "description": {
+     "title": "Description",
+     "type": "string"
+    }
+   },
+   "required": [
+    "start_s",
+    "end_s",
+    "description"
+   ],
+   "title": "ProductAppearance",
+   "type": "object"
+  },
+  "ProductDemonstration": {
+   "additionalProperties": false,
+   "properties": {
+    "present": {
+     "title": "Present",
+     "type": "boolean"
+    },
+    "start_s": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Start S"
+    },
+    "end_s": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "End S"
+    },
+    "description": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Description"
+    }
+   },
+   "required": [
+    "present"
+   ],
+   "title": "ProductDemonstration",
+   "type": "object"
+  }
+ },
+ "additionalProperties": false,
+ "properties": {
+  "video_id": {
+   "title": "Video Id",
+   "type": "string"
+  },
+  "opening_hook": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/OpeningHook"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "product_appearances": {
+   "default": [],
+   "items": {
+    "$ref": "#/$defs/ProductAppearance"
+   },
+   "title": "Product Appearances",
+   "type": "array"
+  },
+  "product_demonstration": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/ProductDemonstration"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "claims": {
+   "default": [],
+   "items": {
+    "$ref": "#/$defs/Claim"
+   },
+   "title": "Claims",
+   "type": "array"
+  },
+  "call_to_action": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/CallToAction"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "notes": {
+   "anyOf": [
+    {
+     "type": "string"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null,
+   "title": "Notes"
+  }
+ },
+ "required": [
+  "video_id"
+ ],
+ "title": "MediaAnalysis",
+ "type": "object"
+}

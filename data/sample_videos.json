@@ -1,0 +1,566 @@
+[
+  {
+    "video_id": "7694603862002371858",
+    "creator_id": "6798739018520839169",
+    "video_url": {
+      "value": "https://www.tiktok.com/@chanhbeauty93/video/7694603862002371858",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "published_at": {
+      "value": "10/09/2026",
+      "status": "observed",
+      "raw_field": "Publish Date",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "views": {
+      "value": 888400,
+      "status": "observed",
+      "raw_field": "Views",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "likes": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Likes",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "comments": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Comments",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "shares": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Shares",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "estimated_video_gmv": {
+      "value": 628160000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "thumbnail_url": {
+      "value": "https://img.kalocdn.com/tiktok.video/7694603862002371858/cover.png",
+      "status": "derived",
+      "raw_field": "Cover",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "media_access_status": {
+      "value": "player_mp4_listed (not downloaded)",
+      "status": "derived",
+      "raw_field": "Media Access",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "transcript_status": {
+      "value": "none_from_source",
+      "status": "derived",
+      "raw_field": "Transcript",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  },
+  {
+    "video_id": "7705660238917143816",
+    "creator_id": "6798739018520839169",
+    "video_url": {
+      "value": "https://www.tiktok.com/@chanhbeauty93/video/7705660238917143816",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "published_at": {
+      "value": "11/08/2026",
+      "status": "observed",
+      "raw_field": "Publish Date",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "views": {
+      "value": 363720,
+      "status": "observed",
+      "raw_field": "Views",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "likes": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Likes",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "comments": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Comments",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "shares": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Shares",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "estimated_video_gmv": {
+      "value": 613560000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "thumbnail_url": {
+      "value": "https://img.kalocdn.com/tiktok.video/7705660238917143816/cover.png",
+      "status": "derived",
+      "raw_field": "Cover",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "media_access_status": {
+      "value": "downloaded_via_kalodata_player_mp4",
+      "status": "derived",
+      "raw_field": "Media Access",
+      "source": "https://www.kalodata.com/video/detail?id=7705660238917143816",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "transcript_status": {
+      "value": "none_from_source",
+      "status": "derived",
+      "raw_field": "Transcript",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  },
+  {
+    "video_id": "7694232761476943111",
+    "creator_id": "7039923617978975234",
+    "video_url": {
+      "value": "https://www.tiktok.com/@trangtrankoc/video/7694232761476943111",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "published_at": {
+      "value": "10/08/2026",
+      "status": "observed",
+      "raw_field": "Publish Date",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "views": {
+      "value": 7470000,
+      "status": "observed",
+      "raw_field": "Views",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "likes": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Likes",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "comments": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Comments",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "shares": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Shares",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "estimated_video_gmv": {
+      "value": 206880000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "thumbnail_url": {
+      "value": "https://img.kalocdn.com/tiktok.video/7694232761476943111/cover.png",
+      "status": "derived",
+      "raw_field": "Cover",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "media_access_status": {
+      "value": "player_mp4_listed (not downloaded)",
+      "status": "derived",
+      "raw_field": "Media Access",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "transcript_status": {
+      "value": "none_from_source",
+      "status": "derived",
+      "raw_field": "Transcript",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  },
+  {
+    "video_id": "7679654438981750034",
+    "creator_id": "7039923617978975234",
+    "video_url": {
+      "value": "https://www.tiktok.com/@trangtrankoc/video/7679654438981750034",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "published_at": {
+      "value": "08/30/2026",
+      "status": "observed",
+      "raw_field": "Publish Date",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "views": {
+      "value": 662410,
+      "status": "observed",
+      "raw_field": "Views",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "likes": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Likes",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "comments": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Comments",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "shares": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Shares",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "estimated_video_gmv": {
+      "value": 162480000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "thumbnail_url": {
+      "value": "https://img.kalocdn.com/tiktok.video/7679654438981750034/cover.png",
+      "status": "derived",
+      "raw_field": "Cover",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "media_access_status": {
+      "value": "player_mp4_listed (not downloaded)",
+      "status": "derived",
+      "raw_field": "Media Access",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "transcript_status": {
+      "value": "none_from_source",
+      "status": "derived",
+      "raw_field": "Transcript",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  },
+  {
+    "video_id": "7696514255343897877",
+    "creator_id": "7072683155098272773",
+    "video_url": {
+      "value": "https://www.tiktok.com/@hannaholala/video/7696514255343897877",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "published_at": {
+      "value": "10/14/2026",
+      "status": "observed",
+      "raw_field": "Publish Date",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "views": {
+      "value": 537300,
+      "status": "observed",
+      "raw_field": "Views",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "likes": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Likes",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "comments": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Comments",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "shares": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Shares",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "estimated_video_gmv": {
+      "value": 431580000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "thumbnail_url": {
+      "value": "https://img.kalocdn.com/tiktok.video/7696514255343897877/cover.png",
+      "status": "derived",
+      "raw_field": "Cover",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "media_access_status": {
+      "value": "player_mp4_listed (not downloaded)",
+      "status": "derived",
+      "raw_field": "Media Access",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "transcript_status": {
+      "value": "none_from_source",
+      "status": "derived",
+      "raw_field": "Transcript",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  },
+  {
+    "video_id": "7706046296120954118",
+    "creator_id": "7072683155098272773",
+    "video_url": {
+      "value": "https://www.tiktok.com/@hannaholala/video/7706046296120954118",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "published_at": {
+      "value": "11/09/2026",
+      "status": "observed",
+      "raw_field": "Publish Date",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "views": {
+      "value": 702200,
+      "status": "observed",
+      "raw_field": "Views",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "likes": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Likes",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "comments": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Comments",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "shares": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Shares",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "not shown on Kalodata video list or detail page"
+    },
+    "estimated_video_gmv": {
+      "value": 398070000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "thumbnail_url": {
+      "value": "https://img.kalocdn.com/tiktok.video/7706046296120954118/cover.png",
+      "status": "derived",
+      "raw_field": "Cover",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "media_access_status": {
+      "value": "player_mp4_listed (not downloaded)",
+      "status": "derived",
+      "raw_field": "Media Access",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "transcript_status": {
+      "value": "none_from_source",
+      "status": "derived",
+      "raw_field": "Transcript",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  }
+]

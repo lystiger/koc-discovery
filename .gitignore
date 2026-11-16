@@ -1,0 +1,15 @@
+.venv
+__pycache__
+*.db
+browser-profile/
+.pytest_cache
+data/raw/media/
+data/raw/
+reports/agy/work/
+data/media/
+web/node_modules/
+web/dist/
+web/tsconfig.tsbuildinfo
+*.egg-info/
+.env
+.env.*

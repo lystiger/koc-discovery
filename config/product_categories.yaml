@@ -1,0 +1,39 @@
+# Loại sản phẩm của web (api.py CampaignInput.product_type) -> ID danh mục Kalodata.
+# ID lấy offline từ category/rank trong bảng http_cache (bản sao .backup của data/koc.db, 1900 danh mục).
+# Cách khớp: tìm theo tên danh mục (không phân biệt hoa thường) rồi chọn tay các tên rõ nghĩa;
+# bỏ dụng cụ (cọ, mút, gương), bộ dụng cụ và tên mơ hồ. Chưa có cây danh mục cha-con, nên khớp theo tên.
+# Muốn thêm ID: koc categories --keyword <từ khóa>.
+
+"Chống nắng":  # giữ nguyên s0.category_ids hiện tại
+  - '601602'  # Kem chống nắng cho da mặt
+  - '873864'  # Kem chống nắng
+  - '601627'  # Chăm sóc da (rộng; đã dùng trong các lượt chạy trước)
+
+"Dưỡng ẩm":
+  - '601615'  # Kem dưỡng ẩm & Xịt thơm (tên duy nhất chứa "dưỡng ẩm")
+
+"Serum":
+  - '601619'  # Serum & Tinh chất
+
+"Làm sạch":
+  - '601609'  # Sữa rửa mặt
+  - '601618'  # Tẩy trang
+  # Không lấy: Toner, Tẩy tế bào chết (không phải làm sạch theo nghĩa rửa mặt).
+
+"Trang điểm":
+  - '601554'  # Kem che khuyết điểm & Phấn nền
+  - '601550'  # Kem BB và Kem CC
+  - '601556'  # Lớp nền trang điểm và Kem lót
+  - '601534'  # Son môi & Son bóng
+  - '601558'  # Phấn
+  - '601560'  # Phấn má
+  - '601588'  # Phấn mắt
+  - '601555'  # Phấn tạo khối & Phấn bắt sáng
+  - '601585'  # Mascara
+  - '601587'  # Kẻ mắt & Kẻ viền môi
+  - '601586'  # Chì & Gel kẻ lông mày
+  - '601552'  # Xịt cố định lớp trang điểm
+  - '601529'  # Bộ trang điểm
+  # Không lấy: Đồ trang điểm (601565, mơ hồ), Cọ/Mút/Gương/Túi/Bàn trang điểm (dụng cụ, đồ nội thất).
+
+"Khác": []  # Không có danh mục cố định; truyền --category-ids.

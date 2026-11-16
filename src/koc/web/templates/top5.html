@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Đề xuất KOC · {{ run.run_id }} · KOC Discovery{% endblock %}
+{% block content %}
+<header class="page-head">
+  <div><p class="eyeline number">{{ run.run_id }} · {{ run.started_at }}</p><h1>Đề xuất creator</h1><p class="lede">{{ run.brief.product or 'Kem chống nắng' }} · {{ run.brief.target or 'Nữ, 18 đến 30 tuổi' }}</p></div>
+  <a href="/runs/{{ run.run_id }}/dashboard">Mở vận hành</a>
+</header>
+<section class="grid kpis" aria-label="Kết quả đợt chạy">
+  <div class="kpi"><span class="kpi-label">Creator được chọn</span><strong class="kpi-value">{{ top5_data.cards | length }} / {{ top5_data.brief_count }}</strong><span class="muted">Từ {{ finalists | length }} ứng viên vào vòng cuối</span></div>
+  <div class="kpi"><span class="kpi-label">Tổng phí booking ước tính</span><strong class="kpi-value money">{{ top5_data.total_estimated_cost_vnd | format_vnd }}</strong><span class="muted">Ngân sách {{ top5_data.budget_cap_vnd | format_vnd }}</span></div>
+  <div class="kpi"><span class="kpi-label">Ngân sách còn lại</span><strong class="kpi-value money">{{ top5_data.budget_remaining_vnd | format_vnd }}</strong><span class="muted">Đã dùng {{ top5_data.budget_pct | format_decimal }}%</span></div>
+  <div class="kpi"><span class="kpi-label">Điểm trung bình</span><strong class="kpi-value">{{ (top5_data.cards | sum(attribute='final_score') / (top5_data.cards | length if top5_data.cards else 1)) | format_score }}</strong><span class="muted">Điểm phù hợp trên 100</span></div>
+</section>
+{% if top5_data.brand_fit_excluded %}
+<section class="section" aria-label="KOC bị loại">
+  <div class="panel-head"><h2>KOC bị loại</h2><span class="muted">{{ top5_data.brand_fit_excluded | length }} KOC</span></div>
+  <ul>{% for item in top5_data.brand_fit_excluded %}<li>{{ item.handle }}: {{ item.reason_vi }}</li>{% endfor %}</ul>
+</section>
+{% endif %}
+<section class="grid chart-grid section">
+  <article class="panel">
+    <div class="panel-head"><h2>Điểm theo trọng số</h2><span class="muted">45% + 20% + 35%</span></div>
+    {{ score_chart }}
+  <ul class="chart-legend" aria-label="Chú giải điểm theo trọng số"><li><span class="legend-swatch commercial"></span>Thương mại · 45%</li><li><span class="legend-swatch audience"></span>Khán giả · 20%</li><li><span class="legend-swatch content"></span>Nội dung · 35%</li></ul>
+  </article>
+  <article class="panel">
+    <div class="panel-head"><h2>Chi phí và điểm của ứng viên</h2><span class="muted">Ngân sách 30.000.000 ₫</span></div>
+    {{ scatter_chart }}
+    <p class="chart-caption">Mỗi chấm là một ứng viên. Màu hổ phách đánh dấu creator được chọn. Mọi chi phí là ước tính.</p>
+  </article>
+</section>
+<section class="section">
+  <div class="panel-head"><h2>Thứ hạng và căn cứ</h2><span class="muted">Điểm phù hợp, không phải xác suất thành công</span></div>
+  <div class="mobile-koc-cards" aria-label="Thứ hạng và căn cứ">
+    {% for koc in top5_data.cards %}
+    <article class="koc-card">
+      <div class="koc-card-head"><div><a href="/runs/{{ run.run_id }}/creators/{{ koc.creator_id }}">{{ koc.nickname }}</a><span class="creator-sub">{{ koc.handle }} · {{ koc.followers | format_number }} người theo dõi</span></div><strong class="koc-card-score">{{ koc.final_score | format_score }}</strong></div>
+      <div class="koc-card-facts"><span>Phí: {{ koc.est_cost_vnd | format_vnd }} ước tính</span><a href="/runs/{{ run.run_id }}/creators/{{ koc.creator_id }}#metrics">{{ koc.cited_evidence_ids | length }} mã bằng chứng</a></div>
+      <div class="koc-card-parts"><span>Thương mại · 45% <strong>{{ (koc.commercial_score * 0.45) | format_score }} điểm</strong></span><span>Khán giả · 20% <strong>{% if koc.audience_score is none %}Không có dữ liệu (Kalodata chỉ hiển thị số liệu mẫu){% else %}{{ (koc.audience_score * 0.20) | format_score }} điểm{% endif %}</strong></span><span>Nội dung · 35% <strong>{{ (koc.content_score * 0.35) | format_score }} điểm</strong></span></div>
+      {% for reason in koc.summary_reasons %}<p class="reason">{{ reason | safe }}</p>{% endfor %}{% if koc.caveats_vi %}<p class="reason risk">{{ koc.caveats_vi[0] | safe }}</p>{% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  <div class="table-wrap ranking-table-wrap"><p class="table-hint">Vuốt ngang để xem đầy đủ bảng.</p><table>
+    <thead><tr><th>Creator</th><th class="numeric">Điểm</th><th class="numeric">Thương mại 45%</th><th class="numeric">Khán giả 20%</th><th class="numeric">Nội dung 35%</th><th class="numeric">Phí ước tính</th><th class="numeric">Bằng chứng</th></tr></thead>
+    <tbody>
+    {% for koc in top5_data.cards %}
+      <tr>
+        <td><div class="creator-cell"><span class="avatar" aria-hidden="true">{{ koc.nickname.split()[0][:1] | upper }}{{ koc.nickname.split()[1][:1] | upper if koc.nickname.split() | length > 1 else '' }}</span><span><a class="creator-name" href="/runs/{{ run.run_id }}/creators/{{ koc.creator_id }}">{{ koc.nickname }}</a><span class="creator-sub">{{ koc.handle }} · {{ koc.followers | format_number }} người theo dõi</span></span></div></td>
+        <td class="numeric">{{ koc.final_score | format_score }}</td><td class="numeric">{{ koc.commercial_score | format_score }}</td><td class="numeric">{% if koc.audience_score is none %}Không có dữ liệu (Kalodata chỉ hiển thị số liệu mẫu){% else %}{{ koc.audience_score | format_score }}{% endif %}</td><td class="numeric">{{ koc.content_score | format_score }}</td>
+        <td class="numeric money">{{ koc.est_cost_vnd | format_vnd }}<span class="creator-sub">ước tính</span></td>
+        <td class="numeric"><a href="/runs/{{ run.run_id }}/creators/{{ koc.creator_id }}#metrics">{{ koc.cited_evidence_ids | length }} mã</a></td>
+      </tr>
+      <tr><td colspan="7" class="table-score"><div class="score-parts"><span>Thương mại · 45%<strong>{{ (koc.commercial_score * 0.45) | format_score }} điểm</strong></span><span>Khán giả · 20%<strong>{% if koc.audience_score is none %}Không có dữ liệu (Kalodata chỉ hiển thị số liệu mẫu){% else %}{{ (koc.audience_score * 0.20) | format_score }} điểm{% endif %}</strong></span><span>Nội dung · 35%<strong>{{ (koc.content_score * 0.35) | format_score }} điểm</strong></span></div>{% for reason in koc.summary_reasons %}<p class="reason">{{ reason | safe }}</p>{% endfor %}{% if koc.caveats_vi %}<p class="reason risk">{{ koc.caveats_vi[0] | safe }}</p>{% endif %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+<section class="section">
+  <div class="panel-head"><h2>{{ finalists | length }} ứng viên vào vòng cuối</h2><span class="muted">Chi phí ước tính cho 3 video mỗi creator</span></div>
+  <div class="table-wrap"><p class="table-hint">Vuốt ngang để xem đầy đủ bảng.</p><table>
+    <thead><tr><th>Creator</th><th class="numeric">Chi phí ước tính</th><th class="numeric">Điểm cuối</th><th>Kết quả</th></tr></thead>
+    <tbody>{% for item in finalists %}<tr><td>{{ item.nickname }}<span class="creator-sub">{{ item.handle }}</span></td><td class="numeric money">{{ item.est_cost_vnd | format_vnd }}</td><td class="numeric">{{ item.final_score | format_score }}</td><td>{{ 'Được chọn' if item.selected else 'Không chọn' }}</td></tr>{% else %}<tr><td colspan="4">Chưa có đủ dữ liệu ứng viên.</td></tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+{% endblock %}

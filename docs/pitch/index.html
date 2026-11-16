@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOC Discovery 2.0</title>
+<!--
+  Deck v2.0. Một slide = một hình lớn hoặc một con số lớn, tối đa khoảng 20 chữ.
+  Màu và font theo design system koc-discovery (hướng A "Bản đề xuất"):
+  giấy #f6f3ee, mực #24312b, xanh #315f53; Newsreader (tiêu đề), Be Vietnam Pro (chữ).
+  Phím: mũi tên / PageUp / PageDown / Space chuyển slide.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f6f3ee;
+  --paper-white: #fffdfa;
+  --ink: #24312b;
+  --muted: #5d6962;
+  --action: #315f53;
+  --pale: #dce8e1;
+  --border: #e3ddd3;
+  --warn-bg: #f5e8cf;
+  --warn-ink: #6e4510;
+  --coral: #c8664a;
+  --serif: "Newsreader", Georgia, serif;
+  --sans: "Be Vietnam Pro", system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-snap-type: y proximity; }
+body { background: #1e2823; color: var(--ink); font-family: var(--sans); font-variant-numeric: tabular-nums lining-nums; }
+.slide {
+  width: min(100vw - 32px, 1280px); aspect-ratio: 16 / 9; margin: 24px auto;
+  background: var(--paper); border-radius: 6px; overflow: hidden;
+  display: grid; grid-template-columns: 30% 1fr; gap: 40px; align-items: center;
+  padding: 48px 56px; position: relative; scroll-snap-align: center;
+}
+.slide.full { grid-template-columns: 1fr; text-align: center; }
+.k { font-size: 15px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--action); margin-bottom: 14px; }
+h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -0.015em; line-height: 1.08; text-wrap: balance; }
+h1 { font-size: 64px; }
+h2 { font-size: 42px; }
+h1 em, h2 em { font-style: italic; color: var(--action); font-weight: 500; }
+p.s { color: var(--muted); font-size: 19px; line-height: 1.45; margin-top: 16px; }
+.no { position: absolute; right: 22px; bottom: 14px; font-size: 13px; color: var(--muted); }
+.shot { width: 100%; max-height: 100%; object-fit: contain; object-position: top; border-radius: 6px; border: 1px solid var(--border); box-shadow: 0 18px 40px -24px rgba(36,49,43,.45); background: #fff; display: block; }
+.pics { display: grid; gap: 18px; align-content: center; height: 100%; min-height: 0; }
+.pics.two { grid-template-columns: 1fr 1fr; align-items: start; }
+.pics.three { grid-template-columns: repeat(3, 1fr); align-items: start; }
+.big { font-family: var(--serif); font-weight: 600; font-size: 128px; line-height: 1; color: var(--action); }
+.big small { font-size: .38em; color: var(--muted); font-weight: 500; }
+.shot.tall { max-height: 600px; width: auto; max-width: 100%; margin: auto; }
+
+/* hero */
+.hero { grid-template-columns: 1fr 1.15fr; }
+.hero img { width: 100%; }
+.logo { height: 34px; margin-bottom: 30px; }
+
+/* funnel */
+.funnel { display: grid; gap: 10px; width: 100%; }
+.fz { display: grid; grid-template-columns: 170px 1fr; align-items: center; gap: 16px; font-size: 18px; }
+.fz b { font-family: var(--serif); font-size: 34px; font-weight: 600; text-align: right; }
+.fz span { display: block; height: 38px; border-radius: 4px; background: var(--pale); position: relative; }
+.fz span i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-style: normal; color: var(--ink); white-space: nowrap; }
+.fz.last span { background: var(--action); }
+.fz span { min-width: 110px; }
+.fz.last span i { color: #fff; }
+.weights { display: flex; height: 44px; border-radius: 4px; overflow: hidden; margin-top: 22px; font-size: 16px; font-weight: 600; color: #fff; }
+.weights div { display: grid; place-items: center; }
+
+/* ranking */
+.rank { display: grid; gap: 12px; width: 100%; }
+.rr { display: grid; grid-template-columns: 34px 230px 1fr 64px; align-items: center; gap: 14px; font-size: 19px; }
+.rr .n { font-family: var(--serif); font-size: 28px; color: var(--muted); }
+.rr .bar { height: 30px; background: var(--pale); border-radius: 4px; }
+.rr .bar div { height: 100%; background: var(--action); border-radius: 4px; }
+.rr b { font-family: var(--serif); font-size: 30px; text-align: right; }
+
+/* process */
+.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; align-items: stretch; }
+.step { background: var(--paper-white); border: 1px solid var(--border); border-radius: 6px; padding: 22px 16px; text-align: center; font-size: 18px; display: grid; gap: 8px; align-content: center; }
+.step b { font-family: var(--serif); font-size: 26px; font-weight: 600; }
+.step.on { background: var(--action); color: #fff; border-color: var(--action); }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 26px; }
+.chip { background: var(--pale); border-radius: 999px; padding: 8px 16px; font-size: 17px; }
+
+/* problems */
+.prob { width: 100%; display: grid; gap: 10px; }
+.pr { display: grid; grid-template-columns: 1fr 34px 1fr; align-items: center; gap: 10px; font-size: 19px; text-align: left; }
+.pr .a { background: var(--warn-bg); color: var(--warn-ink); padding: 14px 18px; border-radius: 6px; }
+.pr .b { background: var(--pale); padding: 14px 18px; border-radius: 6px; font-weight: 500; }
+.pr .arr { text-align: center; color: var(--muted); font-size: 22px; }
+
+/* metrics */
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; }
+.m { background: var(--paper-white); border: 1px solid var(--border); border-radius: 6px; padding: 20px 18px; text-align: left; }
+.m b { font-family: var(--serif); font-size: 52px; font-weight: 600; line-height: 1; color: var(--action); display: block; }
+.m b small { font-size: .45em; color: var(--muted); font-weight: 500; }
+.m span { font-size: 16px; color: var(--muted); display: block; margin-top: 8px; }
+.m.warn b { color: var(--coral); }
+
+/* next */
+.next { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; width: 100%; }
+.nx { background: var(--paper-white); border: 1px solid var(--border); border-radius: 6px; padding: 24px 16px; font-size: 18px; text-align: left; display: grid; gap: 10px; align-content: start; }
+.nx b { font-family: var(--serif); font-size: 40px; color: var(--action); line-height: 1; }
+
+@media (max-width: 760px) {
+  .slide, .slide.hero { aspect-ratio: auto; grid-template-columns: 1fr; padding: 28px 16px 36px; gap: 20px; margin: 12px auto; width: calc(100vw - 16px); }
+  h1 { font-size: 40px; }
+  h2 { font-size: 28px; }
+  p.s { font-size: 16px; }
+  .big { font-size: 76px; }
+  .pics.three { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .pics.two { grid-template-columns: 1fr; }
+  .shot.tall { max-height: none; width: 100%; }
+  .fz { grid-template-columns: 96px 1fr; font-size: 14px; gap: 10px; }
+  .fz b { font-size: 22px; }
+  .fz span { height: 30px; }
+  .weights { font-size: 12px; }
+  .rr { grid-template-columns: 22px 1fr 44px; font-size: 15px; }
+  .rr .bar { grid-column: 2 / 4; grid-row: 2; height: 14px; }
+  .rr b { font-size: 22px; }
+  .flow, .next { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: 1fr 1fr; }
+  .m b { font-size: 34px; }
+  .pr { grid-template-columns: 1fr; gap: 4px; font-size: 15px; }
+  .pr .arr { display: none; }
+  .pr { margin-bottom: 8px; }
+}
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  body { background: var(--paper); }
+  .slide { margin: 0; border-radius: 0; break-after: page; width: 1280px; }
+}
+</style>
+</head>
+<body>
+
+<section class="slide hero">
+  <div>
+    <img class="logo" src="assets/detola-koc-3-header.svg" alt="DETOLA KOC Discovery">
+    <div class="k">Phiên bản 2.0</div>
+    <h1>Tìm đúng KOC cho <em>thương hiệu</em> của bạn</h1>
+    <p class="s">Từ một bản brief đến 5 KOC hợp thương hiệu, trong ngân sách.</p>
+  </div>
+  <img src="assets/b-hero.webp" alt="Linh vật tuýp kem chống nắng cùng ba KOC">
+  <span class="no">1</span>
+</section>
+
+<section class="slide full">
+  <div>
+    <div class="k">Kết quả một lượt chạy</div>
+    <div class="big">200 <small>KOC quét</small> &rarr; 5 <small>KOC đề xuất</small></div>
+    <p class="s">Kem chống nắng, ngân sách 30.000.000 đ. Dùng 28.500.000 đ.</p>
+  </div>
+  <span class="no">2</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Bước 1</div>
+    <h2>Kể về <em>sản phẩm</em></h2>
+    <p class="s">Sản phẩm, ngân sách, khán giả. Có thể loại KOC đã đề xuất lần trước.</p>
+  </div>
+  <div class="pics">
+    <img class="shot" src="assets/e2e/crops/form.webp" alt="Form nhập sản phẩm và ngân sách">
+    <img class="shot" style="width:62%" src="assets/e2e/02_form_exclude_previous.webp" alt="Ô loại KOC đã đề xuất lần trước">
+  </div>
+  <span class="no">3</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Bước 2</div>
+    <h2>Bản đề xuất trong <em>ngân sách</em></h2>
+    <p class="s">5 KOC, 28.500.000 / 30.000.000 đ.</p>
+  </div>
+  <img class="shot" src="assets/e2e/crops/proposal.webp" alt="Trang đề xuất 5 KOC">
+  <span class="no">4</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Bước 3</div>
+    <h2>Điểm có <em>lý do</em></h2>
+    <p class="s">Thương mại 45%, khán giả 20%, nội dung 35%.</p>
+  </div>
+  <div class="pics">
+    <img class="shot" src="assets/e2e/05_score_breakdown.webp" alt="Ô điểm theo ba phần">
+    <img class="shot" style="width:78%" src="assets/e2e/10_cach_cham_diem.webp" alt="Mục cách chấm điểm">
+  </div>
+  <span class="no">5</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Cổng thương hiệu</div>
+    <h2>KOC <em>không hợp</em> bị loại, có lý do</h2>
+    <p class="s">Mọi video dưới 3/5 về độ hợp thương hiệu.</p>
+  </div>
+  <img class="shot tall" src="assets/e2e/06_excluded_box.webp" alt="Ô KOC không hợp thương hiệu">
+  <span class="no">6</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Bước 4</div>
+    <h2>Hồ sơ KOC</h2>
+    <p class="s">Mỗi lý do trỏ tới khung hình hoặc lời nói trong video.</p>
+  </div>
+  <img class="shot" src="assets/e2e/crops/koc_profile.webp" alt="Hồ sơ KOC">
+  <span class="no">7</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Bước 5</div>
+    <h2>Lọc và <em>sắp xếp</em></h2>
+    <p class="s">Theo follower, giá mỗi video, điểm.</p>
+  </div>
+  <img class="shot" src="assets/e2e/crops/filters.webp" alt="Thanh lọc và sắp xếp">
+  <span class="no">8</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Bước 6</div>
+    <h2>Tìm KOC, gõ <em>không dấu</em></h2>
+    <p class="s">"rio" ra ngay @rio100806.</p>
+  </div>
+  <img class="shot" src="assets/e2e/crops/search.webp" alt="Ô tìm kiếm ở đầu trang">
+  <span class="no">9</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Điện thoại</div>
+    <h2>Dùng tốt ở <em>375 px</em></h2>
+    <p class="s">Đề xuất, hồ sơ, bộ lọc dạng ngăn kéo.</p>
+  </div>
+  <div class="pics three">
+    <img class="shot" src="assets/e2e/crops/phone_04_proposal_top.webp" alt="Đề xuất trên điện thoại">
+    <img class="shot" src="assets/e2e/crops/phone_07_koc_profile.webp" alt="Hồ sơ KOC trên điện thoại">
+    <img class="shot" src="assets/e2e/crops/phone_08_filters_drawer.webp" alt="Bộ lọc trên điện thoại">
+  </div>
+  <span class="no">10</span>
+</section>
+
+<section class="slide">
+  <div>
+    <div class="k">Top 5, kem chống nắng</div>
+    <h2>28.500.000 đ</h2>
+    <p class="s">Chạy lại chỉ tốn 6,5 credit và 0,28 USD.</p>
+  </div>
+  <div class="rank">
+    <div class="rr"><span class="n">1</span><span>@meixiuriviu</span><div class="bar"><div style="width:79%"></div></div><b>79,0</b></div>
+    <div class="rr"><span class="n">2</span><span>@rio100806</span><div class="bar"><div style="width:77.7%"></div></div><b>77,7</b></div>
+    <div class="rr"><span class="n">3</span><span>@dieuduong_quynhhoa</span><div class="bar"><div style="width:76.2%"></div></div><b>76,2</b></div>
+    <div class="rr"><span class="n">4</span><span>@emduyencantho</span><div class="bar"><div style="width:74.7%"></div></div><b>74,7</b></div>
+    <div class="rr"><span class="n">5</span><span>@teetamofficial</span><div class="bar"><div style="width:74.1%"></div></div><b>74,1</b></div>
+  </div>
+  <span class="no">11</span>
+</section>
+
+<section class="slide full">
+  <div>
+    <div class="k">Cách lên kế hoạch</div>
+    <h2>Hỏi kỹ, chốt kế hoạch, rồi <em>ba giai đoạn</em></h2>
+    <div class="flow" style="margin-top:34px">
+      <div class="step"><b>Hỏi kỹ</b>Từng quyết định</div>
+      <div class="step"><b>Chốt</b>Kế hoạch A1–A8</div>
+      <div class="step"><b>PRETEST</b>Kịch bản kiểm thử</div>
+      <div class="step"><b>DEV</b>Mỗi mục một nhánh</div>
+      <div class="step on"><b>TEST</b>Người duyệt độc lập</div>
+    </div>
+    <p class="s">Không gộp nhánh nào khi chưa ĐẠT.</p>
+  </div>
+  <span class="no">12</span>
+</section>
+
+<section class="slide full">
+  <div style="width:100%">
+    <div class="k">Cách giải</div>
+    <h2>Phễu lọc, rẻ trước <em>đắt sau</em></h2>
+    <div class="funnel" style="margin-top:26px">
+      <div class="fz"><b>200</b><span style="width:100%"><i>Quét KOC</i></span></div>
+      <div class="fz"><b>60</b><span style="width:62%"><i>Chấm nhanh</i></span></div>
+      <div class="fz"><b>40</b><span style="width:46%"><i>Thương mại</i></span></div>
+      <div class="fz"><b>10</b><span style="width:30%"><i>Khán giả</i></span></div>
+      <div class="fz"><b>3 video</b><span style="width:22%"><i>Phân tích</i></span></div>
+      <div class="fz last"><b>5</b><span style="width:14%"><i>Đề xuất</i></span></div>
+    </div>
+    <div class="weights">
+      <div style="width:45%;background:var(--action)">Thương mại 45%</div>
+      <div style="width:20%;background:#6f9485">Khán giả 20%</div>
+      <div style="width:35%;background:var(--coral)">Nội dung 35%</div>
+    </div>
+  </div>
+  <span class="no">13</span>
+</section>
+
+<section class="slide full">
+  <div style="width:100%">
+    <div class="k">Vấn đề và cách giải</div>
+    <div class="prob" style="margin-top:8px">
+      <div class="pr"><div class="a">Video lạc đề được chấm</div><div class="arr">&rarr;</div><div class="b">Chọn video đúng sản phẩm</div></div>
+      <div class="pr"><div class="a">Người duyệt hết lượt</div><div class="arr">&rarr;</div><div class="b">Đổi người duyệt khác</div></div>
+      <div class="pr"><div class="a">Dữ liệu cache cũ</div><div class="arr">&rarr;</div><div class="b">Hết hạn sau 7 ngày</div></div>
+      <div class="pr"><div class="a">Lưu ý ít trung thực</div><div class="arr">&rarr;</div><div class="b">Tách điểm lý do và lưu ý</div></div>
+      <div class="pr"><div class="a">Chèn lệnh vào tiêu đề</div><div class="arr">&rarr;</div><div class="b">Bọc dữ liệu, gắn cảnh báo</div></div>
+    </div>
+  </div>
+  <span class="no">14</span>
+</section>
+
+<section class="slide full">
+  <div style="width:100%">
+    <div class="k">Chỉ số thành công</div>
+    <div class="metrics">
+      <div class="m"><b>44,4<small> / 60</small></b><span>Credit Kalodata, cả dự án</span></div>
+      <div class="m"><b>1,62<small> / 5 USD</small></b><span>Chi phí mô hình, cả dự án</span></div>
+      <div class="m"><b>556</b><span>Bài kiểm thử đạt</span></div>
+      <div class="m"><b>0,875</b><span>Lý do đúng với bằng chứng</span></div>
+      <div class="m warn"><b>0,10</b><span>Lưu ý có trích dẫn, cần sửa</span></div>
+      <div class="m"><b>8<small> / 8</small></b><span>Tiêu chí A1–A8 đạt</span></div>
+    </div>
+    <p class="s">0 báo động nhầm trên 1.346 tiêu đề và trích dẫn thật.</p>
+  </div>
+  <span class="no">15</span>
+</section>
+
+<section class="slide full">
+  <div style="width:100%">
+    <div class="k">Cải tiến tiếp</div>
+    <div class="next">
+      <div class="nx"><b>1</b>Lưu ý phải trích dẫn bằng chứng</div>
+      <div class="nx"><b>2</b>Thử chèn lệnh trên mô hình thật</div>
+      <div class="nx"><b>3</b>Nguồn dữ liệu khán giả mới</div>
+      <div class="nx"><b>4</b>Đăng nhập trước khi đưa lên mạng</div>
+      <div class="nx"><b>5</b>Hashtag lẫn có dấu và không dấu</div>
+    </div>
+    <img src="assets/mascot.webp" alt="Linh vật" style="width:200px;margin-top:28px">
+  </div>
+  <span class="no">16</span>
+</section>
+
+<script>
+// Phím chuyển slide: cuộn tới slide kế tiếp hoặc trước đó.
+const slides = [...document.querySelectorAll('.slide')];
+function cur() { let i = 0, best = 1e9; slides.forEach((s, k) => { const d = Math.abs(s.getBoundingClientRect().top); if (d < best) { best = d; i = k; } }); return i; }
+addEventListener('keydown', e => {
+  const f = ['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key), b = ['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key);
+  if (!f && !b) return;
+  e.preventDefault();
+  const n = Math.max(0, Math.min(slides.length - 1, cur() + (f ? 1 : -1)));
+  slides[n].scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+</script>
+</body>
+</html>

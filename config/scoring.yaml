@@ -1,0 +1,17 @@
+s1_weights:
+  video_gpm: 35
+  skincare_revenue_share: 25
+  revenue_trend_slope: 15
+  video_vs_live_share: 15
+  follower_band_fit: 10
+final_weights:
+  commercial: 45
+  audience: 20
+  content: 35
+normalization:
+  video_gpm_reference: 100000
+  trend_slope_reference: 0.25
+s0:
+  category_ids: ['601602', '873864', '601627']
+s4:
+  min_brand_fit: 3

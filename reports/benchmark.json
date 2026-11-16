@@ -1,0 +1,795 @@
+{
+  "run_id": "7372009b22764b339fbcf0f3efb4bc4e",
+  "status": "done",
+  "mode": "live",
+  "mode_stored": "live",
+  "success_estimated": true,
+  "success_estimated_stages": [
+    "S3"
+  ],
+  "limit": 200,
+  "stages_success": {
+    "S0": {
+      "calls": 2,
+      "cache_hits": 0,
+      "credits": 0.2,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 1741,
+      "wall_time_ms": 2815
+    },
+    "S1a": {
+      "calls": 0,
+      "cache_hits": 0,
+      "credits": 0.0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 0,
+      "wall_time_ms": 407
+    },
+    "S1b": {
+      "calls": 114,
+      "cache_hits": 7,
+      "credits": 11.3,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 53070,
+      "wall_time_ms": 224987
+    },
+    "S2": {
+      "calls": 10,
+      "cache_hits": 0,
+      "credits": 0.0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 0,
+      "wall_time_ms": 644433
+    },
+    "S3": {
+      "calls": 64,
+      "cache_hits": 22,
+      "credits": 14.5,
+      "tokens_in": 335319,
+      "tokens_out": 41330,
+      "usd": 0.406479,
+      "latency_ms": 379012,
+      "wall_time_ms": 1581126
+    },
+    "S4": {
+      "calls": 5,
+      "cache_hits": 4,
+      "credits": 0.0,
+      "tokens_in": 20032,
+      "tokens_out": 3238,
+      "usd": 0.027167,
+      "latency_ms": 36844,
+      "wall_time_ms": 144717
+    }
+  },
+  "stages_total": {
+    "S0": {
+      "calls": 2,
+      "cache_hits": 0,
+      "credits": 0.2,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 1741,
+      "wall_time_ms": 2815
+    },
+    "S1a": {
+      "calls": 0,
+      "cache_hits": 0,
+      "credits": 0.0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 0,
+      "wall_time_ms": 407
+    },
+    "S1b": {
+      "calls": 116,
+      "cache_hits": 7,
+      "credits": 11.4,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 53204,
+      "wall_time_ms": 224987
+    },
+    "S2": {
+      "calls": 48,
+      "cache_hits": 0,
+      "credits": 0.0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "latency_ms": 0,
+      "wall_time_ms": 644433
+    },
+    "S3": {
+      "calls": 123,
+      "cache_hits": 22,
+      "credits": 16.0,
+      "tokens_in": 940076,
+      "tokens_out": 139103,
+      "usd": 1.226692,
+      "latency_ms": 1172289,
+      "wall_time_ms": 1581126
+    },
+    "S4": {
+      "calls": 18,
+      "cache_hits": 4,
+      "credits": 0.0,
+      "tokens_in": 76870,
+      "tokens_out": 10633,
+      "usd": 0.097527,
+      "latency_ms": 142192,
+      "wall_time_ms": 144717
+    }
+  },
+  "funnel": {
+    "S0": {
+      "in": 200,
+      "out": 200
+    },
+    "S1a": {
+      "in": 200,
+      "out": 60
+    },
+    "S1b": {
+      "in": 60,
+      "out": 40
+    },
+    "S2": {
+      "in": 40,
+      "out": 10
+    },
+    "S3": {
+      "in": 10,
+      "out": 9
+    },
+    "S4": {
+      "in": 9,
+      "out": 5
+    }
+  },
+  "totals_success": {
+    "calls": 195,
+    "cache_hits": 33,
+    "credits": 26.0,
+    "tokens_in": 355351,
+    "tokens_out": 44568,
+    "usd": 0.433646,
+    "wall_time_ms": 2598485
+  },
+  "totals_total": {
+    "calls": 307,
+    "cache_hits": 33,
+    "credits": 27.6,
+    "tokens_in": 1016946,
+    "tokens_out": 149736,
+    "usd": 1.324219,
+    "wall_time_ms": 2598485
+  },
+  "failed_calls": {
+    "api": 52,
+    "llm": 60
+  },
+  "units_success": {
+    "S0": {
+      "credits": 0.001,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 14.075,
+      "denominator": 200
+    },
+    "S1a": {
+      "credits": 0.0,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 2.035,
+      "denominator": 200
+    },
+    "S1b": {
+      "credits": 0.18833333333333335,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 3749.7833333333333,
+      "denominator": 60
+    },
+    "S2": {
+      "credits": 0.0,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 64443.3,
+      "denominator": 10
+    },
+    "S3": {
+      "credits": 1.6111111111111112,
+      "tokens_in": 37257.666666666664,
+      "tokens_out": 4592.222222222223,
+      "usd": 0.045164333333333334,
+      "wall_time_ms": 175680.66666666666,
+      "denominator": 9
+    },
+    "S4": {
+      "credits": 0.0,
+      "tokens_in": 4006.4,
+      "tokens_out": 647.6,
+      "usd": 0.0054334,
+      "wall_time_ms": 28943.4,
+      "denominator": 5
+    }
+  },
+  "units_total": {
+    "S0": {
+      "credits": 0.001,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 14.075,
+      "denominator": 200
+    },
+    "S1a": {
+      "credits": 0.0,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 2.035,
+      "denominator": 200
+    },
+    "S1b": {
+      "credits": 0.19,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 3749.7833333333333,
+      "denominator": 60
+    },
+    "S2": {
+      "credits": 0.0,
+      "tokens_in": 0.0,
+      "tokens_out": 0.0,
+      "usd": 0.0,
+      "wall_time_ms": 64443.3,
+      "denominator": 10
+    },
+    "S3": {
+      "credits": 1.7777777777777777,
+      "tokens_in": 104452.88888888889,
+      "tokens_out": 15455.888888888889,
+      "usd": 0.1362991111111111,
+      "wall_time_ms": 175680.66666666666,
+      "denominator": 9
+    },
+    "S4": {
+      "credits": 0.0,
+      "tokens_in": 15374.0,
+      "tokens_out": 2126.6,
+      "usd": 0.0195054,
+      "wall_time_ms": 28943.4,
+      "denominator": 5
+    }
+  },
+  "calibration": {
+    "content_vs_views_per_follower": {
+      "rho": 0.493728,
+      "n": 9,
+      "reason": null
+    },
+    "content_vs_video_gpm": {
+      "rho": -0.259416,
+      "n": 9,
+      "reason": null
+    }
+  },
+  "audience_placeholder": true,
+  "audience_placeholder_creators": 10,
+  "audience_creators_checked": 10,
+  "waste": {
+    "credits": 1.6,
+    "tokens_in": 661595,
+    "tokens_out": 105168,
+    "usd": 0.890573
+  },
+  "excluded_api_calls": {
+    "calls": 259,
+    "credits": 10.3
+  },
+  "funnel_config": {
+    "s1a_limit": 60,
+    "s1_limit": 40,
+    "s2_limit": 10,
+    "video_count": 3,
+    "recommendation_count": 5,
+    "daily_ui_limit": 10
+  },
+  "projections": {
+    "50": {
+      "successful_path": {
+        "candidates": 50,
+        "stages": {
+          "S0": {
+            "candidates": 50,
+            "credits": 0.05,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 0.7
+          },
+          "S1a": {
+            "candidates": 50,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 0.1
+          },
+          "S1b": {
+            "candidates": 50,
+            "credits": 9.4167,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 187.5
+          },
+          "S2": {
+            "candidates": 10,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 644.4
+          },
+          "S3": {
+            "candidates": 10,
+            "credits": 16.1111,
+            "tokens_in": 372577,
+            "tokens_out": 45922,
+            "usd": 0.451643,
+            "wall_time_s": 1756.8
+          },
+          "S4": {
+            "candidates": 5,
+            "credits": 0.0,
+            "tokens_in": 20032,
+            "tokens_out": 3238,
+            "usd": 0.027167,
+            "wall_time_s": 144.7
+          }
+        },
+        "totals": {
+          "credits": 25.5778,
+          "tokens_in": 392609,
+          "tokens_out": 49160,
+          "usd": 0.47881,
+          "wall_time_s": 2734.2
+        },
+        "s2_calendar_days": 1
+      },
+      "total_spent": {
+        "candidates": 50,
+        "stages": {
+          "S0": {
+            "candidates": 50,
+            "credits": 0.05,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 0.7
+          },
+          "S1a": {
+            "candidates": 50,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 0.1
+          },
+          "S1b": {
+            "candidates": 50,
+            "credits": 9.5,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 187.5
+          },
+          "S2": {
+            "candidates": 10,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 644.4
+          },
+          "S3": {
+            "candidates": 10,
+            "credits": 17.7778,
+            "tokens_in": 1044529,
+            "tokens_out": 154559,
+            "usd": 1.362991,
+            "wall_time_s": 1756.8
+          },
+          "S4": {
+            "candidates": 5,
+            "credits": 0.0,
+            "tokens_in": 76870,
+            "tokens_out": 10633,
+            "usd": 0.097527,
+            "wall_time_s": 144.7
+          }
+        },
+        "totals": {
+          "credits": 27.3278,
+          "tokens_in": 1121399,
+          "tokens_out": 165192,
+          "usd": 1.460518,
+          "wall_time_s": 2734.2
+        },
+        "s2_calendar_days": 1
+      }
+    },
+    "200": {
+      "successful_path": {
+        "candidates": 200,
+        "stages": {
+          "S0": {
+            "candidates": 200,
+            "credits": 0.2,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 2.8
+          },
+          "S1a": {
+            "candidates": 200,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 0.4
+          },
+          "S1b": {
+            "candidates": 60,
+            "credits": 11.3,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 225.0
+          },
+          "S2": {
+            "candidates": 10,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 644.4
+          },
+          "S3": {
+            "candidates": 10,
+            "credits": 16.1111,
+            "tokens_in": 372577,
+            "tokens_out": 45922,
+            "usd": 0.451643,
+            "wall_time_s": 1756.8
+          },
+          "S4": {
+            "candidates": 5,
+            "credits": 0.0,
+            "tokens_in": 20032,
+            "tokens_out": 3238,
+            "usd": 0.027167,
+            "wall_time_s": 144.7
+          }
+        },
+        "totals": {
+          "credits": 27.6111,
+          "tokens_in": 392609,
+          "tokens_out": 49160,
+          "usd": 0.47881,
+          "wall_time_s": 2774.1
+        },
+        "s2_calendar_days": 1
+      },
+      "total_spent": {
+        "candidates": 200,
+        "stages": {
+          "S0": {
+            "candidates": 200,
+            "credits": 0.2,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 2.8
+          },
+          "S1a": {
+            "candidates": 200,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 0.4
+          },
+          "S1b": {
+            "candidates": 60,
+            "credits": 11.4,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 225.0
+          },
+          "S2": {
+            "candidates": 10,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 644.4
+          },
+          "S3": {
+            "candidates": 10,
+            "credits": 17.7778,
+            "tokens_in": 1044529,
+            "tokens_out": 154559,
+            "usd": 1.362991,
+            "wall_time_s": 1756.8
+          },
+          "S4": {
+            "candidates": 5,
+            "credits": 0.0,
+            "tokens_in": 76870,
+            "tokens_out": 10633,
+            "usd": 0.097527,
+            "wall_time_s": 144.7
+          }
+        },
+        "totals": {
+          "credits": 29.3778,
+          "tokens_in": 1121399,
+          "tokens_out": 165192,
+          "usd": 1.460518,
+          "wall_time_s": 2774.1
+        },
+        "s2_calendar_days": 1
+      }
+    },
+    "500": {
+      "successful_path": {
+        "candidates": 500,
+        "stages": {
+          "S0": {
+            "candidates": 500,
+            "credits": 0.5,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 7.0
+          },
+          "S1a": {
+            "candidates": 500,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 1.0
+          },
+          "S1b": {
+            "candidates": 60,
+            "credits": 11.3,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 225.0
+          },
+          "S2": {
+            "candidates": 10,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 644.4
+          },
+          "S3": {
+            "candidates": 10,
+            "credits": 16.1111,
+            "tokens_in": 372577,
+            "tokens_out": 45922,
+            "usd": 0.451643,
+            "wall_time_s": 1756.8
+          },
+          "S4": {
+            "candidates": 5,
+            "credits": 0.0,
+            "tokens_in": 20032,
+            "tokens_out": 3238,
+            "usd": 0.027167,
+            "wall_time_s": 144.7
+          }
+        },
+        "totals": {
+          "credits": 27.9111,
+          "tokens_in": 392609,
+          "tokens_out": 49160,
+          "usd": 0.47881,
+          "wall_time_s": 2778.9
+        },
+        "s2_calendar_days": 1
+      },
+      "total_spent": {
+        "candidates": 500,
+        "stages": {
+          "S0": {
+            "candidates": 500,
+            "credits": 0.5,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 7.0
+          },
+          "S1a": {
+            "candidates": 500,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 1.0
+          },
+          "S1b": {
+            "candidates": 60,
+            "credits": 11.4,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 225.0
+          },
+          "S2": {
+            "candidates": 10,
+            "credits": 0.0,
+            "tokens_in": 0,
+            "tokens_out": 0,
+            "usd": 0.0,
+            "wall_time_s": 644.4
+          },
+          "S3": {
+            "candidates": 10,
+            "credits": 17.7778,
+            "tokens_in": 1044529,
+            "tokens_out": 154559,
+            "usd": 1.362991,
+            "wall_time_s": 1756.8
+          },
+          "S4": {
+            "candidates": 5,
+            "credits": 0.0,
+            "tokens_in": 76870,
+            "tokens_out": 10633,
+            "usd": 0.097527,
+            "wall_time_s": 144.7
+          }
+        },
+        "totals": {
+          "credits": 29.6778,
+          "tokens_in": 1121399,
+          "tokens_out": 165192,
+          "usd": 1.460518,
+          "wall_time_s": 2778.9
+        },
+        "s2_calendar_days": 1
+      }
+    }
+  },
+  "s2_view_credits_observed": 0.0,
+  "s2_view_price_config": 0.0,
+  "scaling_run": {
+    "run_id": "f5adab7df38f460ebea54ede55528760",
+    "status": "done",
+    "mode": "mock",
+    "limit": 50,
+    "stages_total": {
+      "S0": {
+        "calls": 1,
+        "cache_hits": 0,
+        "credits": 0.0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "usd": 0.0,
+        "latency_ms": 0,
+        "wall_time_ms": 1
+      },
+      "S1a": {
+        "calls": 0,
+        "cache_hits": 0,
+        "credits": 0.0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "usd": 0.0,
+        "latency_ms": 0,
+        "wall_time_ms": 0
+      },
+      "S1b": {
+        "calls": 100,
+        "cache_hits": 0,
+        "credits": 0.0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "usd": 0.0,
+        "latency_ms": 0,
+        "wall_time_ms": 264
+      },
+      "S2": {
+        "calls": 0,
+        "cache_hits": 0,
+        "credits": 0.0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "usd": 0.0,
+        "latency_ms": 0,
+        "wall_time_ms": 0
+      },
+      "S3": {
+        "calls": 70,
+        "cache_hits": 0,
+        "credits": 0.0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "usd": 0.0,
+        "latency_ms": 0,
+        "wall_time_ms": 257
+      },
+      "S4": {
+        "calls": 5,
+        "cache_hits": 0,
+        "credits": 0.0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "usd": 0.0,
+        "latency_ms": 0,
+        "wall_time_ms": 123
+      }
+    },
+    "funnel": {
+      "S0": {
+        "in": 50,
+        "out": 50
+      },
+      "S1a": {
+        "in": 50,
+        "out": 50
+      },
+      "S1b": {
+        "in": 50,
+        "out": 40
+      },
+      "S2": {
+        "in": 40,
+        "out": 10
+      },
+      "S3": {
+        "in": 10,
+        "out": 10
+      },
+      "S4": {
+        "in": 10,
+        "out": 5
+      }
+    },
+    "totals_total": {
+      "calls": 176,
+      "cache_hits": 0,
+      "credits": 0.0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "usd": 0.0,
+      "wall_time_ms": 645
+    }
+  }
+}

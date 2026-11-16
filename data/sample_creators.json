@@ -1,0 +1,326 @@
+[
+  {
+    "creator_id": "6798739018520839169",
+    "username": {
+      "value": "chanhbeauty93",
+      "status": "observed",
+      "raw_field": "Handle",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "profile_url": {
+      "value": "https://www.tiktok.com/@chanhbeauty93",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "followers": {
+      "value": 2400000,
+      "status": "observed",
+      "raw_field": "Followers",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "category": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Category",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "Kalodata creator detail shows no creator category (only a filter)"
+    },
+    "female_audience_percentage": {
+      "value": 60,
+      "status": "observed",
+      "raw_field": "Follower gender: Female",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "audience_age_distribution": {
+      "value": {
+        "18-24": "30.5%",
+        "25-34": "39.5%",
+        "35-44": "20%",
+        "45-54": "7.5%",
+        "55+": "2.5%"
+      },
+      "status": "observed",
+      "raw_field": "Follower age",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "audience_geography": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Top 5 Locations",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": null,
+      "note": "locked on trial plan: requires credits"
+    },
+    "gmv_30d": {
+      "value": 34060000000.000004,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "sales_volume_30d": {
+      "value": 134760,
+      "status": "observed",
+      "raw_field": "Item Sold",
+      "source": "https://www.kalodata.com/creator",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "video_revenue_30d": {
+      "value": 14100000000,
+      "status": "observed",
+      "raw_field": "Video Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "live_revenue_30d": {
+      "value": 18850000000,
+      "status": "observed",
+      "raw_field": "Live Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=6798739018520839169",
+      "collected_at": "2026-11-14T11:37:58.034725Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  },
+  {
+    "creator_id": "7039923617978975234",
+    "username": {
+      "value": "trangtrankoc",
+      "status": "observed",
+      "raw_field": "Handle",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "profile_url": {
+      "value": "https://www.tiktok.com/@trangtrankoc",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "followers": {
+      "value": 786600,
+      "status": "observed",
+      "raw_field": "Followers",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "category": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Category",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "Kalodata creator detail shows no creator category (only a filter)"
+    },
+    "female_audience_percentage": {
+      "value": 77.65,
+      "status": "observed",
+      "raw_field": "Follower gender: Female",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "audience_age_distribution": {
+      "value": {
+        "18-24": "64.08%",
+        "25-34": "26.27%",
+        "35-44": "6.01%",
+        "45-54": "1.79%",
+        "55+": "1.83%"
+      },
+      "status": "observed",
+      "raw_field": "Follower age",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "audience_geography": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Top 5 Locations",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": null,
+      "note": "locked on trial plan: requires credits"
+    },
+    "gmv_30d": {
+      "value": 25470000000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "sales_volume_30d": {
+      "value": 110080,
+      "status": "observed",
+      "raw_field": "Item Sold",
+      "source": "https://www.kalodata.com/creator",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "video_revenue_30d": {
+      "value": 2480000000,
+      "status": "observed",
+      "raw_field": "Video Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "live_revenue_30d": {
+      "value": 22430000000,
+      "status": "observed",
+      "raw_field": "Live Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7039923617978975234",
+      "collected_at": "2026-11-14T11:38:28.519346Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  },
+  {
+    "creator_id": "7072683155098272773",
+    "username": {
+      "value": "hannaholala",
+      "status": "observed",
+      "raw_field": "Handle",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "profile_url": {
+      "value": "https://www.tiktok.com/@hannaholala",
+      "status": "derived",
+      "raw_field": "View on TikTok",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "followers": {
+      "value": 2100000,
+      "status": "observed",
+      "raw_field": "Followers",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "category": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Category",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "Kalodata creator detail shows no creator category (only a filter)"
+    },
+    "female_audience_percentage": {
+      "value": 71.01,
+      "status": "observed",
+      "raw_field": "Follower gender: Female",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "audience_age_distribution": {
+      "value": {
+        "18-24": "22.4%",
+        "25-34": "49.5%",
+        "35-44": "19.42%",
+        "45-54": "5.47%",
+        "55+": "3.18%"
+      },
+      "status": "observed",
+      "raw_field": "Follower age",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "audience_geography": {
+      "value": null,
+      "status": "missing",
+      "raw_field": "Top 5 Locations",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": null,
+      "note": "locked on trial plan: requires credits"
+    },
+    "gmv_30d": {
+      "value": 22360000000,
+      "status": "observed",
+      "raw_field": "Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "sales_volume_30d": {
+      "value": 23580,
+      "status": "observed",
+      "raw_field": "Item Sold",
+      "source": "https://www.kalodata.com/creator",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "video_revenue_30d": {
+      "value": 2700000000,
+      "status": "observed",
+      "raw_field": "Video Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    },
+    "live_revenue_30d": {
+      "value": 17660000000,
+      "status": "observed",
+      "raw_field": "Live Revenue",
+      "source": "https://www.kalodata.com/creator/detail?id=7072683155098272773",
+      "collected_at": "2026-11-14T11:38:51.149676Z",
+      "period": "2026-10-15..2026-11-13",
+      "note": null
+    }
+  }
+]

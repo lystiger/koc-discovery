@@ -1,0 +1,11 @@
+s1a_limit: 60
+s1_limit: 40
+s2_limit: 10
+video_count: 3
+projection_base_candidates: 200
+daily_ui_limit: 10
+kalodata_min_interval_s: 2.0
+recommendation_count: 5
+rank_page_size: 100
+budget_vnd: 30000000
+cache_ttl_days: 7  # Kalodata rank/detail/video-rank responses older than this are refetched; analyses and LLM calls never expire

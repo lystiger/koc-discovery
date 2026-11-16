@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}{{ creator.nickname }} · Hồ sơ KOC{% endblock %}
+{% block content %}
+<header class="page-head"><div><p class="eyeline"><a href="/runs/{{ run.run_id }}">Trở lại đề xuất</a> · {{ run.run_id }}</p><h1>{{ creator.nickname }}</h1><p class="lede">{{ creator.handle }}{% if creator.mcn %} · {{ creator.mcn }}{% endif %}</p></div></header>
+<section class="panel profile-grid">
+  <div>
+    <p>{{ creator.bio }}</p>
+    <dl class="profile-facts">
+      <div><dt>Người theo dõi</dt><dd>{{ creator.followers | format_number }}</dd></div>
+      <div id="booking:{{ creator.creator_id }}"><dt>Phí booking ước tính</dt><dd>{{ creator.recommendation.est_cost_vnd | format_vnd }}</dd></div>
+      <div><dt>Điểm tổng</dt><dd>{{ creator.scores.final | format_score }} / 100</dd></div>
+    </dl>
+  </div>
+  {% set portrait = namespace(url=none, time=0) %}
+  {% for video in creator.videos %}{% for ev in video.evidence %}{% if not portrait.url and ev.frame_web_url %}{% set portrait.url = ev.frame_web_url %}{% set portrait.time = ev.start_s %}{% endif %}{% endfor %}{% endfor %}
+  {% if portrait.url %}{% if run.is_mock %}<div class="profile-image frame-placeholder profile-placeholder">Khung hình mô phỏng</div>{% else %}<img class="profile-image" src="{{ portrait.url }}" alt="Khung hình video">{% endif %}{% endif %}
+</section>
+<section class="section">
+  <div class="section-head"><h2>Điểm đánh giá</h2><span class="muted">Trọng số theo mô hình</span></div>
+  <div class="score-mini">
+    <div><span class="muted">Thương mại · 45%</span><strong>{{ creator.scores.commercial | format_score }} / 100</strong></div>
+    <div><span class="muted">Khán giả · 20%</span><strong>{% if creator.scores.audience is none %}Không có dữ liệu (Kalodata chỉ hiển thị số liệu mẫu){% else %}{{ creator.scores.audience | format_score }} / 100{% endif %}</strong></div>
+    <div><span class="muted">Nội dung · 35%</span><strong>{{ creator.scores.content | format_score }} / 100</strong></div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-head"><h2>Lý do chọn</h2><span class="muted">Mở mã bằng chứng để xem nguồn</span></div>
+  <ul class="evidence-list">
+    {% for reason in creator.recommendation.reasons_vi %}<li>{{ reason | safe }}</li>{% else %}<li>Chưa có lý do được ghi nhận.</li>{% endfor %}
+  </ul>
+  {% if creator.recommendation.caveats_vi %}
+  <h3 class="risk">Điểm cần kiểm tra trước khi booking</h3>
+  <ul class="evidence-list">{% for caveat in creator.recommendation.caveats_vi %}<li>{{ caveat | safe }}</li>{% endfor %}</ul>
+  {% endif %}
+</section>
+<section class="section">
+  <div class="section-head"><h2>Chỉ số thương mại</h2><span class="muted">Mỗi hàng có mã truy nguyên</span></div>
+  <div class="metrics-list" id="metrics">
+    {% for m in creator.metrics %}
+    <dl class="metric-item" id="{{ m.evidence_id }}">
+      <dt>{{ m.label_vi }}</dt>
+      <dd class="metric-value data">{% if m.name == 'video_gpm' %}{{ m.value | format_vnd }}{% elif 'share' in m.name or 'ratio' in m.name or 'fit' in m.name %}{{ (m.value * 100) | format_percent if m.value <= 1.0 else m.value | format_score }}{% elif m.name == 'engagement_per_view' %}{{ (m.value * 100) | format_percent }}{% else %}{{ m.value | format_measure }}{% endif %}</dd>
+      <dd class="metric-source">{{ m.source }} · {{ m.period }} · <code class="evidence-id">{{ m.evidence_id }}</code></dd>
+    </dl>
+    {% endfor %}
+  </div>
+</section>
+<section class="section">
+  <div class="section-head"><h2>Khán giả</h2><span class="muted">Tỷ lệ theo hồ sơ kênh</span></div>
+  <article class="panel">{% if audience_chart %}{{ audience_chart }}{% else %}<p>Không có dữ liệu (Kalodata chỉ hiển thị số liệu mẫu)</p>{% endif %}</article>
+</section>
+<section class="section">
+  <div class="section-head"><h2>Bằng chứng video</h2><span class="muted">{{ creator.videos | length }} video được chấm</span></div>
+  {% for video in creator.videos %}
+  <article class="video">
+    <div>
+      <h3>{{ video.title }}</h3>
+      {% if video.evidence | selectattr('quote_vi', 'equalto', 'Khung hình giả lập. Chưa có ảnh video thật.') | list %}<p class="muted">Khung hình mô phỏng; chưa có ảnh video thật.</p>{% endif %}
+      <p class="muted">{{ video.video_id }} · {{ video.views | format_number }} lượt xem · {{ video.duration | format_decimal }} giây</p>
+      {% if video.transcript_vi %}<p class="muted">Lời thoại</p><blockquote>{{ video.transcript_vi }}</blockquote>{% endif %}
+      {% if video.evidence %}<div class="frames">
+        {% for ev in video.evidence %}
+        <figure id="{{ ev.evidence_id }}">
+          {% if ev.frame_web_url %}{% if run.is_mock %}<div class="frame-placeholder" aria-hidden="true"></div>{% else %}<img loading="lazy" src="{{ ev.frame_web_url }}" alt="Khung hình video">{% endif %}{% endif %}
+          <figcaption>{{ ev.start_s | format_decimal }} giây{% if ev.quote_vi != 'Khung hình giả lập. Chưa có ảnh video thật.' %} · {{ ev.quote_vi }}{% endif %}</figcaption>
+        </figure>
+        {% endfor %}
+      </div>{% endif %}
+      {% if video.risks_vi %}<h3 class="risk">Rủi ro trong nội dung</h3><ul class="risk">{% for risk in video.risks_vi %}<li>{{ risk }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    <div>
+      <h3>Chấm theo tiêu chí</h3>
+      {{ rubric_charts[loop.index0] }}
+      <div class="table-wrap section"><p class="table-hint">Vuốt ngang để xem đầy đủ bảng.</p><table><thead><tr><th>Tiêu chí</th><th class="numeric">Điểm trên 5</th><th>Nhận xét</th></tr></thead><tbody>{% for item in video.rubric %}<tr><td>{{ item.label_vi }}</td><td class="numeric">{{ item.score }}</td><td>{{ item.rationale_vi }}</td></tr>{% endfor %}</tbody></table></div>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

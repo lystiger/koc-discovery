@@ -1,0 +1,137 @@
+{
+  "creators": 3,
+  "videos": 6,
+  "field_status": {
+    "creator.audience_age_distribution": {
+      "observed": 3
+    },
+    "creator.audience_geography": {
+      "missing": 3
+    },
+    "creator.category": {
+      "missing": 3
+    },
+    "creator.female_audience_percentage": {
+      "observed": 3
+    },
+    "creator.followers": {
+      "observed": 3
+    },
+    "creator.gmv_30d": {
+      "observed": 3
+    },
+    "creator.live_revenue_30d": {
+      "observed": 3
+    },
+    "creator.profile_url": {
+      "derived": 3
+    },
+    "creator.sales_volume_30d": {
+      "observed": 3
+    },
+    "creator.username": {
+      "observed": 3
+    },
+    "creator.video_revenue_30d": {
+      "observed": 3
+    },
+    "video.comments": {
+      "missing": 6
+    },
+    "video.estimated_video_gmv": {
+      "observed": 6
+    },
+    "video.likes": {
+      "missing": 6
+    },
+    "video.media_access_status": {
+      "derived": 6
+    },
+    "video.published_at": {
+      "observed": 6
+    },
+    "video.shares": {
+      "missing": 6
+    },
+    "video.thumbnail_url": {
+      "derived": 6
+    },
+    "video.transcript_status": {
+      "derived": 6
+    },
+    "video.video_url": {
+      "derived": 6
+    },
+    "video.views": {
+      "observed": 6
+    }
+  },
+  "tasks": {
+    "done": 9
+  },
+  "media_tests": {
+    "valid": 1
+  },
+  "conclusions": [
+    {
+      "q": 1,
+      "question": "Creator data extractable?",
+      "verdict": "VERIFIED",
+      "evidence": "9 of 11 creator fields populated for 3/3 creators (data/sample_creators.json); API creator/detail 31 fields, 200 (reports/api_probe_2026-11-15.json)"
+    },
+    {
+      "q": 2,
+      "question": "Audience demographics? (UI yes, API no)",
+      "verdict": "VERIFIED",
+      "evidence": "UI gender/age stored 3/3; API has no audience fields (reports/api_probe_2026-11-15.json); geography locked on trial"
+    },
+    {
+      "q": 3,
+      "question": "Commercial metrics?",
+      "verdict": "VERIFIED",
+      "evidence": "API full precision for revenue, video/live revenue, sales volume, followers; UI matches to display precision only (docs/DATA_DICTIONARY.md parity table)"
+    },
+    {
+      "q": 4,
+      "question": "Individual video URLs?",
+      "verdict": "PARTIALLY VERIFIED",
+      "evidence": "6 video_ids captured (data/sample_videos.json); TikTok URLs derived, not fetched; 1 Kalodata MP4 downloaded (docs/FACTS.md Method 5)"
+    },
+    {
+      "q": 5,
+      "question": "Frames + audio analyzable?",
+      "verdict": "PARTIALLY VERIFIED",
+      "evidence": "Frames: 12 extracted, Agy analysis valid (reports/agy/MEDIA_FINDINGS.md). Vietnamese ASR BLOCKED (docs/FACTS.md Media test); faster-whisper HF 429 (docs/FACTS.md line 70)"
+    },
+    {
+      "q": 6,
+      "question": "Missing or unreliable data?",
+      "verdict": "VERIFIED",
+      "evidence": "Likes/comments/shares missing 6/6; category and geography missing 3/3; Agy static-pouch error (frames 4, 12); cover .png is JPEG (docs/MEDIA_FEASIBILITY.md; docs/RISKS.md)"
+    },
+    {
+      "q": 7,
+      "question": "Permitted methods?",
+      "verdict": "PARTIALLY VERIFIED",
+      "evidence": "Open API documented (docs/FACTS.md Method 2); UI capture operator-supervised; ToS not in evidence (UNVERIFIED) (docs/EXTRACTION_METHODS.md)"
+    },
+    {
+      "q": 8,
+      "question": "Measured extraction and inference costs?",
+      "verdict": "PARTIALLY VERIFIED",
+      "evidence": "API 7 calls ~0.7 credit (reports/api_probe_2026-11-15.json, docs/FACTS.md); video URL 0.5 credit/call documented, not called; Agy tokens NOT captured, estimate 3,096 image tokens UNVERIFIED"
+    },
+    {
+      "q": 9,
+      "question": "Resume after interruption?",
+      "verdict": "PARTIALLY VERIFIED",
+      "evidence": "Ad hoc os._exit test: done 4/pending 4/running 1, resume to done 9 (docs/FACTS.md; script not in repo); tests/test_db.py:56 is a unit test; failed tasks not retried (src/kalodata_intake/db.py)"
+    },
+    {
+      "q": 10,
+      "question": "3-day MVP feasible?",
+      "verdict": "PARTIALLY VERIFIED",
+      "evidence": "Recommendation GO, scoped: API for commercial data, UI audience on shortlist only (trial cap 10 detail visits/day = 30 over 3 days, derived), video analysis on shortlist only. 3-day duration UNVERIFIED; API scale throughput UNMEASURED"
+    }
+  ]
+}

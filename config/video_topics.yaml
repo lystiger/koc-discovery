@@ -1,0 +1,54 @@
+# Từ khóa chủ đề theo loại sản phẩm (khóa = product_type của brief, xem product_categories.yaml).
+# S3 xếp hạng video của mỗi KOC theo mức khớp tiêu đề (+ tên sản phẩm gắn kèm nếu có) với các cụm từ này
+# và với chính tên sản phẩm của brief. Không phân biệt hoa thường và dấu tiếng Việt (đ = d).
+# Một cụm nhiều từ khớp khi đủ các từ đều xuất hiện (không cần đúng thứ tự), hoặc dính liền trong hashtag.
+# Không dùng từ quá chung ("kem", "da", "son" trùng "sơn" khi bỏ dấu): hãy dùng cụm đủ nghĩa.
+
+"Chống nắng":
+  - chống nắng
+  - kem chống nắng
+  - xịt chống nắng
+  - sunscreen
+  - sunblock
+  - sun cream
+  - spf
+  - uv
+  - chống tia uv
+
+"Dưỡng ẩm":
+  - dưỡng ẩm
+  - kem dưỡng
+  - cấp ẩm
+  - moisturizer
+  - moisturizing
+  - lotion
+
+"Serum":
+  - serum
+  - tinh chất
+  - vitamin c
+  - niacinamide
+  - retinol
+
+"Làm sạch":
+  - sữa rửa mặt
+  - rửa mặt
+  - tẩy trang
+  - cleanser
+  - micellar
+
+"Trang điểm":
+  - trang điểm
+  - makeup
+  - son môi
+  - son kem
+  - lipstick
+  - kem nền
+  - phấn phủ
+  - phấn nền
+  - cushion
+  - mascara
+  - kẻ mắt
+  - che khuyết điểm
+
+"Khác": []

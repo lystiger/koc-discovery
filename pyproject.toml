@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kalodata_intake"
+version = "2.0.0"
+requires-python = ">=3.12"
+dependencies = ["playwright", "httpx", "pydantic>=2", "typer", "pyyaml", "fastapi", "uvicorn", "jinja2", "google-genai"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+kalodata = "kalodata_intake.cli:app"
+koc = "koc.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
