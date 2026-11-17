@@ -19,7 +19,7 @@ Nhập sản phẩm và ngân sách. KOC Discovery quét creator TikTok Việt N
 
 Không cần khóa API, không cần mạng sau khi cài.
 
-**Cách nhanh nhất: Docker.** Chỉ cần Docker; build khoảng 2 phút, ảnh khoảng 1 GB.
+**Cách nhanh nhất: Docker.** Chỉ cần Docker; build lần đầu khoảng 10 phút (tải image nền và thư viện), ảnh khoảng 1 GB.
 
 ```bash
 docker build -t koc-discovery .
