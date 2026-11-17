@@ -87,8 +87,9 @@ def test_mock_run_is_resumable_cached_and_writes_five_recommendations(tmp_path, 
     assert report["stages"]["S3"]["candidates_out"] == 15
     assert report["projection_500"]["candidates"] == 500
     write_benchmark(conn, second_run)
-    assert (tmp_path / "reports/benchmark.json").exists()
-    assert "Ước tính cho 500 ứng viên" in (tmp_path / "docs/BENCHMARK.md").read_text()
+    assert (tmp_path / f"reports/report_{second_run}.json").exists()
+    assert "Ước tính cho 500 ứng viên" in (tmp_path / f"reports/report_{second_run}.md").read_text()
+    assert not (tmp_path / "docs/BENCHMARK.md").exists() and not (tmp_path / "reports/benchmark.json").exists()
 
     from koc.pipeline import resume
     completed = {table: conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]

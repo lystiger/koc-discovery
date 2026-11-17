@@ -45,7 +45,7 @@ chromium --remote-debugging-port=9333 --user-data-dir=/tmp/koc-chromium
 .venv/bin/koc run --cache-only       # chỉ dùng dữ liệu đã cache; cache miss thì chặn tác vụ, không gọi mạng
 .venv/bin/koc status                 # trạng thái từng lượt và số tác vụ theo trạng thái
 .venv/bin/koc benchmark --run <run_id>   # ghi reports/benchmark.json và docs/BENCHMARK.md, chỉ đọc DB
-.venv/bin/koc report --run <run_id>      # bộ sinh báo cáo cũ (src/koc/report.py), cũng ghi docs/BENCHMARK.md
+.venv/bin/koc report --run <run_id>      # bộ sinh báo cáo cũ (src/koc/report.py), ghi reports/report_<run_id>.{json,md}; không đụng docs/BENCHMARK.md
 ```
 
 `run` còn nhận `--mock` để chạy bằng dữ liệu giả, không tốn credit hay token. `koc categories --keyword <từ-khóa>` tìm danh mục Kalodata và ghi ID khớp vào `config/scoring.yaml`. Biến `KOC_DB` đổi đường dẫn database (mặc định `data/koc.db`). `docs/BENCHMARK.md` hiện tại do `koc benchmark` tạo; đừng sửa tay file này. [src/koc/cli.py](../src/koc/cli.py) [src/koc/benchmark.py](../src/koc/benchmark.py) [src/koc/benchmark_render.py](../src/koc/benchmark_render.py)

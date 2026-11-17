@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.0.6 (2026-11-17): sửa các mục còn mở
+
+### Sửa
+- Ước tính token đầu vào: mỗi khung hình tính tối thiểu 1.120 token (`min_image_tokens_per_frame`). Đo trên 31 lượt gọi chân dung: token thật 10,2k–12,1k bất kể độ dài âm thanh; ước tính cũ thấp hơn thật ở 28/30 video, nay bằng 1,5–2,1 lần thật ở cả 30.
+- `koc report` ghi `reports/report_<lượt>.{json,md}`, không còn ghi đè `docs/BENCHMARK.md` và `reports/benchmark.json` (của `koc benchmark`, được `koc estimate` đọc).
+- Đầu trang trên điện thoại: nút "Bắt đầu" không còn tràn mép phải ở 320–414 px; logo thu nhỏ trước.
+
+### Thêm
+- README, mục "Cho người chấm" bước 5: dừng rồi chạy tiếp (`scripts/kill_resume_test.sh`, cả trong Docker), `koc status`, `koc resume`.
+
+### Chưa làm (khép dự án ở đây)
+- Thiết kế lại cổng hợp thương hiệu theo chân dung; cần người chấm thứ hai và brief mới.
+- Chạy S3 song song.
+- Dữ liệu khán giả thật (Kalodata không cung cấp).
+- Chi phí C chính xác thay cho cận trên: 31 lượt gọi chân dung cũ chưa có nhãn lượt chạy.
+
 ## 2.0.5 (2026-11-17): Docker
 
 ### Thêm

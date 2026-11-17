@@ -52,6 +52,9 @@ pricing_per_1m:
 token_accounting:
   # Image: 258 tokens per 768x768 tile (flat 258 tokens for images <= 384px or <= 768px single tile)
   image_tokens_per_tile: 258
+  # Measured 2026-11-17 on 31 persona calls (8 frames of 360x640 + audio): input tokens stayed 10.2k-12.1k
+  # whatever the audio length, i.e. about 1,120 tokens per frame, not 258 per tile.
+  min_image_tokens_per_frame: 1120
   # Conservative text token bound: UTF-8 byte length (>= 1 byte/token in subword BPE tokenizers)
   bytes_per_text_token_upper_bound: 1.0
   # Audio token rate (32 tokens/s * ceil(duration)) plus fixed 10% safety margin

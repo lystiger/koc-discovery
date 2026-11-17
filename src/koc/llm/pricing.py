@@ -34,7 +34,8 @@ accounting for all request materials:
    Tile math applies: images <= 384x384 use 1 tile (258 tokens). Larger images
    are scaled and tiled into 768x768 tiles:
        tiles = ceil(width / 768) * ceil(height / 768)
-       image_tokens = ceil(total_tiles * 258 * 1.5)
+       image_tokens = ceil(sum(max(tiles * 258, min_image_tokens_per_frame)) * 1.5)
+   min_image_tokens_per_frame (config, default 0) is a measured per-frame floor.
 
 5. Audio Tokens (Conservative Estimate with 1.5 Safety Factor):
    Nominal rate is 32 tokens per second with 10% framing margin, scaled by a 1.5
@@ -207,6 +208,7 @@ def estimate_tokens_and_usd(
     cfg = load_pricing_config(config_path)
     rates = cfg.get("token_accounting", {})
     image_token_rate = int(rates.get("image_tokens_per_tile", 258))
+    min_image_tokens = int(rates.get("min_image_tokens_per_frame", 0))
     audio_token_rate = int(rates.get("audio_tokens_per_second", 32))
     audio_margin = float(rates.get("audio_safety_margin_pct", 0.10))
     safety_factor = float(rates.get("multimodal_safety_factor", 1.5))
@@ -218,14 +220,14 @@ def estimate_tokens_and_usd(
         overhead_tokens = int(rates.get("request_overhead_tokens", REQUEST_OVERHEAD_TOKENS))
 
     # Image tokens from real tile math, scaled by 1.5 safety factor
+    # Each frame costs at least min_image_tokens_per_frame (0 = tile math only)
     if frame_sizes is not None:
-        total_tiles = sum(calculate_image_tiles(w, h) for w, h in frame_sizes)
-        base_image = total_tiles * image_token_rate
+        base_image = sum(max(calculate_image_tiles(w, h) * image_token_rate, min_image_tokens) for w, h in frame_sizes)
     elif frame_paths is not None:
-        total_tiles = sum(calculate_image_tiles(*get_jpeg_dimensions(p)) for p in frame_paths)
-        base_image = total_tiles * image_token_rate
+        base_image = sum(max(calculate_image_tiles(*get_jpeg_dimensions(p)) * image_token_rate, min_image_tokens)
+                         for p in frame_paths)
     else:
-        base_image = max(0, n_frames) * image_token_rate
+        base_image = max(0, n_frames) * max(image_token_rate, min_image_tokens)
 
     image_tokens = int(math.ceil(base_image * safety_factor))
 

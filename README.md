@@ -7,10 +7,10 @@
 <p align="center"><em>From one product brief to five on-brand TikTok creators, within budget.</em></p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.0.5-315f53">
+  <img alt="version" src="https://img.shields.io/badge/version-2.0.6-315f53">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-315f53">
   <img alt="python" src="https://img.shields.io/badge/python-3.12%2B-315f53">
-  <img alt="tests" src="https://img.shields.io/badge/tests-574%20passed-315f53">
+  <img alt="tests" src="https://img.shields.io/badge/tests-575%20passed-315f53">
 </p>
 
 Nhập sản phẩm và ngân sách. KOC Discovery quét creator TikTok Việt Nam, chấm điểm và đề xuất nhóm KOC hợp thương hiệu, kèm lý do trỏ tới video.
@@ -24,8 +24,9 @@ Không cần khóa API, không cần mạng sau khi cài.
 ```bash
 docker build -t koc-discovery .
 docker run --rm -p 127.0.0.1:8765:8765 koc-discovery          # web: http://127.0.0.1:8765
-docker run --rm --network none koc-discovery test             # 574 bài kiểm thử, không mạng
+docker run --rm --network none koc-discovery test             # 575 bài kiểm thử, không mạng
 docker run --rm --network none koc-discovery koc run --mock   # pipeline bằng dữ liệu giả
+docker run --rm --network none -e PYTHON=python koc-discovery bash scripts/kill_resume_test.sh   # dừng giữa chừng rồi chạy tiếp
 ```
 
 Trong container web nghe `0.0.0.0` nên in "CẢNH BÁO BẢO MẬT"; `-p 127.0.0.1:...` giữ web chỉ mở trên máy bạn. Lượt chạy thật không nên chạy trong Docker: bước khán giả cần Chromium đã đăng nhập Kalodata trên máy (xem bước 4).
@@ -52,6 +53,23 @@ Mở "Bắt đầu chiến dịch", chọn Chống nắng, ngân sách 30.000.00
 **3. Chạy pipeline bằng dữ liệu giả (vài giây).** `KOC_DB=/tmp/mock.db .venv/bin/koc run --mock`. Mọi KOC là `koc1`, `koc2`...: chỉ kiểm tra luồng chạy, không phải kết quả.
 
 **4. Chạy thật (không bắt buộc).** Cần khóa Kalodata (trả phí) và OpenRouter, Chromium mở cổng CDP `9333` đã đăng nhập Kalodata cho bước khán giả ([hướng dẫn](docs/GUIDE.md)). Khoảng 43 phút, 28 credit, 0,5–1,5 USD. Xem trước bằng `koc run --dry-run`.
+
+**5. Dừng rồi chạy tiếp (1 phút, không cần khóa).** Mỗi bước là một dòng trong bảng `tasks`, ghi cùng transaction với kết quả; phản hồi API và mô hình được cache trong DB. Lượt bị dừng (Ctrl+C, kể cả `kill -9`) chạy tiếp đúng chỗ dừng, không gọi lại những gì đã trả phí.
+
+```bash
+bash scripts/kill_resume_test.sh      # SIGKILL ở S1b và S3, rồi koc resume --mock
+```
+
+Kết quả mong đợi: `SIGKILL + resume: S1b PASS` và `SIGKILL + resume: S3 PASS`. Script kiểm tra không có dòng trùng, không lặp lượt gọi trả phí, và resume lần nữa sau khi xong tốn 0 credit, 0 token.
+
+Với lượt chạy thật:
+
+```bash
+.venv/bin/koc status                  # lượt gần nhất, số tác vụ done / pending
+.venv/bin/koc resume                  # chạy tiếp lượt gần nhất (lượt mock: koc resume --mock)
+```
+
+Giới hạn: chỉ tiếp tục lượt gần nhất; không đổi chế độ mock/thật hay brief khi tiếp tục (bắt đầu lượt mới); lượt đã xong không chạy lại trừ khi thêm `--retry-failed` (tốn phí); một request đang bay đúng lúc bị dừng sẽ được gửi lại. `koc persona` và `koc faithfulness` cũng chạy tiếp được: chạy lại đúng lệnh, video đã có kết quả tốn 0 lượt gọi.
 
 ## Bàn giao
 
@@ -147,7 +165,7 @@ src/koc/web/        API FastAPI cho web
 web/                giao diện React
 config/             trọng số, giới hạn phễu, bảng giá, từ khóa sản phẩm
 prompts/            prompt có phiên bản (content_v3, reasons_v4, faithfulness_v1)
-tests/              574 bài kiểm thử, chạy offline
+tests/              575 bài kiểm thử, chạy offline
 scripts/            benchmark, xuất kết quả, phiếu chấm và chỉ số đánh giá
 docs/               kiến trúc, benchmark, kết quả, giới hạn, đánh giá (eval/), slide (pitch/)
 docs/research/      khảo sát Kalodata và tính khả thi ban đầu
@@ -173,7 +191,7 @@ Kem chống nắng, ngân sách 30.000.000 đ:
 - Tổng phí 28.500.000 đ. Chạy lại tốn 6,5 credit và 0,28 USD.
 - Cả dự án: 44,4 / 60 credit Kalodata, 1,62 / 5 USD mô hình.
 - Lý do khớp bằng chứng: 0,875. Lưu ý: 0,10, đang cải thiện.
-- 574 bài kiểm thử đạt. Mỗi mục được người duyệt độc lập chấm ĐẠT.
+- 575 bài kiểm thử đạt. Mỗi mục được người duyệt độc lập chấm ĐẠT.
 
 Từng KOC với lý do, trích dẫn video có mốc thời gian và chi phí theo giai đoạn: [docs/RESULTS.md](docs/RESULTS.md). Lượt chạy đầy đủ 200 ứng viên: 2.598 giây, 26,0 credit và 0,43 USD trên đường thành công; 27,6 credit và 1,32 USD tính cả lần thử lỗi ([BENCHMARK](docs/BENCHMARK.md)).
 

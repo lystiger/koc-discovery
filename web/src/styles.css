@@ -326,6 +326,9 @@ input[type='checkbox'] { width: 18px; height: 18px; accent-color: var(--green); 
 @media (max-width: 767px) {
   .site-header { min-height: 62px; padding: 8px 14px; gap: 8px; flex-wrap: nowrap; }
   .wordmark { width: 200px; height: 28px; }
+  /* 200 + search 38 + "Bắt đầu" 103 + gaps overflowed 375 px by 10 px: let the logo give way first */
+  .wordmark { flex: 0 1 200px; width: auto; min-width: 0; display: flex; align-items: center; }
+  .wordmark svg, .wordmark img { max-width: 100%; height: auto; }
   .site-header nav { display: none; }
   .search-trigger { max-width: 42px; min-height: 42px; margin-left: auto; padding: 8px 10px; gap: 6px; font-size: .78rem; }
   .search-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

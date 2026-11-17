@@ -186,7 +186,7 @@ def report(run: str = typer.Option(..., "--run")):
     conn = db.connect(DB_PATH)
     db.init_db(conn)
     result = write_benchmark(conn, run)
-    typer.echo(f"Đã ghi reports/benchmark.json và docs/BENCHMARK.md cho lượt chạy {run} ({result['candidates']['finalists']} ứng viên vào S4).")
+    typer.echo(f"Đã ghi reports/report_{run}.json và reports/report_{run}.md ({result['candidates']['finalists']} ứng viên vào S4).")
 
 
 @app.command()

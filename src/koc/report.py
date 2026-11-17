@@ -197,11 +197,13 @@ def benchmark(conn, run_id):
 
 
 def write_benchmark(conn, run_id):
+    """Legacy per-run report. Writes reports/report_<run>.{json,md} only: docs/BENCHMARK.md and
+    reports/benchmark.json belong to `koc benchmark` (estimate.py reads that JSON)."""
     result = benchmark(conn, run_id)
-    report_path = Path("reports/benchmark.json")
+    report_path = Path(f"reports/report_{run_id}.json")
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
-    docs_path = Path("docs/BENCHMARK.md")
+    docs_path = Path(f"reports/report_{run_id}.md")
     docs_path.parent.mkdir(parents=True, exist_ok=True)
     lines = ["# Chuẩn đo KOC Discovery", "", f"Lượt chạy `{run_id}` · trạng thái `{result['status']}` · chế độ `{result['mode']}`."]
     if result["mode"] == "mock":

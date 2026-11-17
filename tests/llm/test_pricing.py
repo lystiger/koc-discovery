@@ -1,3 +1,4 @@
+import math
 import json
 import pytest
 from pydantic import BaseModel
@@ -357,3 +358,16 @@ def test_max_call_upper_bound_usd_values(stable_pricing_config):
     # 3. Invalid kind raises ValueError
     with pytest.raises(ValueError, match="Loại cuộc gọi LLM"):
         max_call_upper_bound_usd("invalid_kind")
+
+
+def test_min_image_tokens_per_frame_floor(tmp_path):
+    import yaml
+    from koc.llm.pricing import estimate_tokens_and_usd, load_pricing_config
+    cfg = load_pricing_config(None)
+    base, _ = estimate_tokens_and_usd(frame_sizes=[(360, 640)] * 8, est_output_tokens=600)
+    cfg["token_accounting"]["min_image_tokens_per_frame"] = 0
+    p = tmp_path / "prices.yaml"
+    p.write_text(yaml.safe_dump(cfg), encoding="utf-8")
+    tiles_only, _ = estimate_tokens_and_usd(frame_sizes=[(360, 640)] * 8, est_output_tokens=600, config_path=p)
+    # 360x640 is one tile (258); the floor raises each of 8 frames to 1120, times the 1.5 safety factor
+    assert base - tiles_only == math.ceil(8 * 1120 * 1.5) - math.ceil(8 * 258 * 1.5)
