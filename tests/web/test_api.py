@@ -505,3 +505,54 @@ def test_saved_campaign_without_analysed_video_ids_is_enriched_on_get(tmp_path):
         expected = [row[0] for row in db.run_analyses(conn, stored["run_id"], creator["creator_id"])]
         assert expected and creator["analysed_video_ids"] == expected
     conn.close()
+
+
+def test_legacy_scoring_note_only_for_runs_scored_with_old_weights(tmp_path):
+    from koc.web.adapter import LEGACY_SCORING_NOTE_VI, legacy_scoring_note
+    conn = db.connect(tmp_path / "scoring.db")
+    db.init_db(conn)
+    parts = {"video_gpm": 100.0, "skincare_revenue_share": 100.0, "revenue_trend_slope": 50.0, "video_vs_live_share": 80.0, "follower_band_fit": 100.0}
+    old = (100 * 35 + 100 * 25 + 50 * 15 + 80 * 15 + 100 * 10) / 100
+    new = (100 * 46.67 + 50 * 20 + 80 * 20 + 100 * 13.33) / 100
+    db.upsert_score(conn, "r_old", "c1", "S1", old, parts)
+    db.upsert_score(conn, "r_new", "c1", "S1", new, parts)
+    assert legacy_scoring_note(conn, "r_old", "c1") == LEGACY_SCORING_NOTE_VI
+    assert legacy_scoring_note(conn, "r_new", "c1") is None
+    assert legacy_scoring_note(conn, "r_none", "c1") is None
+    conn.close()
+
+
+def _set_s1(database, weights):
+    parts = {"video_gpm": 100.0, "skincare_revenue_share": 100.0, "revenue_trend_slope": 50.0, "video_vs_live_share": 80.0, "follower_band_fit": 100.0}
+    score = sum(parts[name] * weight for name, weight in weights.items()) / 100
+    conn = db.connect(database)
+    conn.execute("UPDATE scores SET score=?, breakdown_json=? WHERE stage='S1'", (score, json.dumps(parts)))
+    conn.commit()
+    conn.close()
+
+
+def _campaign_notes(client):
+    created = client.post("/api/campaigns", json={
+        "brand_name": "Mây Daily", "product_type": "Chống nắng", "budget_vnd": 60_000_000, "count": 5,
+        "followers_min": 10_000, "followers_max": 300_000,
+        "target": {"gender": "Nữ", "age_groups": ["18-24", "25-34"]}, "avoid_same_mcn": True,
+    }).json()
+    picked = client.get(f"/api/campaigns/{created['campaign_id']}").json()["result"]["picked"]
+    assert picked
+    return {creator.get("scoring_note") for creator in picked}
+
+
+def test_legacy_scoring_note_on_campaign_and_operator_page(tmp_path):
+    from koc.web.adapter import LEGACY_SCORING_NOTE_VI
+    client, database = client_for(tmp_path)
+    _set_s1(database, {"video_gpm": 35, "skincare_revenue_share": 25, "revenue_trend_slope": 15, "video_vs_live_share": 15, "follower_band_fit": 10})
+    assert _campaign_notes(client) == {LEGACY_SCORING_NOTE_VI}
+    assert LEGACY_SCORING_NOTE_VI in client.get("/runs/run_mock_beauty_01/creators/c_linh_01").text
+
+
+def test_current_weight_run_shows_no_scoring_note(tmp_path):
+    from koc.web.adapter import LEGACY_SCORING_NOTE_VI
+    client, database = client_for(tmp_path)
+    _set_s1(database, {"video_gpm": 46.67, "skincare_revenue_share": 0, "revenue_trend_slope": 20, "video_vs_live_share": 20, "follower_band_fit": 13.33})
+    assert _campaign_notes(client) == {None}
+    assert LEGACY_SCORING_NOTE_VI not in client.get("/runs/run_mock_beauty_01/creators/c_linh_01").text

@@ -321,7 +321,7 @@ p.s { color: var(--muted); font-size: 19px; line-height: 1.45; margin-top: 16px;
     <div class="metrics">
       <div class="m"><b>44,4<small> / 60</small></b><span>Credit Kalodata, cả dự án</span></div>
       <div class="m"><b>1,62<small> / 5 USD</small></b><span>Chi phí mô hình, cả dự án</span></div>
-      <div class="m"><b>556</b><span>Bài kiểm thử đạt</span></div>
+      <div class="m"><b>560</b><span>Bài kiểm thử đạt</span></div>
       <div class="m"><b>0,875</b><span>Lý do đúng với bằng chứng</span></div>
       <div class="m warn"><b>0,10</b><span>Lưu ý có trích dẫn, cần sửa</span></div>
       <div class="m"><b>8<small> / 8</small></b><span>Tiêu chí A1–A8 đạt</span></div>
@@ -329,6 +329,38 @@ p.s { color: var(--muted); font-size: 19px; line-height: 1.45; margin-top: 16px;
     <p class="s">0 báo động nhầm trên 1.346 tiêu đề và trích dẫn thật.</p>
   </div>
   <span class="no">15</span>
+</section>
+
+<section class="slide full">
+  <div style="width:100%">
+    <div class="k">Người chấm mù so với AI</div>
+    <div class="metrics">
+      <div class="m"><b>26<small> / 29</small></b><span>Trích dẫn video đúng, 0 bịa</span></div>
+      <div class="m"><b>23<small> / 28</small></b><span>Video AI và người cùng đánh giá</span></div>
+      <div class="m"><b>0</b><span>Vi phạm ngân sách, số KOC, cổng</span></div>
+      <div class="m warn"><b>1<small> / 5</small></b><span>KOC người chấm cũng chọn</span></div>
+      <div class="m warn"><b>2<small> / 5</small></b><span>KOC tốt bị bỏ sót</span></div>
+      <div class="m warn"><b>0,59</b><span>nDCG@5 so với 10 KOC</span></div>
+    </div>
+    <p class="s">AI đọc video đúng. Người chọn KOC theo độ tuổi, phong cách Gen Z: hệ thống chưa đo, cần thêm tiêu chí hợp khán giả.</p>
+  </div>
+  <span class="no">16</span>
+</section>
+
+<section class="slide full">
+  <div style="width:100%">
+    <div class="k">Giới hạn và cách hệ thống tự bảo vệ</div>
+    <div class="prob" style="margin-top:8px">
+      <div class="pr"><div class="a">Dữ liệu khán giả là số mẫu</div><div class="arr">&rarr;</div><div class="b">Bỏ khỏi điểm, kèm lưu ý</div></div>
+      <div class="pr"><div class="a">Giá booking chỉ là ước tính</div><div class="arr">&rarr;</div><div class="b">Gắn nhãn, xác nhận với MCN</div></div>
+      <div class="pr"><div class="a">Tỷ trọng skincare là proxy</div><div class="arr">&rarr;</div><div class="b">Trọng số 0, không tính điểm</div></div>
+      <div class="pr"><div class="a">Sản phẩm mới chưa có lượt chạy</div><div class="arr">&rarr;</div><div class="b">Báo ước tính, hỏi trước khi trả tiền</div></div>
+      <div class="pr"><div class="a">Chỉ xem 3 video mỗi KOC</div><div class="arr">&rarr;</div><div class="b">Loại KOC nếu video tốt nhất dưới 3/5</div></div>
+      <div class="pr"><div class="a">Mô hình chấm, chưa có người chấm</div><div class="arr">&rarr;</div><div class="b">Chấm tay mù 30 video, 10 KOC</div></div>
+      <div class="pr"><div class="a">Một lượt mất 43 phút, chạy tuần tự</div><div class="arr">&rarr;</div><div class="b">Web trả ngay; chạy song song ~12–15 phút</div></div>
+    </div>
+  </div>
+  <span class="no">17</span>
 </section>
 
 <section class="slide full">
@@ -343,7 +375,7 @@ p.s { color: var(--muted); font-size: 19px; line-height: 1.45; margin-top: 16px;
     </div>
     <img src="assets/mascot.webp" alt="Linh vật" style="width:200px;margin-top:28px">
   </div>
-  <span class="no">16</span>
+  <span class="no">18</span>
 </section>
 
 <script>

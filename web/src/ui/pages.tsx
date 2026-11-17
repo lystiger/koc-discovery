@@ -6,7 +6,7 @@ import { Select } from '@base-ui/react/select';
 import { Slider } from '@base-ui/react/slider';
 import { Drawer } from 'vaul';
 import { toast } from 'sonner';
-import { Check, ChevronDown, ChevronLeft } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
 import { api, formatFollowers, formatVnd } from '../api';
 import { BudgetStrip } from './BudgetStrip';
 import type { Campaign, CampaignInput, Creator, CreatorDetail, PreviousRun, RunEstimate, RunProposal } from '../types';
@@ -105,7 +105,7 @@ function EvidenceNumbers({ ids, numbers }: { ids: string[]; numbers: Map<string,
 }
 
 const shortMetric: Record<string, string> = {
-  video_gpm: 'GPM video', skincare_revenue_share: 'tỷ trọng ngành chăm sóc da', revenue_trend_slope: 'xu hướng doanh thu',
+  video_gpm: 'GPM video', skincare_revenue_share: 'tỷ trọng ngành chăm sóc da (proxy, không tính điểm)', revenue_trend_slope: 'xu hướng doanh thu',
   video_vs_live_share: 'tỷ trọng video', engagement_per_view: 'tương tác trên lượt xem', follower_band_fit: 'khoảng người theo dõi',
 };
 
@@ -539,6 +539,7 @@ export function ProposalPage() {
     <BudgetStrip budgetVnd={input.budget_vnd} caption="Ngân sách dự kiến" onActiveChange={setBudgetHighlight}
       creators={picked.map((creator) => ({ id: creator.creator_id, name: creator.nickname, costVnd: creator.cost_vnd, href: `/koc/${creator.creator_id}` }))} />
     {shared.map((item, index) => <p className="notice shared-caveat" key={index}>{formatReasonNumbers(item.text)} <EvidenceMarkers ids={item.evidence_ids} numbers={numbers} creatorId={picked[0]?.creator_id ?? ''} /></p>)}
+    {picked.find((creator) => creator.scoring_note)?.scoring_note && <p className="notice shared-caveat">{picked.find((creator) => creator.scoring_note)?.scoring_note}</p>}
     <h2>Danh sách đề xuất</h2>
     <ol className="proposal-list">{picked.map((creator) => {
       const item = visibleById.get(creator.creator_id) ?? creator;
@@ -568,6 +569,7 @@ export function RunProposalPage() {
   const common = proposal.picks.length ? proposal.picks[0].caveats.filter((text) => !isAudienceCaveat(text) && proposal.picks.every((pick) => pick.caveats.some((value) => value.normalize('NFKC').replace(/\s+/g, ' ').trim().toLocaleLowerCase('vi') === text.normalize('NFKC').replace(/\s+/g, ' ').trim().toLocaleLowerCase('vi')))) : [];
   const commonDetails = proposal.picks[0]?.caveat_evidence.filter((item) => common.some((text) => text.normalize('NFKC').trim().toLocaleLowerCase('vi') === item.text.normalize('NFKC').trim().toLocaleLowerCase('vi'))) ?? [];
   const commonAudience = proposal.picks.map((pick) => pick.audience_note || pick.caveats.find(isAudienceCaveat) || pick.audience_text).find((value) => typeof value === 'string' && value.length) ?? null;
+  const scoringNote = proposal.picks.find((pick) => pick.scoring_note)?.scoring_note ?? null;
   const evidenceMap = new Map<string, number>();
   proposal.picks.flatMap((pick) => [...pick.reasons.flatMap((item) => item.evidence_ids), ...pick.caveat_evidence.flatMap((item) => item.evidence_ids), ...pick.video_evidence_ids]).forEach((id) => { if (!evidenceMap.has(id)) evidenceMap.set(id, evidenceMap.size + 1); });
   return <article className="page proposal run-proposal">
@@ -580,6 +582,7 @@ export function RunProposalPage() {
       creators={proposal.picks.map((creator) => ({ id: creator.creator_id, name: creator.nickname, costVnd: creator.cost_vnd, href: `/de-xuat/${proposal.run_id}/koc/${creator.creator_id}` }))} />
     {common.map((text, index) => <p className="notice shared-caveat" key={index}>{formatReasonNumbers(text)} <EvidenceMarkers ids={commonDetails[index]?.evidence_ids ?? []} numbers={evidenceMap} creatorId={proposal.picks[0]?.creator_id ?? ''} runId={proposal.run_id} /></p>)}
     {commonAudience && <p className="notice shared-caveat">{formatReasonNumbers(commonAudience)}</p>}
+    {scoringNote && <p className="notice shared-caveat">{scoringNote}</p>}
     <h2>Danh sách đề xuất</h2>
     <ol className="proposal-list run-proposal-list">{proposal.picks.map((creator) => {
       const strengths = creator.reasons.length ? creator.reasons : [{ text: creator.reason, evidence_ids: creator.evidence_ids }];
@@ -602,7 +605,7 @@ export function RunProposalPage() {
 }
 
 const metricLabels: Record<string, string> = {
-  video_gpm: 'GPM video (doanh thu trên 1.000 lượt xem)', skincare_revenue_share: 'Tỷ trọng doanh thu ngành chăm sóc da',
+  video_gpm: 'GPM video (doanh thu trên 1.000 lượt xem)', skincare_revenue_share: 'Tỷ trọng doanh thu ngành chăm sóc da (proxy, không tính điểm)',
   engagement_per_view: 'Tỷ lệ tương tác trên lượt xem', revenue_trend_slope: 'Xu hướng doanh thu',
   female_ratio: 'Tỷ lệ khán giả nữ', female_pct: 'Tỷ lệ khán giả nữ', age_18_24_share: 'Tỷ lệ khán giả 18–24 tuổi',
   age_25_34_share: 'Tỷ lệ khán giả 25–34 tuổi', follower_band_fit: 'Độ phù hợp với khoảng người theo dõi',
@@ -649,7 +652,7 @@ function CreatorDetailContent({ creator, runId }: { creator: CreatorDetail; runI
   const citedVideos = videos.filter((video) => video.evidence.length);
   const otherVideos = videos.filter((video) => !video.evidence.length);
   const components = { commercial: creator.scores.S1 ?? null, audience: creator.scores.S2 ?? null, content: creator.scores.S3 ?? null };
-  const commercialNames: [string, string][] = [['video_gpm', 'GPM video'], ['skincare_revenue_share', 'doanh thu ngành chăm sóc da'], ['revenue_trend_slope', 'xu hướng doanh thu']];
+  const commercialNames: [string, string][] = [['video_gpm', 'GPM video'], ['skincare_revenue_share', 'doanh thu ngành chăm sóc da (proxy, không tính điểm)'], ['revenue_trend_slope', 'xu hướng doanh thu']];
   const commercialBits = commercialNames.filter(([name]) => typeof creator.metrics[name]?.value === 'number').map(([name, label]) => `${label} ${formatMetric(name, creator.metrics[name].value as number)}`);
   const commercialWhy = commercialBits.length ? `Dựa trên ${commercialBits.join(', ')}.` : undefined;
   const rubricTotals = new Map<string, number[]>();
@@ -663,6 +666,7 @@ function CreatorDetailContent({ creator, runId }: { creator: CreatorDetail; runI
     <section className="detail-review"><h2>Tóm tắt</h2><p>{summaryText({ fit: creator.scores.S4 ?? 0, components, audience_age_missing: false })}</p>
       <ReviewColumns strengths={strengths} weaknesses={weaknesses} numbers={numbers} creatorId={creator.creator_id} runId={runId} detail videoEvidenceIds={creator.video_evidence_ids} />
       {(creator.audience_note || creator.audience_text) && <p className="notice">{creator.audience_note || creator.audience_text}</p>}
+      {creator.scoring_note && <p className="notice">{creator.scoring_note}</p>}
     </section>
     <CreatorBreakdown idSuffix="-koc" input={{ creatorId: creator.creator_id, runId, detail: true, fit: creator.scores.S4 ?? 0, parts: components, evidenceIds: [...numbers.keys()], videoIds: [], analysedVideoIds: videos.map((video) => video.video_id), audienceMissing: Boolean(creator.audience_text || creator.audience_note), commercialWhy, contentWhy }} />
     <section><h2>Số liệu chính</h2><dl className="metric-list">{keyMetrics.map(([name, metric]) => <MetricRow key={name} creator={creator} name={name} metric={metric} numbers={numbers} />)}</dl>
@@ -720,6 +724,6 @@ export function CreatorPage() {
   if (mobile) return <Drawer.Root open onOpenChange={(open) => { if (!open) navigate(-1); }} direction="bottom">
     <Drawer.Portal><Drawer.Overlay className="drawer-overlay" /><Drawer.Content className="drawer-content"><Drawer.Handle className="drawer-handle" /><Drawer.Title className="sr-only">Hồ sơ {creator.nickname}</Drawer.Title><div className="drawer-scroll" role="region" aria-label={`Thông tin ${creator.nickname}`} tabIndex={0}><CreatorDetailContent creator={creator} runId={runId} /></div></Drawer.Content></Drawer.Portal>
   </Drawer.Root>;
-  return <section className="page detail-page"><button className="back-link text-button" onClick={() => navigate(-1)}><ChevronLeft size={16} aria-hidden="true" /> Quay lại</button><CreatorDetailContent creator={creator} runId={runId} /></section>;
+  return <section className="page detail-page"><button className="text-link back-button" onClick={() => navigate(-1)}>Quay lại</button><CreatorDetailContent creator={creator} runId={runId} /></section>;
 }
 

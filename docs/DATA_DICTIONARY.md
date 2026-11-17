@@ -1,6 +1,6 @@
 # Data Dictionary
 
-Normalized model: `src/kalodata_intake/schemas.py` (`Creator`, `Video`). Labels: `src/kalodata_intake/mapping.py`. API field names: `docs/FACTS.md` (API section) and `reports/api_probe_2026-11-15.json`.
+Normalized model: `src/kalodata_intake/schemas.py` (`Creator`, `Video`). Labels: `src/kalodata_intake/mapping.py`. API field names: `docs/research/FACTS.md` (API section) and `reports/api_probe_2026-11-15.json`.
 
 Status column = status as stored in `data/intake.db` (what `kalodata intake validate` reports). Status values: `observed` (read from source), `derived` (built by capture code), `missing` (not available, with note). Values in `data/sample_creators.json` and `data/sample_videos.json`.
 
@@ -46,7 +46,7 @@ API-only creator fields (not in the normalized model): `creator_status`, `creato
 
 Provenance of video rows: `source` = the creator detail page the row was read from (`https://www.kalodata.com/creator/detail?id=<creator_id>`). The one video with its own detail visit (7705660238917143816) has `Media Access` overridden to `https://www.kalodata.com/video/detail?id=7705660238917143816`.
 
-API fields for video detail (from FACTS): `video_id`, `region`, `title`, `belonged_creator_id/handle`, product count, revenue, sales volume, views, GPM, ad views, ROAS, ad cost, ad flag, `ai_video`. `title` and ad metrics are not normalized. Ad metrics masked on UI video table (`****`) but ROAS shown on video detail page (`docs/FACTS.md` Method 3).
+API fields for video detail (from FACTS): `video_id`, `region`, `title`, `belonged_creator_id/handle`, product count, revenue, sales volume, views, GPM, ad views, ROAS, ad cost, ad flag, `ai_video`. `title` and ad metrics are not normalized. Ad metrics masked on UI video table (`****`) but ROAS shown on video detail page (`docs/research/FACTS.md` Method 3).
 
 ## Parity check: UI vs API (3 creators, period 30 d)
 

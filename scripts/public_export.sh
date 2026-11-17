@@ -10,9 +10,9 @@ src=$(git rev-parse --show-toplevel)
 rm -rf "$out"; mkdir -p "$out"
 git -C "$src" archive HEAD | tar -x -C "$out"
 cd "$out"
-rm -rf data/raw reports/agy/media_analysis_*.json reports/api_probe.json \
-  reports/*.log docs/kalodata_api docs/build/shots docs/build/logs \
-  reports/audit/shots docs/shots/v2_web docs/shots/v2_web2 .claude
+rm -rf data/raw docs/process/agy/media_analysis_*.json reports/api_probe.json \
+  docs/process/logs docs/research/kalodata_api docs/process/build/shots docs/process/build/logs \
+  docs/process/audit/shots docs/shots/v2_web docs/shots/v2_web2 .claude
 for f in docs/pitch/assets/frame_*.webp; do
   [ -e "$f" ] && magick "$f" -blur 0x14 "$f"
 done

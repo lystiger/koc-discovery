@@ -3,7 +3,7 @@
 Mở `index.html` trong trình duyệt. Phím mũi tên, PageUp, PageDown hoặc Space chuyển slide. In ra PDF: mỗi slide một trang 1280 x 720.
 
 Thiết kế:
-- Bảng màu và font theo `design-system/koc-discovery/MASTER.md` (hướng A "Bản đề xuất"): giấy `#f6f3ee`, mực `#24312b`, xanh `#315f53`, xanh nhạt `#dce8e1`; Newsreader cho tiêu đề, Be Vietnam Pro cho chữ.
+- Bảng màu và font theo `design/system/koc-discovery/MASTER.md` (hướng A "Bản đề xuất"): giấy `#f6f3ee`, mực `#24312b`, xanh `#315f53`, xanh nhạt `#dce8e1`; Newsreader cho tiêu đề, Be Vietnam Pro cho chữ.
 - `ui-ux-pro-max` (truy vấn "pitch deck creator marketing editorial") gợi ý mẫu "Scroll-Triggered Storytelling" và kiểu Brutalism. Giữ mẫu kể chuyện theo cuộn; bỏ Brutalism vì trái với hướng đã duyệt.
 - Mỗi slide một hình lớn hoặc một con số lớn, tối đa khoảng 20 chữ.
 

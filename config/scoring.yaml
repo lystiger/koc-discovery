@@ -1,9 +1,11 @@
+# skincare_revenue_share is a proxy (total revenue, not category revenue): stored, not scored (weight 0).
+# The other four keep their old ratio 35:15:15:10, rescaled to sum 100.
 s1_weights:
-  video_gpm: 35
-  skincare_revenue_share: 25
-  revenue_trend_slope: 15
-  video_vs_live_share: 15
-  follower_band_fit: 10
+  video_gpm: 46.67
+  skincare_revenue_share: 0
+  revenue_trend_slope: 20
+  video_vs_live_share: 20
+  follower_band_fit: 13.33
 final_weights:
   commercial: 45
   audience: 20

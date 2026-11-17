@@ -23,7 +23,7 @@ from tests.web.fixtures.seed import seed_fixture_db
 ROOT = Path(__file__).resolve().parents[3]
 BASE = ""
 AXE = ROOT / "web/node_modules/axe-core/axe.min.js"
-SHOTS = ROOT / "docs/build/shots/readability"
+SHOTS = ROOT / "docs/process/build/shots/readability"
 SHOTS2 = ROOT / "docs/shots/v2_web2"
 
 

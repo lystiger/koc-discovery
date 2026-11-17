@@ -3,7 +3,7 @@
 Per CONTRACTS.md, reads via koc.queries and provides enriched data
 structures for server-rendered Jinja templates. Missing queries are
 handled here with read-only SQL on contract tables, matching
-docs/build/CHANGE_REQUEST_web.md.
+docs/process/build/CHANGE_REQUEST_web.md.
 """
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ CRITERIA_VI = {
 
 METRIC_LABELS_VI = {
     "video_gpm": "GPM video (doanh thu trên 1.000 lượt xem)",
-    "skincare_revenue_share": "Tỷ trọng doanh thu ngành chăm sóc da",
+    "skincare_revenue_share": "Tỷ trọng doanh thu ngành chăm sóc da (proxy, không tính điểm)",
     "engagement_per_view": "Tỷ lệ tương tác trên lượt xem",
     "revenue_trend_slope": "Mức tăng trưởng doanh thu",
     "female_ratio": "Tỷ lệ người theo dõi là Nữ",
@@ -71,6 +71,23 @@ def media_web_url(frame_path: str) -> str:
     else:
         rel = parts[-1:]
     return "/media/" + "/".join(rel)
+
+
+LEGACY_SCORING_NOTE_VI = "Điểm lượt này tính theo trọng số cũ (có tỷ trọng ngành proxy)."
+
+
+def legacy_scoring_note(conn: sqlite3.Connection, run_id: str | None, creator_id: str) -> str | None:
+    """LEGACY_SCORING_NOTE_VI when the stored S1 differs from S1 recomputed from its stored breakdown under the current weights."""
+    row = conn.execute("SELECT score,breakdown_json FROM scores WHERE run_id=? AND creator_id=? AND stage='S1'", (run_id, creator_id)).fetchone() if run_id else None
+    if not row or row[0] is None:
+        return None
+    breakdown = parse_json_safe(row[1], {})
+    weights = load_config()["scoring"]["s1_weights"]
+    try:
+        current = sum(float(breakdown[name]) * weight for name, weight in weights.items()) / 100
+    except (KeyError, TypeError, ValueError):
+        return None
+    return LEGACY_SCORING_NOTE_VI if abs(current - float(row[0])) > 0.05 else None
 
 
 def parse_json_safe(data: Any, default: Any = None) -> Any:
@@ -477,6 +494,7 @@ def get_creator_full_detail(conn: sqlite3.Connection, run_id: str, creator_id: s
         "bio": data.get("bio", ""),
         "mcn": data.get("mcn"),
         "followers": data.get("creator_followers") or data.get("followers") or 0,
+        "scoring_note": legacy_scoring_note(conn, run_id, creator_id),
         "scores": {
             "commercial": round(s1_score, 1),
             "audience": None if s2_score is None else round(s2_score, 1),

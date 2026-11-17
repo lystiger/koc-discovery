@@ -44,7 +44,7 @@ Phễu lọc, bước rẻ chạy trước, bước đắt chạy trên ít KOC:
 | Lý do khớp bằng chứng | 0,875 (teetamofficial 1,00, meixiuriviu 0,875, còn lại 0,833) | cao |
 | Lưu ý có trích dẫn | 0,10 | cần cải thiện |
 | Báo động nhầm của bộ chống injection | 0 trên 941 tiêu đề và 405 trích dẫn thật | 0 |
-| Bài kiểm thử | 556 đạt, 1 bỏ qua | tất cả đạt |
+| Bài kiểm thử | 560 đạt, 1 bỏ qua | tất cả đạt |
 | Tiêu chí A1 đến A8 | 8 / 8 gộp sau khi người duyệt chấm ĐẠT | 8 / 8 |
 
 Phần mã bảo đảm: bọc dữ liệu, danh sách mã bằng chứng, điểm 0 đến 5, thứ hạng từ số liệu. Phần không bảo đảm: mô hình có làm theo lệnh chèn hay không; cảnh báo chỉ giúp phát hiện.

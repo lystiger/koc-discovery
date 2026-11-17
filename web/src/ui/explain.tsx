@@ -52,7 +52,7 @@ export function ScoringMethod({ idSuffix = '' }: { idSuffix?: string }) {
     <h2 id={`method-title${idSuffix}`}>Cách chấm điểm</h2>
     <ol>
       <li><strong>Bước 0, tìm ứng viên:</strong> quét các KOC TikTok bán hàng trong danh mục sản phẩm (khoảng 200 ứng viên).</li>
-      <li><strong>Bước 1, thương mại:</strong> chấm doanh thu video, tỷ trọng ngành chăm sóc da và xu hướng bán hàng; giữ lại 40 KOC cao điểm.</li>
+      <li><strong>Bước 1, thương mại:</strong> chấm GPM video, xu hướng doanh thu, tỷ trọng video so với live và dải người theo dõi (tỷ trọng ngành chăm sóc da chỉ là proxy, không tính điểm); giữ lại 40 KOC cao điểm.</li>
       <li><strong>Bước 2, khán giả:</strong> đọc giới tính và độ tuổi khán giả cho 10 KOC. Nếu nguồn chỉ có số liệu mẫu thì ghi “chưa có dữ liệu” và bỏ phần này khỏi điểm.</li>
       <li><strong>Bước 3, nội dung:</strong> máy xem tối đa 3 video của mỗi KOC và chấm theo bảng tiêu chí (mở đầu, rõ sản phẩm, trình bày, cam kết, kêu gọi mua, phù hợp thương hiệu).</li>
       <li><strong>Bước 4, chọn nhóm:</strong> ghép điểm, loại KOC không hợp thương hiệu, chọn nhóm vừa ngân sách.</li>

@@ -26,6 +26,7 @@ export type Creator = {
   video_evidence_ids?: string[];
   analysed_video_ids?: string[];
   audience_note?: string | null;
+  scoring_note?: string | null;
   caveats?: { text: string; evidence_ids: string[] }[];
   reasons?: { text: string; evidence_ids: string[] }[];
 };
@@ -87,6 +88,7 @@ export type CreatorDetail = {
   metrics: Record<string, { value: unknown; source: string | null }>;
   audience_text?: string | null;
   audience_note?: string | null;
+  scoring_note?: string | null;
   scores: Record<string, number>;
   reasons: { text: string; evidence_ids: string[] }[];
   caveats: { text: string; evidence_ids: string[] }[];
@@ -129,6 +131,7 @@ export type RunProposal = {
     caveats: string[];
     caveat_evidence: { text: string; evidence_ids: string[] }[];
     audience_note?: string | null;
+    scoring_note?: string | null;
     video_evidence_ids: string[];
     analysed_video_ids?: string[];
     evidence_count: number;

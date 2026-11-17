@@ -22,6 +22,7 @@
     <div><span class="muted">Khán giả · 20%</span><strong>{% if creator.scores.audience is none %}Không có dữ liệu (Kalodata chỉ hiển thị số liệu mẫu){% else %}{{ creator.scores.audience | format_score }} / 100{% endif %}</strong></div>
     <div><span class="muted">Nội dung · 35%</span><strong>{{ creator.scores.content | format_score }} / 100</strong></div>
   </div>
+  {% if creator.scoring_note %}<p class="muted">{{ creator.scoring_note }}</p>{% endif %}
 </section>
 <section class="section">
   <div class="section-head"><h2>Lý do chọn</h2><span class="muted">Mở mã bằng chứng để xem nguồn</span></div>

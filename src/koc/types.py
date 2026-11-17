@@ -1,4 +1,4 @@
-"""Shared types between core and llm module. FROZEN: see docs/build/CONTRACTS.md; change only via orchestrator."""
+"""Shared types between core and llm module. FROZEN: see docs/process/build/CONTRACTS.md; change only via orchestrator."""
 from __future__ import annotations
 
 from typing import Protocol

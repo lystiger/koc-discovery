@@ -11,7 +11,7 @@ from urllib.request import urlopen
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[3]
-SHOTS = ROOT / "docs/build/shots/readability"
+SHOTS = ROOT / "docs/process/build/shots/readability"
 AXE = ROOT / "web/node_modules/axe-core/axe.min.js"
 INPUT = {
     "brand_name": "Mây Da",

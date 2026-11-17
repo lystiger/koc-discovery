@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, field_validator
 from koc import db, queries
 from koc.web import campaigns
 from koc.stages import placeholder_audience_creators
-from koc.web.adapter import METRIC_LABELS_VI, analysed_video_ids, get_run_proposal, media_web_url
+from koc.web.adapter import METRIC_LABELS_VI, analysed_video_ids, legacy_scoring_note, get_run_proposal, media_web_url
 from koc.web.matching_api import AUDIENCE_METRIC_NAMES, EVIDENCE_PATTERN, _done_run_ids, _estimated_cost, _evidence_target_exists, _json, _reason, display_reason_text, normalize_result, result_for_campaign
 
 
@@ -151,6 +151,7 @@ def _campaign_review_data(conn, result):
             (creator["creator_id"], score_run["run_id"] if score_run else ""),
         ).fetchone()
         rec = _json(recommendation[0], {}) if recommendation else {}
+        creator["scoring_note"] = legacy_scoring_note(conn, saved_run_id or (score_run["run_id"] if score_run else None), creator["creator_id"])
         cited = rec.get("cited_evidence_ids", [])
         creator["reasons"], reason_video_ids = _format_review(conn, creator["creator_id"], rec.get("reasons_vi", []), cited)
         creator["caveats"], caveat_video_ids = _format_review(conn, creator["creator_id"], rec.get("caveats_vi", []), cited)
@@ -257,6 +258,7 @@ def _creator_detail(conn, creator_id: str, run_id: str | None = None):
         "audience_text": "Không có dữ liệu (Kalodata chỉ hiển thị số liệu mẫu)" if placeholder_audience else None,
         "audience_note": audience_notes[0]["text"] if audience_notes else None,
         "scores": scores,
+        "scoring_note": legacy_scoring_note(conn, score_run, creator_id),
         "reasons": reasons,
         "caveats": caveats,
         "video_evidence_ids": list(dict.fromkeys([*reason_video_ids, *caveat_video_ids])),
@@ -334,6 +336,7 @@ def get_run_proposal_api(run_id: str, request: Request):
                 )
                 pick["reasons"], video_ids = _format_review(conn, pick["creator_id"], [reason], evidence_ids, run_id)
                 cited_ids = evidence_ids
+            pick["scoring_note"] = legacy_scoring_note(conn, run_id, pick["creator_id"])
             pick["reason"] = pick["reasons"][0]["text"]
             pick["evidence_ids"] = list(dict.fromkeys(value for item in pick["reasons"] for value in item["evidence_ids"]))
             caveats = [

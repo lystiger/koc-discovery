@@ -12,9 +12,9 @@ def test_s1_score_uses_fixture_creator_values():
     assert scored["metrics"]["video_gpm"] == 150931.01
     assert scored["metrics"]["video_vs_live_share"] == fixture["video_revenue"] / (fixture["video_revenue"] + fixture["live_revenue"])
     assert scored["metrics"]["skincare_revenue_share"] is None
+    b = scored["breakdown"]
     assert scored["score"] == round(
-        35 + 0 + scored["breakdown"]["revenue_trend_slope"] * .15
-        + scored["breakdown"]["video_vs_live_share"] * .15,
+        b["video_gpm"] * .4667 + b["revenue_trend_slope"] * .20 + b["video_vs_live_share"] * .20 + b["follower_band_fit"] * .1333,
         4,
     )
     assert scored["evidence"]["video_gpm"] == f"metric:{fixture['creator_id']}:video_gpm"
@@ -48,3 +48,15 @@ def test_s1a_uses_only_rank_row_fields():
                                  "live_revenue": 900, "creator_followers": 5000,
                                  "category_list": ["Fashion"]})
     assert first > second
+
+
+def test_s1_weights_sum_100_and_skincare_share_not_scored():
+    from koc.config import load_config
+    weights = load_config()["scoring"]["s1_weights"]
+    assert round(sum(weights.values()), 2) == 100
+    assert weights["skincare_revenue_share"] == 0
+    creator = {"video_gpm": 50000, "revenue": 100, "video_revenue": 100, "live_revenue": 0, "creator_followers": 60000}
+    low = score_creator("c", creator, [], skincare_revenue=0)
+    high = score_creator("c", creator, [], skincare_revenue=100)
+    assert low["score"] == high["score"]
+    assert high["metrics"]["skincare_revenue_share"] == 1.0  # still stored

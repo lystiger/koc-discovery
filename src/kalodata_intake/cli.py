@@ -211,7 +211,7 @@ def media_record(file: Path, db_path: str = DB_OPTION) -> None:
 @app.command("report")
 def report(
     db_path: str = DB_OPTION,
-    out: Path = typer.Option("reports/feasibility.json", "--out"),
+    out: Path = typer.Option("docs/research/feasibility.json", "--out"),
 ) -> None:
     """Dump coverage, task and media counts to JSON."""
     conn = _open(db_path)
