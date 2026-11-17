@@ -7,7 +7,7 @@
 <p align="center"><em>From one product brief to five on-brand TikTok creators, within budget.</em></p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.0.0-315f53">
+  <img alt="version" src="https://img.shields.io/badge/version-2.0.1-315f53">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-315f53">
   <img alt="python" src="https://img.shields.io/badge/python-3.12%2B-315f53">
   <img alt="tests" src="https://img.shields.io/badge/tests-560%20passed-315f53">

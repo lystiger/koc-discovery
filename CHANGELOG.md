@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.0.1 (2026-11-17): đo lường mở rộng
+
+### Thêm
+- `docs/RESULTS.md`: 5 KOC kèm lý do, trích dẫn video có mốc giây, điểm, phí, chi phí và thời gian từng giai đoạn (`scripts/results_doc.py`).
+- Đánh giá thủ công mù (`docs/eval/`): phiếu 30 video, 10 KOC, 46 trích dẫn; tiêu chí ghi trước; `scripts/eval_sheets.py` và `scripts/eval_metrics.py` tính Precision@5, nDCG@5, độ đúng bằng chứng, độ đồng thuận hợp thương hiệu, vi phạm yêu cầu cứng, KOC bị bỏ sót.
+- Kết quả vòng đầu: trích dẫn 26/29 đúng, 0 bịa; đồng thuận video 23/28; Precision@5 1/5 (chấm mù); 2/5 KOC tốt bị bỏ sót.
+- `docs/LIMITATIONS.md` và slide "Giới hạn", slide "Người chấm mù so với AI".
+- README: kiến trúc, quyết định chính, giới hạn, hướng mở rộng, đánh giá chất lượng và cách dựng golden dataset, cấu trúc repo, bảng bàn giao.
+- Ghi chú "điểm tính theo trọng số cũ" trên mọi trang hiện điểm của lượt chạy cũ.
+
+### Đổi
+- Trọng số tỷ trọng doanh thu ngành (proxy, gần như ai cũng 100%) về 0; các trọng số S1 còn lại chia lại. Thứ tự top 5 không đổi.
+- Điểm độ trung thực tách "Lý do" (0,875) và "Lưu ý"; lưu ý chưa xác minh khán giả không tính.
+- Cảnh báo chèn lệnh nhận cả văn bản không dấu, nhiều khoảng trắng, và chạy cả khi đọc từ cache.
+- Sắp xếp lại repo: lịch sử xây dựng vào `docs/process/`, khảo sát vào `docs/research/`, hệ thống thiết kế vào `design/system/`.
+- Nút "Quay lại" trên trang KOC cùng kiểu với "Về trang chủ".
+
 ## 2.0.0 (2026-11-17)
 
 ### Thêm
