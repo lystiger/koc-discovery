@@ -7,7 +7,7 @@
 <p align="center"><em>From one product brief to five on-brand TikTok creators, within budget.</em></p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.0.1-315f53">
+  <img alt="version" src="https://img.shields.io/badge/version-2.0.2-315f53">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-315f53">
   <img alt="python" src="https://img.shields.io/badge/python-3.12%2B-315f53">
   <img alt="tests" src="https://img.shields.io/badge/tests-560%20passed-315f53">
@@ -228,6 +228,87 @@ Hệ thống chứng minh được quy trình và chi phí; độ đúng của l
 | Golden dataset lớn hơn | 3 loại sản phẩm, 2 người chấm, brief giữ kín để đo | Buộc lưu ý trích dẫn bằng chứng (độ trung thực lưu ý 0,10) |
 | Từ điển tiếng lóng tiếng Việt | Bảng từ lóng giới trẻ và cách nói của KOC ("mấy vợ", "bụp liền", "chốt đơn"...) đưa vào prompt phân tích video và lưu trong `config/` | Vòng kiểm bằng chứng: mô hình ghi "mấy vợ" thành "mấy bà"; ý vẫn đúng nhưng mất sắc thái hướng tới khán giả trẻ |
 | Triển khai cho nhóm | Thêm đăng nhập và phân quyền trước khi mở web ra mạng | Hiện chỉ chạy trên máy |
+
+## Kiến trúc tương lai (v2.0.2)
+
+Đây là kế hoạch, chưa xây. Mọi con số thời gian dưới đây là ước tính, CHƯA ĐO.
+
+Các stage giữ nguyên; thay đổi chính là hàng đợi chung và các nhóm worker chạy song song, mỗi nhóm có giới hạn riêng.
+
+```mermaid
+flowchart LR
+  W[Web / CLI] --> Q[(Hàng đợi tasks)]
+  Q --> K[Worker Kalodata API<br/>chung 1 giới hạn tốc độ]
+  Q --> B[Worker trình duyệt S2<br/>tài khoản dịch vụ]
+  Q --> V[Worker video S3<br/>5–10 luồng]
+  V --> L[LLM<br/>trần USD chung]
+  K --> C[(Cache 7 ngày)]
+  B --> C
+  V --> C
+  C --> R[S4: xếp hạng + lý do]
+  R --> W
+```
+
+### Tăng tốc tìm và lọc KOC
+
+| Giai đoạn | Hiện tại (lượt đầy đủ) | Kế hoạch | Giới hạn còn lại |
+|---|---|---|---|
+| S3 phân tích video | 1.581 giây, 30 video lần lượt | 5–10 thread worker trên bảng `tasks`; việc chủ yếu là chờ tải video và chờ LLM nên thread đủ dùng. Ước tính 3–5 phút | Giới hạn tốc độ của nhà cung cấp LLM |
+| S1b số liệu thương mại | 225 giây | Nhiều worker dùng chung một bộ đếm tốc độ (token bucket) | Kalodata 2 giây/request: song song không vượt được giới hạn này |
+| S2 khán giả | 644 giây | Gói Kalodata trả phí có API khán giả thay cho trình duyệt | Tài khoản trial mở 10 trang/ngày |
+| Cả lượt | 2.598 giây (≈ 43 phút) | 12–15 phút | |
+| Tìm trên web | Khớp sản phẩm với các lượt đã chạy | Chỉ mục SQLite FTS5 trên tên KOC, sản phẩm, lời nói trong video: tìm trong vài mili giây | Chỉ tìm được trong dữ liệu đã có |
+| 500+ ứng viên | Giới hạn S0–S2 trong `config/pipeline.yaml` | SQLite sang Postgres khi nhiều worker cùng ghi | Credit dự báo 29,7 cho 500 ứng viên |
+
+Giữ nguyên khi chạy song song: trần credit và USD phải khóa bằng giao dịch (`BEGIN IMMEDIATE` đã có), để nhiều worker cùng lúc không vượt trần.
+
+### Lượt chạy lạnh (cold run)
+
+Lượt lạnh là lượt chưa có cache: mọi số liệu và video phải lấy mới. Đây là lý do một sản phẩm mới mất 43 phút, còn chạy lại chỉ mất vài giây.
+
+- Làm ấm trước: mỗi đêm lấy sẵn S0–S2 cho các ngành hay gặp (chăm sóc da, trang điểm, mẹ và bé). Brief mới chỉ còn phải trả S3 và S4.
+- Trả kết quả dần: hiện danh sách S1 trước, cập nhật khi từng KOC xong S3, thay vì bắt người dùng chờ hết lượt.
+- Trang trạng thái: thanh tiến độ và thời gian còn lại, lấy từ ước tính của `koc run --dry-run`.
+- Lượt bị ngắt chạy tiếp bằng `koc resume` (đã có); worker chỉ nhận task chưa `done`.
+- Cache theo ngành không phụ thuộc brief, để nhiều brief cùng ngành dùng chung.
+
+### Bảo mật và thông tin cá nhân
+
+| Rủi ro | Hiện tại | Kế hoạch |
+|---|---|---|
+| Web mở ra mạng | Chỉ 127.0.0.1, cảnh báo khi đổi host | Đăng nhập, phân quyền theo nhãn hàng; mỗi nhãn hàng chỉ thấy lượt của mình |
+| Khóa API | Biến môi trường, không ghi ra đĩa | Trình quản lý secret, xoay khóa định kỳ, mỗi môi trường một khóa |
+| Thông tin liên hệ của creator | Xóa dòng có email, số điện thoại, Zalo trước khi lưu | Giữ nguyên; thêm kiểm tra tự động trên transcript và khung hình (số điện thoại trong video) |
+| Video và transcript lưu trên máy | Giữ vô thời hạn | Hạn lưu: xóa mp4 sau khi phân tích xong, xóa transcript sau 90 ngày; chỉ giữ trích dẫn đã dùng làm bằng chứng |
+| Cơ sở dữ liệu | File SQLite không mã hóa | Mã hóa khi lưu, nhật ký ai xem dữ liệu KOC nào |
+| Tuân thủ | Chỉ dùng dữ liệu công khai | Rà theo quy định bảo vệ dữ liệu cá nhân của Việt Nam: mục đích xử lý, thời hạn lưu, quyền yêu cầu xóa của KOC |
+| Chèn lệnh qua video | Bọc dữ liệu, gắn "Cảnh báo bảo mật" | Bài kiểm thử với mô hình thật, chưa làm |
+
+### Bảo vệ tài khoản
+
+Hệ thống không đăng nhập TikTok. Video lấy qua API `video/url` của Kalodata. Chỉ S2 mở trang Kalodata bằng trình duyệt đã đăng nhập, nối qua CDP ở `127.0.0.1:9333`, và hiện dùng tài khoản cá nhân.
+
+- Dùng tài khoản dịch vụ riêng, không dùng tài khoản cá nhân. Hồ sơ trình duyệt riêng, cổng CDP chỉ nghe localhost.
+- Tôn trọng giới hạn: giãn cách ngẫu nhiên giữa các trang, trần số trang mỗi ngày. Gặp captcha hoặc lỗi 429 thì dừng và báo người vận hành, không thử lại liên tục.
+- Không vượt giới hạn bằng nhiều tài khoản hay proxy: tài khoản có thể bị khóa và vi phạm điều khoản. Cần thêm dữ liệu thì mua gói cao hơn.
+- Ưu tiên API chính thức (gói Kalodata có khán giả, hoặc ảnh TikTok Analytics do KOC gửi) thay cho đọc trang.
+- Cookie và phiên đăng nhập không vào repo hay log; script xuất bản công khai đã bỏ toàn bộ log.
+- Phía KOC: chỉ dùng dữ liệu công khai, không tự động nhắn tin; liên hệ qua MCN hoặc nhãn hàng.
+
+### Vấn đề của agent
+
+Pipeline hiện là các stage cố định, không phải agent tự lập kế hoạch. Đây là chủ ý: mỗi bước gọi mô hình đều có đầu vào, đầu ra và trần chi phí rõ ràng. Mở rộng sang agent tự chủ phải giữ các điều này.
+
+| Vấn đề | Đo được đến nay | Kế hoạch |
+|---|---|---|
+| Bịa bằng chứng | 0/29 trích dẫn bịa, 3 đúng một phần | Giữ kiểm tra mã bằng chứng; thêm từ điển tiếng lóng ("mấy vợ" bị ghi thành "mấy bà") |
+| Lưu ý không có căn cứ | Độ trung thực lưu ý 0,10 | Bắt buộc lưu ý trích bằng chứng như lý do |
+| Mô hình tự chấm mình | Mô hình thứ hai kiểm lý do | Mỗi tháng người chấm một mẫu nhỏ; báo độ lệch giữa người và mô hình |
+| Chọn sai tiêu chí | Precision@5 = 1/5: người chọn theo tuổi và phong cách Gen Z | Thêm `audience_persona_fit` vào rubric video |
+| Vòng lặp, chi phí chạy mãi | Trần credit và USD cứng | Agent nào thêm vào cũng có trần số bước và số lần gọi công cụ |
+| Đổi mô hình làm lệch kết quả | Tên mô hình và phiên bản prompt nằm trong khóa cache | Chạy lại golden dataset trước khi đổi mô hình; không đạt thì không đổi |
+| Kết quả không lặp lại | Chưa đo | Chạy cùng brief 3 lần, đo độ trùng top 5 |
+| Chèn lệnh khi agent được dùng công cụ | Dữ liệu bên thứ ba bọc làm dữ liệu | Công cụ ghi (gửi tin, đặt booking) cần người duyệt; agent đọc dữ liệu bên thứ ba không được gọi công cụ ghi |
 
 ## Giấy phép
 

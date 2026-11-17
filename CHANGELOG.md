@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.2 (2026-11-17): kiến trúc tương lai
+
+### Thêm
+- README mục "Kiến trúc tương lai (v2.0.2)": worker song song và hàng đợi chung, lượt chạy lạnh, bảo mật và thông tin cá nhân, bảo vệ tài khoản, vấn đề của agent. Là kế hoạch, chưa xây; thời gian là ước tính chưa đo.
+
 ## 2.0.1 (2026-11-17): đo lường mở rộng
 
 ### Thêm
