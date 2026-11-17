@@ -7,20 +7,58 @@
 <p align="center"><em>From one product brief to five on-brand TikTok creators, within budget.</em></p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.0.2-315f53">
+  <img alt="version" src="https://img.shields.io/badge/version-2.0.5-315f53">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-315f53">
   <img alt="python" src="https://img.shields.io/badge/python-3.12%2B-315f53">
-  <img alt="tests" src="https://img.shields.io/badge/tests-560%20passed-315f53">
+  <img alt="tests" src="https://img.shields.io/badge/tests-574%20passed-315f53">
 </p>
 
 Nhập sản phẩm và ngân sách. KOC Discovery quét creator TikTok Việt Nam, chấm điểm và đề xuất nhóm KOC hợp thương hiệu, kèm lý do trỏ tới video.
+
+## Cho người chấm
+
+Không cần khóa API, không cần mạng sau khi cài.
+
+**Cách nhanh nhất: Docker.** Chỉ cần Docker; build khoảng 2 phút, ảnh khoảng 1 GB.
+
+```bash
+docker build -t koc-discovery .
+docker run --rm -p 127.0.0.1:8765:8765 koc-discovery          # web: http://127.0.0.1:8765
+docker run --rm --network none koc-discovery test             # 574 bài kiểm thử, không mạng
+docker run --rm --network none koc-discovery koc run --mock   # pipeline bằng dữ liệu giả
+```
+
+Trong container web nghe `0.0.0.0` nên in "CẢNH BÁO BẢO MẬT"; `-p 127.0.0.1:...` giữ web chỉ mở trên máy bạn. Lượt chạy thật không nên chạy trong Docker: bước khán giả cần Chromium đã đăng nhập Kalodata trên máy (xem bước 4).
+
+**Không dùng Docker.** Cần Python 3.12+ và Node 20+.
+
+**1. Xem kết quả thật trong web (5 phút).** `data/demo.db` chứa đúng lượt chạy trong [Kết quả](docs/RESULTS.md) (`0e555cac`): 5 KOC, điểm, lý do, trích dẫn video, KOC bị loại. Không có file video và khung hình.
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -e .
+cd web && npm ci && npm run build && cd ..
+cp data/demo.db data/koc.db           # web ghi vào file này; bản gốc giữ nguyên
+.venv/bin/python -m koc.web           # http://127.0.0.1:8765
+```
+
+Mở "Bắt đầu chiến dịch", chọn Chống nắng, ngân sách 30.000.000 đ: web trả 5 KOC từ lượt đã lưu. Hoặc mở thẳng `/de-xuat`.
+
+**2. Chạy kiểm thử (2 phút).**
+
+```bash
+.venv/bin/pip install pytest && .venv/bin/python -m pytest -q
+```
+
+**3. Chạy pipeline bằng dữ liệu giả (vài giây).** `KOC_DB=/tmp/mock.db .venv/bin/koc run --mock`. Mọi KOC là `koc1`, `koc2`...: chỉ kiểm tra luồng chạy, không phải kết quả.
+
+**4. Chạy thật (không bắt buộc).** Cần khóa Kalodata (trả phí) và OpenRouter, Chromium mở cổng CDP `9333` đã đăng nhập Kalodata cho bước khán giả ([hướng dẫn](docs/GUIDE.md)). Khoảng 43 phút, 28 credit, 0,5–1,5 USD. Xem trước bằng `koc run --dry-run`.
 
 ## Bàn giao
 
 | Yêu cầu | Ở đâu |
 |---|---|
 | Mã nguồn | Repo này, xem [Cấu trúc repo](#cấu-trúc-repo) |
-| Prototype chạy được | [Bắt đầu nhanh](#bắt-đầu-nhanh), [slide có ảnh từng bước](docs/pitch/index.html) |
+| Prototype chạy được | [Cho người chấm](#cho-người-chấm) (không cần khóa), [Bắt đầu nhanh](#bắt-đầu-nhanh), [slide có ảnh từng bước](docs/pitch/index.html) |
 | Kiến trúc và quyết định | [Kiến trúc](#kiến-trúc), [Quyết định chính](#quyết-định-chính), [chi tiết](docs/ARCHITECTURE.md) |
 | Kết quả 5 KOC, bằng chứng, chi phí, thời gian | [Kết quả](docs/RESULTS.md), [Benchmark lượt đầy đủ](docs/BENCHMARK.md) |
 | Đo chất lượng, golden dataset | [Đánh giá chất lượng](#đánh-giá-chất-lượng) |
@@ -109,13 +147,15 @@ src/koc/web/        API FastAPI cho web
 web/                giao diện React
 config/             trọng số, giới hạn phễu, bảng giá, từ khóa sản phẩm
 prompts/            prompt có phiên bản (content_v3, reasons_v4, faithfulness_v1)
-tests/              560 bài kiểm thử, chạy offline
+tests/              574 bài kiểm thử, chạy offline
 scripts/            benchmark, xuất kết quả, phiếu chấm và chỉ số đánh giá
 docs/               kiến trúc, benchmark, kết quả, giới hạn, đánh giá (eval/), slide (pitch/)
 docs/research/      khảo sát Kalodata và tính khả thi ban đầu
 docs/process/       kế hoạch, bằng chứng và kết quả review từng hạng mục (lịch sử xây dựng)
 design/             logo, hình minh họa, hệ thống thiết kế
 reports/            benchmark.json (đơn vị chi phí dùng để ước tính)
+data/demo.db        một lượt chạy thật để xem web không cần khóa
+Dockerfile          ảnh chạy web demo, kiểm thử và chạy giả lập
 ```
 
 ## Kết quả
@@ -133,7 +173,7 @@ Kem chống nắng, ngân sách 30.000.000 đ:
 - Tổng phí 28.500.000 đ. Chạy lại tốn 6,5 credit và 0,28 USD.
 - Cả dự án: 44,4 / 60 credit Kalodata, 1,62 / 5 USD mô hình.
 - Lý do khớp bằng chứng: 0,875. Lưu ý: 0,10, đang cải thiện.
-- 560 bài kiểm thử đạt. Mỗi mục được người duyệt độc lập chấm ĐẠT.
+- 574 bài kiểm thử đạt. Mỗi mục được người duyệt độc lập chấm ĐẠT.
 
 Từng KOC với lý do, trích dẫn video có mốc thời gian và chi phí theo giai đoạn: [docs/RESULTS.md](docs/RESULTS.md). Lượt chạy đầy đủ 200 ứng viên: 2.598 giây, 26,0 credit và 0,43 USD trên đường thành công; 27,6 credit và 1,32 USD tính cả lần thử lỗi ([BENCHMARK](docs/BENCHMARK.md)).
 
@@ -159,6 +199,23 @@ Hệ thống có nhiều "agent" nối tiếp (lọc thương mại, phân tích
 | Viết lý do (S4) | Lý do khớp bằng chứng được trích (mô hình thứ hai chấm) | 0,875 | ≥ 0,85 |
 
 Đọc kết quả: AI đọc video đúng (không trích dẫn bịa, 82% đồng thuận với người), nhưng chọn KOC lệch vì người chấm chọn theo độ tuổi và phong cách hợp Gen Z, điều hệ thống chưa đo (không có dữ liệu khán giả, rubric không có tiêu chí này). Hướng sửa: thêm tiêu chí `audience_persona_fit` vào rubric video. Người chấm là người xây hệ thống, mẫu nhỏ: đọc như tín hiệu, không phải kết luận thống kê. Chi tiết: [docs/eval/METRICS.md](docs/eval/METRICS.md).
+
+### Hiệu quả chi phí: có cần mô hình không?
+
+So ba cách chọn trên cùng brief, cùng 10 KOC đã chấm ([chi tiết](docs/eval/COST_EFFICIENCY.md), `scripts/compare_approaches.py`):
+
+| Cách | Precision@5 (chấm mù) | nDCG@5 | Thời gian | Credit | Mô hình |
+|---|---:|---:|---:|---:|---:|
+| A: chỉ số liệu thương mại Kalodata, không mô hình | 2/5 | 0,77 | 4 phút | 11,5 | 0 USD |
+| B: pipeline hiện tại (video + cổng hợp thương hiệu) | 1/5 | 0,59 | 43 phút | 26,0 | 0,43 USD |
+| C: B + điểm chân dung (`audience_persona_fit`), giữ cổng | 1/5 | 0,54 | ≤ 47 phút | 26,0 | ≤ 0,71 USD |
+| C': C với cổng mềm (tham khảo, đặt luật sau khi biết người chấm) | 2/5 | 0,73 | ≤ 47 phút | 26,0 | ≤ 0,71 USD |
+
+Trên người chấm này, B chưa đáng tiền hơn A về thứ hạng. Cổng hợp thương hiệu của B loại đúng 2 KOC người chấm cũng loại, nhưng cũng loại 2 KOC người chấm muốn (video ít nói về kem chống nắng). Giá trị của B hiện là bằng chứng kiểm được (26/29 trích dẫn đúng, 0 bịa).
+
+Điểm chân dung (tuổi ước chừng, phong cách, cách xưng hô, 0,009 USD mỗi video) là tín hiệu khớp người chấm nhất: Spearman 0,65 khi chấm mù, so với 0,48 của điểm cuối B và 0,25 của điểm thương mại. Nhưng C giữ cổng nên không chọn được KOC tốt bị cổng loại; C' mở cổng thì bằng A. Bài học: cổng nên đo "KOC hợp chân dung và làm chăm sóc da", không chỉ "video nói về kem chống nắng". Đây là quan sát trên 1 brief và 1 người chấm, chưa có tính toán độ bất định; C được thiết kế sau khi biết cách người chấm này chọn. Hướng cải tiến là giả thuyết: cần người chấm thứ hai trước khi đổi luật mặc định.
+
+Dự báo 500 ứng viên rẻ (29,7 credit) vì chỉ 10 KOC được xem video: KOC tốt ngoài 40 KOC thương mại cao nhất không được xem, và tỷ lệ bỏ sót ở bước đó chưa đo.
 
 ### Cách dựng golden dataset
 

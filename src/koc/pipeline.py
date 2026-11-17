@@ -711,7 +711,9 @@ class MockKalodataClient:
                 for i in range(1, min(kwargs["page_size"], 50) + 1)]
         return self._record("creator/rank", kwargs, {"data": rows})
     def creator_detail(self, creator_id, **kwargs):
-        sample = {**self.creator_fixture, "creator_id": creator_id, "creator_followers": "30000"}
+        # Fake identity per creator: the fixture is one real creator, so its handle, name and bio are not reused.
+        sample = {**self.creator_fixture, "creator_id": creator_id, "creator_followers": "30000",
+                  "creator_handle": f"koc{creator_id}", "creator_nickname": f"KOC mẫu {creator_id}", "creator_bio": ""}
         return self._record("creator/detail", {"creator_id": creator_id, **kwargs}, {"data": sample})
     def video_rank(self, creator_id, page_size=10, **kwargs):
         return self._record("video/rank", {"creator_id": creator_id, "page_size": page_size, **kwargs}, {"data": [{"video_id": f"{creator_id}-{i}", "revenue": 1000000-i, "views": 10000,

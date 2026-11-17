@@ -163,7 +163,7 @@ def _campaign_review_data(conn, result):
     return result
 
 
-def _creator_detail(conn, creator_id: str, run_id: str | None = None):
+def _creator_detail(conn, creator_id: str, run_id: str | None = None, media_dir: Path | None = None):
     creator_row = conn.execute("SELECT * FROM creators WHERE creator_id=?", (creator_id,)).fetchone()
     if not creator_row:
         return None
@@ -226,7 +226,10 @@ def _creator_detail(conn, creator_id: str, run_id: str | None = None):
                 )
                 if nearest and abs(float(nearest.get("start_s", 0)) - float(item.get("start_s", 0))) <= 3:
                     frame = nearest["frame_path"]
-            evidence.append({**item, "frame_url": media_web_url(frame) if frame else None})
+            url = media_web_url(frame) if frame else None
+            if url and media_dir is not None and not (Path(media_dir) / url.removeprefix("/media/")).is_file():
+                url = None  # demo database ships without media files
+            evidence.append({**item, "frame_url": url})
         videos.append({
             "video_id": video["video_id"],
             "title": payload.get("title") or "Video đã phân tích",
@@ -366,7 +369,7 @@ def get_run_creator(run_id: str, creator_id: str, request: Request):
     try:
         if not queries.get_run(conn, run_id):
             raise HTTPException(status_code=404, detail="Không tìm thấy lượt chạy.")
-        result = _creator_detail(conn, creator_id, run_id)
+        result = _creator_detail(conn, creator_id, run_id, request.app.state.media_dir)
         if not result or not conn.execute(
             "SELECT 1 FROM recommendations WHERE run_id=? AND creator_id=?",
             (run_id, creator_id),
@@ -439,7 +442,7 @@ def search_creators(request: Request, q: str = ""):
 def get_creator(creator_id: str, request: Request):
     conn = _conn(request)
     try:
-        result = _creator_detail(conn, creator_id)
+        result = _creator_detail(conn, creator_id, media_dir=request.app.state.media_dir)
         if not result:
             raise HTTPException(status_code=404, detail="Không tìm thấy KOC.")
         return result

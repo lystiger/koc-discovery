@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kalodata_intake"
-version = "2.0.2"
+version = "2.0.5"
 requires-python = ">=3.12"
 dependencies = ["playwright", "httpx", "pydantic>=2", "typer", "pyyaml", "fastapi", "uvicorn", "jinja2", "google-genai"]
 

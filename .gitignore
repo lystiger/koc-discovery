@@ -1,6 +1,7 @@
 .venv
 __pycache__
 *.db
+!data/demo.db
 browser-profile/
 .pytest_cache
 data/raw/media/

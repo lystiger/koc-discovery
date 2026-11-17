@@ -1,0 +1,62 @@
+# Review of the v2 stack — Round 3 (AGY)
+
+Reviewed `fd3c9bf..HEAD` (`c070f78`) for Round-2 findings and performed an independent pass over the full stack `main...v2/docker` (`d9380ed..c070f78`).
+
+All database inspections opened `data/koc.db` and `data/demo.db` with readonly SQLite connections (`sqlite3 -readonly` and `file:...?mode=ro`). Writable reproductions ran exclusively on temporary copies under `/tmp/koc-r3-review/`. The SHA-256 digest of `data/koc.db` (`0fcc649ec8e4db6608e7e2a5a83fa3b312db19acd79fb4ee79e644a1674982f2`) was verified unchanged before and after all checks. No tracked files were modified.
+
+## Round-2 findings verification
+
+1. **FIXED — P2 (a): Legacy time-window fallback in persona cost attribution.**
+   - **Code (`src/koc/persona.py:174-185`, `scripts/compare_approaches.py:163-174`, `scripts/compare_approaches.py:213-216`):** `persona.spend()` removes the timestamp-window query completely. It queries tagged calls (`WHERE kind=? AND model=? AND cache_hit=0 AND request_hash LIKE ?` with `persona:<run_id>:%`) at `src/koc/persona.py:179-181` and separately queries legacy untagged calls (`WHERE kind=? AND model=? AND cache_hit=0 AND request_hash=''`) at `src/koc/persona.py:182-183`. `spend()["usd"]`, `spend()["seconds"]`, and `spend()["calls"]` include only run-tagged calls, while `spend()["exact"]` is `untagged[2] == 0` (`src/koc/persona.py:184-185`). When `exact` is `False`, `scripts/compare_approaches.py:164-174` treats `tagged + untagged` as an upper bound (`≤ 47 phút`, `≤ 0,71 USD` at `docs/eval/COST_EFFICIENCY.md:16-17, 26-27`) and states at `scripts/compare_approaches.py:214-216` (`docs/eval/COST_EFFICIENCY.md:42`) that the 31 untagged same-model calls were recorded before run tagging existed and cannot be proven to belong to this run.
+   - **Reproduction (`/tmp/koc-r3-review/repro_r3.py`):** On a `/tmp` copy of `data/koc.db`, `persona.spend(c, '0e555cac95fb4fb49168410e40ea92d5', 'google/gemini-3.8-flash')` returned `{"usd": 0, "seconds": 0.0, "calls": 0, "exact": False, "untagged": {"usd": 0.279733, "seconds": 235.316, "calls": 31}}`. Injecting an untagged call for another model (`cost_usd=9.0`) and a tagged call for another run on the same model (`request_hash='persona:other_run:vid1'`, `cost_usd=7.0`) left both `spend()` and `untagged` unchanged. Running `scripts/compare_approaches.py` against the unmodified `/tmp` backup reproduced the committed `docs/eval/COST_EFFICIENCY.md` byte for byte.
+
+2. **FIXED — P2 (b): Failed passes lose their costs after resume.**
+   - **Code (`src/koc/budget_guard.py:10-12`, `src/koc/budget_guard.py:28-33`, `src/koc/persona.py:114`, `src/koc/persona.py:137`, `src/koc/persona.py:147-148`, `src/koc/persona.py:179-181`):** `BudgetGuard` now accepts `request_hash: str = ""` (`src/koc/budget_guard.py:10-12`) and writes `self.request_hash` into `llm_calls` inside its immediate `db.transaction(self.conn)` block (`src/koc/budget_guard.py:28-33`). In `persona.evaluate()`, `guard.request_hash = call_tag(run_id, v["video_id"])` (`"persona:<run_id>:<video_id>"`) is set before `_call()` is invoked (`src/koc/persona.py:147-148`). Inside `_call()`, `guard.record(usage)` executes at `src/koc/persona.py:114` before `PersonaPayload.model_validate_json(raw)` (`src/koc/persona.py:116`) and `video_id` validation (`src/koc/persona.py:120`). Every billable attempt—including failed schema retries and passes that abort before writing to `persona_fit`—is durably tagged in `llm_calls`. The temporary per-row cost columns on `persona_fit` from Round 2 are removed (`src/koc/persona.py:31-33`).
+   - **Reproduction (`/tmp/koc-r3-review/repro_r3.py`):** On a `/tmp` copy with existing persona rows cleared, `persona.evaluate()` was invoked with a fake client that returned invalid JSON twice (`0.001 USD`, `500 ms` per attempt) and raised `ValueError`. Before resuming, `persona.spend()` already reported `{"usd": 0.002, "seconds": 1.0, "calls": 2, "exact": True}`. Resuming `persona.evaluate()` succeeded on the third attempt (`0.001 USD`, `500 ms`), and `persona.spend()` returned `{"usd": 0.003, "seconds": 1.5, "calls": 3, "exact": True, "untagged": {"usd": 0, "seconds": 0.0, "calls": 0}}`, matching `llm_calls` (`3` rows, `0.003 USD`, `1500 ms`).
+
+3. **FIXED — P2 (c): Exact totals absorb concurrent persona calls.**
+   - **Code (`src/koc/persona.py:147`, `src/koc/persona.py:170-171`, `src/koc/persona.py:179-185`):** Attribution no longer infers ownership from `id > last_id` insertion order. Each attempt is tagged with `persona:<run_id>:<video_id>` via `guard.request_hash` (`src/koc/persona.py:147`), and `spend()` filters `llm_calls` by `WHERE kind=? AND model=? AND cache_hit=0 AND request_hash LIKE ?` with `(KIND, model, f"{KIND}:{run_id}:%")` (`src/koc/persona.py:179-181`).
+   - **Reproduction (`/tmp/koc-r3-review/repro_r3.py`):** On a `/tmp` copy during `client.generate_json()`, a second SQLite connection inserted both (1) a concurrent persona call on the same run for another model (`model='other-model'`, `request_hash='persona:0e555cac...:vid'`, `cost_usd=9.0`, `latency_ms=1000`) and (2) a concurrent persona call on another run for the same model (`model='google/gemini-3.8-flash'`, `request_hash='persona:other_run_999:vid'`, `cost_usd=7.0`, `latency_ms=2000`), while the evaluated pass logged its own `0.001 USD`, `500 ms` call. `persona.spend(c, RUN, MODEL)` returned `{"usd": 0.001, "seconds": 0.5, "calls": 1, "exact": True, "untagged": {"usd": 0, "seconds": 0.0, "calls": 0}}`.
+
+4. **FIXED — P3: Stale "upper bound" docstring in `persona.estimate`.**
+   - **Code (`src/koc/persona.py:71-72`, `src/koc/persona.py:84-85`):** `persona.estimate()` docstring now reads `"""Calls and estimated USD for videos without a stored result (not a bound). Read only, no network."""`, matching the inline comment at `src/koc/persona.py:84` and the CLI wording at `src/koc/cli.py:231`.
+
+## `BudgetGuard.request_hash` compatibility check (S3, S4, faithfulness)
+
+- **Code (`src/koc/budget_guard.py:10-12`, `src/koc/budget_guard.py:30-31`, `src/koc/pipeline.py:264`, `src/koc/pipeline.py:296`, `src/koc/db.py:258-261`, `src/koc/faithfulness.py:243`):**
+  - `BudgetGuard.__init__` defaults `request_hash: str = ""` (`src/koc/budget_guard.py:10`).
+  - S3 (`kind="content"`) and S4 (`kind="reasons"`) instantiate `BudgetGuard(conn, run_id=run_id, kind=kind)` at `src/koc/pipeline.py:264` without passing `request_hash`. `guard.record(usage)` inserts `request_hash=""` (`src/koc/budget_guard.py:30-31`), identical to the previous hardcoded `''` literal. In the `finally:` block at `src/koc/pipeline.py:296`, `db.update_llm_request_hash(conn, run_id, kind, key, last_call_id)` updates rows matching `WHERE run_id IS ? AND kind=? AND request_hash='' AND id>?` (`src/koc/db.py:260-261`) to the cache key `key`.
+  - Faithfulness instantiates `BudgetGuard(conn, cap_usd=cap_usd, run_id=None, kind=KIND)` at `src/koc/faithfulness.py:243` without `request_hash`, recording `run_id=NULL`, `kind='faithfulness'`, `request_hash=''`, identical to prior behavior.
+  - Because `db.update_llm_request_hash` scopes updates by `run_id IS ? AND kind=? AND request_hash=''`, S3/S4 updates never touch `faithfulness` or `persona` rows.
+- **Verification (`/tmp/koc-r3-review/repro_r3.py`):** Exercised `BudgetGuard.record()` for `content`, `reasons`, `faithfulness`, and `persona` followed by `db.update_llm_request_hash()`. Resulting `(run_id, kind, request_hash)` tuples were `("run_test_s3", "content", "hash_content_123")`, `("run_test_s3", "reasons", "hash_reasons_456")`, `(None, "faithfulness", "")`, and `(None, "persona", "persona:run_test_s3:vid1")`.
+
+## Independent pass over `main...v2/docker`
+
+- **Prior Round-1 findings (1–8):** All Round-1 fixes remain intact on `HEAD` (`c070f78`).
+  - `scripts/public_export.sh:25-32` dumps `data/demo.db` to a temporary file before scanning with `grep -qE`, avoiding `SIGPIPE` under `set -euo pipefail`.
+  - `scripts/make_demo_db.py:53-70` retains only run-selected analysis tuples (`run_analyses`), nulls `evidence[].frame_path` and `videos.mp4_path`, and allowlists creator (`CREATOR_KEEP`, line 13) and video (`VIDEO_KEEP`, line 14) JSON keys.
+  - `scripts/compare_approaches.py:47-55` computes `ndcg_pool` against 5 ideal positions, `scripts/compare_approaches.py:80-110` enforces prior-run exclusions and single-MCN constraints in `approach_c`, and `scripts/compare_approaches.py:113-125` refuses to publish partial persona passes.
+- **Privacy and contents of `data/demo.db`:**
+  - Inspected via `sqlite3 -readonly data/demo.db` and `file:data/demo.db?mode=ro`.
+  - Table row counts: `runs=1` (`0e555cac95fb4fb49168410e40ea92d5`), `creators=200`, `videos=30`, `analyses=30`, `metrics=90`, `recommendations=5`, `run_results=35`, `scores=285`, `tasks=312`, `api_calls=164`, `llm_calls=38`, `persona_fit=30`, `faithfulness=5`, `http_cache=0`, `llm_cache=0`, `campaigns=0`. `PRAGMA freelist_count` is `0`.
+  - All `creators.data_json` keys are in `['creator_followers', 'creator_handle', 'creator_id', 'creator_nickname']`. All `videos.data_json` keys are in `['comment_count', 'digg_count', 'publish_date', 'share_count', 'video_id', 'video_title', 'views']`.
+  - Non-null `videos.mp4_path`: `0`. Non-null `tasks.error`: `0`. Non-null `evidence[].frame_path`: `0`.
+  - Regex and raw string scans over the full SQLite `.dump` and binary file found zero matches for `/home/...`, `/Users/...`, `data/media`, email addresses, OpenRouter/Google API keys (`sk-or-v1-`, `AIza...`), phone numbers, `creator_contact_*`, `creator_bio`, or `mcn_*`.
+- **Docker setup (`Dockerfile:1-30`, `.dockerignore:1-28`, `scripts/docker-entrypoint.sh:1-14`):**
+  - Multi-stage build compiles the React frontend in `node:20-slim` (`Dockerfile:7-13`) and packages the Python runtime in `python:3.12-slim` (`Dockerfile:16-30`) with static `ffmpeg`/`ffprobe` (`Dockerfile:18`).
+  - Runs as unprivileged user `koc` (`Dockerfile:19, 27`). No secrets or API key `ARG`/`ENV` declarations exist in `Dockerfile`.
+  - `.dockerignore:1-28` excludes `.git`, `.venv`, `.env`, `.env.*`, `**/.env`, `**/.env.*`, `**/*.pem`, `**/*.key`, `.aws`, `.ssh`, `browser-profile`, `data/*` (allowing only `!data/demo.db`, `!data/sample_creators.json`, `!data/sample_videos.json`), `data/backups`, and build/audit screenshot/log directories.
+  - `scripts/docker-entrypoint.sh:6-8` copies `data/demo.db` to `data/koc.db` only if absent, then starts `koc.web`. Both `scripts/docker-entrypoint.sh` and `scripts/public_export.sh` pass `bash -n`.
+- **Minor non-blocking note (P3):**
+  - `README.md:166-167` and `docs/pitch/index.html:372-373` display `47 phút` and `0,71 USD` for approaches C and C' without the `≤` upper-bound prefix that `docs/eval/COST_EFFICIENCY.md:16-17, 26-27` now uses. Since both files link to `docs/eval/COST_EFFICIENCY.md` for the detailed breakdown, this is a minor presentation inconsistency only.
+
+## Tests and commands run
+
+- `unshare -rn sh -c 'ip link set lo up; PYTHONPATH=src KALODATA_API_KEY=fake GEMINI_API_KEY=fake OPENROUTER_API_KEY=fake .venv/bin/python -m pytest -q -p no:cacheprovider tests/core/test_persona.py tests/core/test_compare_approaches.py'` -> **13 passed in 5.09s**.
+- `unshare -rn sh -c 'ip link set lo up; PYTHONPATH=src KALODATA_API_KEY=fake GEMINI_API_KEY=fake OPENROUTER_API_KEY=fake .venv/bin/python -m pytest -q -p no:cacheprovider tests/core -k "not test_operator_view_shows_brief_count_not_five"'` -> **271 passed, 1 deselected in 51.40s**.
+- `unshare -rn sh -c 'ip link set lo up; PYTHONPATH=src KALODATA_API_KEY=fake GEMINI_API_KEY=fake OPENROUTER_API_KEY=fake .venv/bin/python -m pytest -q -p no:cacheprovider tests/llm tests/web/test_app_ui_fixes.py::test_frame_url_dropped_when_media_file_missing'` -> **128 passed in 32.43s**.
+- `unshare -rn sh -c 'ip link set lo up; PYTHONPATH=src KALODATA_API_KEY=fake GEMINI_API_KEY=fake OPENROUTER_API_KEY=fake .venv/bin/python -m pytest --collect-only -q -p no:cacheprovider'` -> **575 tests collected** (consistent with author's 574 passed, 1 skipped; Starlette `TestClient` tests skipped in this review due to the known AnyIO portal hang in the sandbox).
+- `PYTHONPATH=src KALODATA_API_KEY=fake GEMINI_API_KEY=fake OPENROUTER_API_KEY=fake .venv/bin/python /tmp/koc-r3-review/repro_r3.py` -> all Round-3 assertions passed; `data/koc.db` SHA-256 unchanged.
+- `bash -n scripts/public_export.sh scripts/docker-entrypoint.sh` -> exit 0.
+
+VERDICT: PASS

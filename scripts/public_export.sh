@@ -20,4 +20,14 @@ mail=$(git -C "$src" config user.email || echo none@invalid)
 if grep -rIlF -e "$mail" . || grep -rIl -E "sk-or-v1-[a-f0-9]{20}|AIza[0-9A-Za-z_-]{30}" . ; then
   echo "private data found above; stop" >&2; exit 1
 fi
+# grep -I skips binary files: check the demo database as text
+# Dump to a file first: `sqlite3 | grep -q` under pipefail misses an early match (grep exits, sqlite3 gets SIGPIPE).
+if [ -f data/demo.db ]; then
+  dump=$(mktemp)
+  sqlite3 -readonly data/demo.db .dump > "$dump"
+  if grep -qE -e "$mail" -e "/home/[a-z]" -e "/Users/[A-Za-z]" -e "sk-or-v1-|AIza[0-9A-Za-z_-]{30}" "$dump"; then
+    rm -f "$dump"; echo "private data in data/demo.db; stop" >&2; exit 1
+  fi
+  rm -f "$dump"
+fi
 echo "export ok: $(find . -type f | wc -l) files, $(du -sh . | cut -f1)"

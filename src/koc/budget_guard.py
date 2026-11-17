@@ -7,8 +7,9 @@ from .types import BudgetExceeded
 
 
 class BudgetGuard:
-    def __init__(self, conn, cap_usd: float | None = None, run_id: str | None = None, kind: str = "content"):
+    def __init__(self, conn, cap_usd: float | None = None, run_id: str | None = None, kind: str = "content", request_hash: str = ""):
         self.conn = conn
+        self.request_hash = request_hash  # stored on every recorded call; lets a pass find its own calls
         self.cap_usd = cap_usd if cap_usd is not None else load_config()["llm_caps"]["usd_cap"]
         self.run_id = run_id
         self.kind = kind
@@ -27,7 +28,7 @@ class BudgetGuard:
         with db.transaction(self.conn):
             self.conn.execute(
                 "INSERT INTO llm_calls(run_id,kind,request_hash,model,prompt_version,input_tokens,output_tokens,latency_ms,cost_usd,cache_hit,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-                (self.run_id, self.kind, "", usage.model, usage.prompt_version, usage.input_tokens, usage.output_tokens,
+                (self.run_id, self.kind, self.request_hash, usage.model, usage.prompt_version, usage.input_tokens, usage.output_tokens,
                  usage.latency_ms, usage.cost_usd, int(usage.cache_hit), db.now()),
             )
         checked_estimate = self.checked_estimate_usd

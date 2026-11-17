@@ -213,6 +213,37 @@ def benchmark(run: str = typer.Option(..., "--run"), scaling_run: str = typer.Op
 
 
 @app.command()
+def persona(run: str = typer.Option(..., "--run"),
+            model: str = typer.Option(None, "--model", help="Mô hình (mặc định: mô hình cấu hình)."),
+            cache_only: bool = typer.Option(False, "--cache-only", help="Chỉ dùng kết quả đã lưu; không gọi mạng."),
+            dry_run: bool = typer.Option(False, "--dry-run", help="Chỉ ước tính số lượt gọi và USD; không gọi mạng.")):
+    """Chấm độ hợp chân dung KOC với khán giả mục tiêu (cách C): 1 lượt gọi cho mỗi video đã phân tích."""
+    from . import persona as pe
+    from .llm.pricing import load_pricing_config
+    from .types import BudgetExceeded, CacheOnlyMiss
+    if not DB_PATH.exists():
+        typer.echo("Chưa có cơ sở dữ liệu.", err=True)
+        raise typer.Exit(1)
+    conn = db.connect(DB_PATH)
+    name = model or load_pricing_config().get("model", {}).get("id")
+    if dry_run:  # read only: never creates the table or a call
+        e = pe.estimate(conn, run, name)
+        typer.echo(f"Ước tính persona, mô hình {name}: {e['calls']} lượt gọi (đã lưu {e['stored']}), khoảng {e['usd']:.4f} USD, "
+                   f"đến {e['usd_with_retries']:.4f} USD nếu mỗi video phải thử lại một lần (ước tính, không phải trần). "
+                   f"Thiếu tệp video: {len(e['missing_media'])}. Chạy thử: không gọi mạng.")
+        return
+    try:
+        out = pe.evaluate(conn, run, model=model, cache_only=cache_only)
+    except (CacheOnlyMiss, BudgetExceeded, FileNotFoundError, ValueError, RuntimeError) as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+    handles = dict(conn.execute("SELECT creator_id, handle FROM creators"))
+    for cid, score in sorted(out["per_koc"].items(), key=lambda x: -x[1]):
+        typer.echo(f"{handles.get(cid, cid):<24}{score:>6.1f}")
+    typer.echo(f"{out['calls']} lượt gọi, {out['usd']:.4f} USD, mô hình {out['model']}.")
+
+
+@app.command()
 def faithfulness(run: str = typer.Option(..., "--run"),
                  model: str = typer.Option(None, "--model", help="Mô hình chấm (mặc định: cùng họ mô hình rẻ với S4)."),
                  cache_only: bool = typer.Option(False, "--cache-only", help="Chỉ dùng kết quả đã lưu; không gọi mạng."),

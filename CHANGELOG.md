@@ -1,5 +1,36 @@
 # Changelog
 
+## 2.0.5 (2026-11-17): Docker
+
+### Thêm
+- `Dockerfile` hai tầng (Node 20 build web, Python 3.12 slim) và `scripts/docker-entrypoint.sh`: `web` mở lượt demo, `test` chạy kiểm thử, lệnh khác chạy trực tiếp (`koc run --mock`). Không cần khóa API; kiểm thử chạy được với `--network none`.
+- README: Docker là cách nhanh nhất trong mục "Cho người chấm".
+- Slide 17 "Có cần AI xem video không?": so A, B, C, C' và độ khớp người chấm của từng tín hiệu.
+
+### Sửa (sau 3 vòng review độc lập)
+- `data/demo.db` chỉ giữ 30 video và 30 phân tích của lượt, chỉ các trường web dùng; không còn đường dẫn khung hình; script dừng khi thấy số điện thoại hoặc đường dẫn máy.
+- Kiểm tra xuất bản đọc toàn bộ bản dump của `demo.db` trước khi tìm dữ liệu riêng tư.
+- Cách C chỉ được báo khi chấm chân dung đủ mọi video; C và C' giữ luật loại KOC cũ và không trùng MCN như B.
+- Chi phí chân dung tính theo nhãn `persona:<lượt>:<video>` trên từng lượt gọi; lượt gọi cũ chưa có nhãn được báo là cận trên.
+
+## 2.0.4 (2026-11-17): hiệu quả chi phí
+
+### Thêm
+- `docs/eval/COST_EFFICIENCY.md` và `scripts/compare_approaches.py`: so cách A (chỉ số liệu thương mại, không mô hình), B (pipeline hiện tại), C (persona-fit, chưa chạy) trên cùng 10 KOC đã chấm. Precision@5 chấm mù: A 2/5, B 1/5; A tốn 11,5 credit và 0 USD, B 26,0 credit và 0,43 USD.
+- Cách C: `koc persona --run <id>` chấm độ hợp chân dung (`audience_persona_fit`, prompt `persona_v1`) cho từng video đã phân tích, lưu bảng `persona_fit`. Điểm chân dung khớp người chấm nhất (Spearman 0,65 chấm mù; điểm cuối B 0,48), nhưng C giữ cổng không hơn B; C' cổng mềm bằng A. 30 video, 0,28 USD.
+- Ghi rõ đánh đổi recall của dự báo 500 ứng viên, và công thức chi phí chiến dịch (dữ liệu + mô hình + máy + người duyệt).
+
+## 2.0.3 (2026-11-17): chạy được không cần khóa
+
+### Thêm
+- `data/demo.db`: lượt chạy `0e555cac` cho người chấm xem trong web, không cần khóa API. Tạo bằng `scripts/make_demo_db.py`: bỏ cache Kalodata và LLM, tiểu sử creator, đường dẫn video trên máy, lỗi task; dừng nếu thấy email, khóa hoặc đường dẫn máy.
+- README mục "Cho người chấm": xem kết quả, chạy kiểm thử, chạy giả lập, chạy thật.
+
+### Sửa
+- Chế độ `--mock` gán tên giả `koc1`, `koc2`... thay vì dùng handle và tên của một creator thật cho mọi KOC.
+- Khung hình không có file thì không hiện ảnh hỏng.
+- Liên kết tới log không công khai trong `docs/GUIDE.md`.
+
 ## 2.0.2 (2026-11-17): kiến trúc tương lai
 
 ### Thêm

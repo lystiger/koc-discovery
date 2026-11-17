@@ -62,3 +62,17 @@ def test_detail_page_frame_urls_include_video_folder_and_are_served(env):
     for url in urls:
         served = env.get(url)
         assert served.status_code == 200 and served.headers["content-type"].startswith("image/")
+
+
+def test_frame_url_dropped_when_media_file_missing(tmp_path):
+    db_file = tmp_path / "fixture.db"
+    media_dir = tmp_path / "data" / "media"
+    seed_fixture_db(db_path=db_file, media_dir=media_dir)
+    conn = sqlite3.connect(db_file)
+    conn.row_factory = sqlite3.Row
+    from koc.web.api import _creator_detail
+    def urls(md):
+        detail = _creator_detail(conn, CREATOR, RUN, md)
+        return [e["frame_url"] for v in detail["videos"] for e in v["evidence"]]
+    assert any(urls(media_dir))
+    assert not any(urls(tmp_path / "empty_media"))
