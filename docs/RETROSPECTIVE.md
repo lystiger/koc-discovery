@@ -38,14 +38,14 @@ Phễu lọc, bước rẻ chạy trước, bước đắt chạy trên ít KOC:
 | Chỉ số | Kết quả | Mục tiêu |
 |---|---|---|
 | Credit Kalodata, cả dự án | 44,4 | dưới 60 |
-| Chi phí mô hình, cả dự án | 1,62 USD | dưới 5 USD |
+| Chi phí mô hình, cả dự án | 1,90 USD (gồm 0,28 USD chấm chân dung) | dưới 5 USD |
 | Chạy lại v2 | 6,5 credit, 0,28 USD | trong khoảng ước tính |
 | Kiểm điểm trung thực | 0,017 USD | gần 0 |
 | Lý do khớp bằng chứng | 0,875 (teetamofficial 1,00, meixiuriviu 0,875, còn lại 0,833) | cao |
 | Lưu ý có trích dẫn | 0,10 | cần cải thiện |
 | Báo động nhầm của bộ chống injection | 0 trên 941 tiêu đề và 405 trích dẫn thật | 0 |
 | Bài kiểm thử | 560 đạt, 1 bỏ qua | tất cả đạt |
-| Tiêu chí A1 đến A8 | 8 / 8 gộp sau khi người duyệt chấm ĐẠT | 8 / 8 |
+| Tiêu chí A1 đến A8 | 8 / 8 gộp sau khi người duyệt chấm ĐẠT; A8 (chống chèn lệnh) đạt ở mức mã, chưa thử trên mô hình thật (REVIEW_v2_security: UNPROVEN) | 8 / 8 |
 
 Phần mã bảo đảm: bọc dữ liệu, danh sách mã bằng chứng, điểm 0 đến 5, thứ hạng từ số liệu. Phần không bảo đảm: mô hình có làm theo lệnh chèn hay không; cảnh báo chỉ giúp phát hiện.
 

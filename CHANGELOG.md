@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.7 (2026-11-18): số liệu trung thực trên slide
+
+### Sửa
+- Slide chỉ số và `docs/RETROSPECTIVE.md`: A8 (chống chèn lệnh) đạt ở mức mã, chưa thử trên mô hình thật, đúng như `REVIEW_v2_security.md` (UNPROVEN).
+- Chi phí mô hình cả dự án 1,90 / 5 USD (trước ghi 1,62, chưa gồm 0,28 USD chấm chân dung).
+
 ## 2.0.6 (2026-11-17): sửa các mục còn mở
 
 ### Sửa

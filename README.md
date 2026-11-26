@@ -7,7 +7,7 @@
 <p align="center"><em>From one product brief to five on-brand TikTok creators, within budget.</em></p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.0.6-315f53">
+  <img alt="version" src="https://img.shields.io/badge/version-2.0.7-315f53">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-315f53">
   <img alt="python" src="https://img.shields.io/badge/python-3.12%2B-315f53">
   <img alt="tests" src="https://img.shields.io/badge/tests-575%20passed-315f53">
@@ -189,7 +189,7 @@ Kem chống nắng, ngân sách 30.000.000 đ:
 | 5 | @teetamofficial | 74,1 |
 
 - Tổng phí 28.500.000 đ. Chạy lại tốn 6,5 credit và 0,28 USD.
-- Cả dự án: 44,4 / 60 credit Kalodata, 1,62 / 5 USD mô hình.
+- Cả dự án: 44,4 / 60 credit Kalodata, 1,90 / 5 USD mô hình (gồm 0,28 USD chấm chân dung cho so sánh A/B/C).
 - Lý do khớp bằng chứng: 0,875. Lưu ý: 0,10, đang cải thiện.
 - 575 bài kiểm thử đạt. Mỗi mục được người duyệt độc lập chấm ĐẠT.
 
@@ -216,7 +216,7 @@ Hệ thống có nhiều "agent" nối tiếp (lọc thương mại, phân tích
 | Chọn nhóm (S4) | Vi phạm yêu cầu cứng (ngân sách, số KOC, cổng) | 0 | 0 |
 | Viết lý do (S4) | Lý do khớp bằng chứng được trích (mô hình thứ hai chấm) | 0,875 | ≥ 0,85 |
 
-Đọc kết quả: AI đọc video đúng (không trích dẫn bịa, 82% đồng thuận với người), nhưng chọn KOC lệch vì người chấm chọn theo độ tuổi và phong cách hợp Gen Z, điều hệ thống chưa đo (không có dữ liệu khán giả, rubric không có tiêu chí này). Hướng sửa: thêm tiêu chí `audience_persona_fit` vào rubric video. Người chấm là người xây hệ thống, mẫu nhỏ: đọc như tín hiệu, không phải kết luận thống kê. Chi tiết: [docs/eval/METRICS.md](docs/eval/METRICS.md).
+Đọc kết quả: AI đọc video đúng (không trích dẫn bịa, 82% đồng thuận với người), nhưng chọn KOC lệch vì người chấm chọn theo độ tuổi và phong cách hợp Gen Z, điều hệ thống chưa đo (không có dữ liệu khán giả, rubric không có tiêu chí này). Hướng sửa: thêm tiêu chí `audience_persona_fit` vào rubric video. Người chấm là người xây hệ thống, mẫu nhỏ: đọc như tín hiệu, không phải kết luận thống kê. Chi tiết: [docs/eval/METRICS.md](docs/eval/METRICS.md). Giải thích từng chỉ số cho người không làm kỹ thuật: [docs/eval/GIAI_THICH_CHI_SO.md](docs/eval/GIAI_THICH_CHI_SO.md).
 
 ### Hiệu quả chi phí: có cần mô hình không?
 
